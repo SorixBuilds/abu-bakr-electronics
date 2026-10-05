@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 
 /**
  * Thin dial around the range numeral that fills proportionally to range / 160 km.
- * The only electric-blue on the page. Fills its (square) parent.
+ * Fills its (square) parent.
  */
 export function RangeRing({ value, max = 160 }: { value: number; max?: number }) {
   const r = 48;
@@ -33,8 +33,8 @@ export function RangeRing({ value, max = 160 }: { value: number; max?: number })
         cy="50"
         r={r}
         fill="none"
-        stroke="var(--electric)"
-        strokeOpacity="0.7"
+        stroke="var(--cherry-hi)"
+        strokeOpacity="0.95"
         strokeWidth="0.6"
         strokeLinecap="round"
         strokeDasharray={c}

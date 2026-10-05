@@ -10,8 +10,11 @@ import { LuxuryButton } from "@/components/ui/LuxuryButton";
 import { explain, suggestTons, sunLabels, tonFilter, tonLabel, type People, type Sun } from "@/lib/roomGuide";
 import { openWhatsApp } from "@/lib/whatsapp";
 import { cn } from "@/lib/cn";
+import { productsIn } from "@/data/products";
+import { productHref } from "@/lib/format";
+import { ProductMedia } from "@/components/product/Media";
 
-export function RoomGuide({ compact, onTons }: { compact?: boolean; onTons?: (t: number) => void }) {
+export function RoomGuide({ compact, onTons, showMatches }: { compact?: boolean; onTons?: (t: number) => void; showMatches?: boolean }) {
   const [size, setSize] = useState(150);
   const [sun, setSun] = useState<Sun>("normal");
   const [people, setPeople] = useState<People>("1-2");
@@ -34,7 +37,7 @@ export function RoomGuide({ compact, onTons }: { compact?: boolean; onTons?: (t:
             Room size
           </label>
           <span className="flex items-baseline gap-2">
-            <Counter value={size} className="font-mono text-[44px] leading-none text-gold-text md:text-[56px]" duration={0.3} />
+            <Counter value={size} className="font-mono text-[44px] leading-none text-accent-text md:text-[56px]" duration={0.3} />
             <span className="font-mono text-[12px] uppercase tracking-[0.14em] text-fg-muted">sq ft</span>
           </span>
         </div>
@@ -77,7 +80,7 @@ export function RoomGuide({ compact, onTons }: { compact?: boolean; onTons?: (t:
         ]}
       />
 
-      <div className="rounded-sm border border-line bg-[color-mix(in_srgb,var(--stage)_70%,transparent)] p-6 md:p-7" aria-live="polite">
+      <div className="rounded-md border border-line border-l-cherry bg-[color-mix(in_srgb,var(--stage)_55%,transparent)] p-6 md:p-7" aria-live="polite">
         <p className="text-eyebrow text-fg-muted">Suggested capacity</p>
         <p className="mt-3 flex items-baseline gap-3">
           <AnimatePresence mode="wait" initial={false}>
@@ -87,7 +90,7 @@ export function RoomGuide({ compact, onTons }: { compact?: boolean; onTons?: (t:
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3 }}
-              className="text-[44px] font-medium leading-none tracking-[-0.02em]"
+              className="text-[44px] font-medium leading-none tracking-[-0.02em] text-accent-text"
             >
               {big ? "3+" : <Counter value={tons} decimals={tons % 1 ? 1 : 0} duration={0.4} />}
             </motion.span>
@@ -104,7 +107,7 @@ export function RoomGuide({ compact, onTons }: { compact?: boolean; onTons?: (t:
             <>
               <Link href={`/shop/cooling?tonnage=${encodeURIComponent(tonFilter(tons))}`} className="group inline-flex min-h-11 items-center gap-2 text-button">
                 <span className="link-lux pb-1">See {tonLabel(tons)} air conditioners</span>
-                <ArrowRight size={14} strokeWidth={1.25} className="text-gold-text transition-transform group-hover:translate-x-1" />
+                <ArrowRight size={14} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
               </Link>
               <button onClick={ask} className="min-h-11 text-left text-[14px] text-fg-muted underline-offset-4 hover:text-fg hover:underline">
                 Ask an advisor to confirm
@@ -113,10 +116,35 @@ export function RoomGuide({ compact, onTons }: { compact?: boolean; onTons?: (t:
           )}
         </div>
       </div>
+      {showMatches && !big && <Matches tons={tons} />}
       <p className="text-[12.5px] italic leading-relaxed text-fg-muted">
         A general guide only. Ceiling height, insulation and window area matter — an advisor will confirm before you buy.
       </p>
     </div>
+  );
+}
+
+/** Three real-photo cards for the suggested capacity (V2 §7.3). */
+function Matches({ tons }: { tons: number }) {
+  const t = tonFilter(tons);
+  const list = productsIn("cooling").filter((p) => p.filters.tonnage === t);
+  const items = (list.length ? list : productsIn("cooling")).slice(0, 3);
+  return (
+    <ul className="grid grid-cols-3 gap-2 sm:gap-3">
+      {items.map((p) => (
+        <li key={p.id}>
+          <Link href={productHref(p)} className="group block">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-sm">
+              <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-105">
+                <ProductMedia product={p} sizes="(max-width:768px) 30vw, 12vw" grade="light" />
+              </div>
+            </div>
+            <p className="mt-2 line-clamp-2 text-[12.5px] leading-snug">{p.name.split(" — ")[1] ?? p.name}</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-fg-muted">{p.keySpecs[0]}</p>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 

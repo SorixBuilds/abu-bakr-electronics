@@ -12,19 +12,23 @@ export function ContactCards() {
   const card = "group flex min-h-[220px] flex-col justify-between rounded-sm border p-7 text-left transition-colors";
   return (
     <div className="grid gap-3 md:grid-cols-3">
-      <button onClick={() => set({ advisorOpen: true })} className={cn(card, "border-gold/70 hover:bg-[rgba(201,169,106,0.05)]")}>
-        <MessageCircle size={22} strokeWidth={1.25} className="text-gold" />
+      <button onClick={() => set({ advisorOpen: true })} className={cn(card, "border-accent hover:bg-[rgba(179,18,46,0.05)]")}>
+        <MessageCircle size={22} strokeWidth={1.25} className="text-accent-text" />
         <div>
           <p className="text-h3">WhatsApp</p>
           <p className="mt-2 text-[14px] text-fg-muted">The fastest way to an advisor.</p>
           <span className="mt-5 inline-flex items-center gap-2 text-button">
             Start a chat{" "}
-            <ArrowUpRight size={14} strokeWidth={1.25} className="text-gold transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight
+              size={14}
+              strokeWidth={1.25}
+              className="text-accent-text transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </span>
         </div>
       </button>
       <div className={cn(card, "border-line")}>
-        <Phone size={22} strokeWidth={1.25} className="text-gold-text" />
+        <Phone size={22} strokeWidth={1.25} className="text-accent-text" />
         <div>
           <p className="text-h3">Call</p>
           <p className="mt-2 text-[14px] text-fg-muted">
@@ -38,7 +42,7 @@ export function ContactCards() {
         </div>
       </div>
       <div className={cn(card, "border-line")}>
-        <MapPin size={22} strokeWidth={1.25} className="text-gold-text" />
+        <MapPin size={22} strokeWidth={1.25} className="text-accent-text" />
         <div>
           <p className="text-h3">Visit</p>
           <p className="mt-2 text-[14px] text-fg-muted">

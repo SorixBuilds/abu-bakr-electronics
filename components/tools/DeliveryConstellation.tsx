@@ -33,11 +33,11 @@ export function DeliveryConstellation() {
       <svg ref={ref} viewBox={vb} className="h-auto w-full" role="img" aria-label="Delivery from Lahore to cities across Pakistan">
         <defs>
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="1" fill="rgba(244,241,234,0.06)" />
+            <circle cx="1" cy="1" r="1" fill="rgba(18,16,20,0.08)" />
           </pattern>
           <radialGradient id="lahore-glow">
-            <stop offset="0" stopColor="rgba(201,169,106,0.35)" />
-            <stop offset="1" stopColor="rgba(201,169,106,0)" />
+            <stop offset="0" stopColor="rgba(214,36,63,0.28)" />
+            <stop offset="1" stopColor="rgba(214,36,63,0)" />
           </radialGradient>
         </defs>
         <rect x="-200" y="-200" width="1400" height="1600" fill="url(#dots)" />
@@ -52,7 +52,7 @@ export function DeliveryConstellation() {
               <motion.path
                 d={d}
                 fill="none"
-                stroke="rgba(201,169,106,0.5)"
+                stroke="rgba(179,18,46,0.6)"
                 strokeWidth={mobile ? 1.6 : 1}
                 initial={{ pathLength: reduced ? 1 : 0, opacity: reduced ? 1 : 0 }}
                 animate={inView ? { pathLength: 1, opacity: 1 } : undefined}
@@ -61,7 +61,7 @@ export function DeliveryConstellation() {
               {!reduced && inView && (
                 <circle
                   r={mobile ? 4.5 : 3}
-                  fill="#F4F1EA"
+                  fill="#B3122E"
                   style={
                     {
                       offsetPath: `path("${d}")`,
@@ -96,7 +96,7 @@ export function DeliveryConstellation() {
               className="cursor-pointer outline-none"
             >
               <circle cx={p.x} cy={p.y} r={mobile ? 22 : 16} fill="transparent" />
-              <circle cx={p.x} cy={p.y} r={mobile ? 5 : 3.5} fill="#F4F1EA" opacity={hover === c.name ? 1 : 0.8} />
+              <circle cx={p.x} cy={p.y} r={mobile ? 5 : 3.5} fill="#121014" opacity={hover === c.name ? 1 : 0.75} />
               <text
                 x={p.x + (end ? -12 : 12)}
                 y={p.y + fs * 0.35 + (mobile ? 0 : (c.dy ?? 0))}
@@ -104,7 +104,7 @@ export function DeliveryConstellation() {
                 fontSize={fs}
                 fontFamily="var(--font-geist-mono), monospace"
                 letterSpacing="0.08em"
-                fill={hover === c.name ? "#F4F1EA" : "rgba(244,241,234,0.55)"}
+                fill={hover === c.name ? "#121014" : "#625E66"}
               >
                 {c.name.toUpperCase()}
               </text>
@@ -130,13 +130,21 @@ export function DeliveryConstellation() {
               cy={o.y}
               r="9"
               fill="none"
-              stroke="var(--gold)"
+              stroke="var(--cherry-hi)"
               strokeWidth="1"
               style={{ transformOrigin: `${o.x}px ${o.y}px`, animation: "halo 2.8s ease-out infinite" }}
             />
           )}
-          <circle cx={o.x} cy={o.y} r={mobile ? 10 : 8} fill="var(--gold)" />
-          <text x={o.x + 18} y={o.y + 34} fontSize={fs + 3} fontFamily="var(--font-geist-mono), monospace" letterSpacing="0.1em" fill="var(--gold-hi)">
+          <circle cx={o.x} cy={o.y} r={mobile ? 10 : 8} fill="var(--cherry-hi)" />
+          <text
+            x={o.x + 18}
+            y={o.y + 34}
+            fontSize={fs + 3}
+            fontFamily="var(--font-geist-mono), monospace"
+            letterSpacing="0.1em"
+            fill="var(--cherry)"
+            fontWeight={600}
+          >
             LAHORE
           </text>
         </g>
@@ -144,7 +152,7 @@ export function DeliveryConstellation() {
 
       {hovered && hp && (
         <div
-          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+14px)] whitespace-nowrap rounded-xs border border-line bg-graphite-2 px-3 py-2 text-[12px] text-ivory"
+          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+14px)] whitespace-nowrap rounded-xs border border-line bg-ink px-3 py-2 text-[12px] text-porcelain"
           style={{ left: `${mobile ? ((hp.x - 60) / 880) * 100 : hp.x / 10}%`, top: `${mobile ? ((hp.y - 40) / 1100) * 100 : hp.y / 10}%` }}
           role="tooltip"
         >

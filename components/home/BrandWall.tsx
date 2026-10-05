@@ -10,7 +10,7 @@ export function BrandWall() {
         <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
           {site.brands.map((b, i) => (
             <li key={b} className="flex items-center gap-6">
-              {i > 0 && <span aria-hidden className="size-1 rounded-full bg-gold" />}
+              {i > 0 && <span aria-hidden className="size-1 rounded-full bg-hairline" />}
               <span className="text-[18px] font-medium uppercase tracking-[0.24em] text-ivory/45 transition-colors hover:text-ivory/90">{b}</span>
             </li>
           ))}

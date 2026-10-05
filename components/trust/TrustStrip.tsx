@@ -15,7 +15,7 @@ export function TrustStrip() {
     <ul className="grid gap-px overflow-hidden rounded-sm border border-line-soft bg-line-soft sm:grid-cols-3 lg:grid-flow-col lg:auto-cols-fr lg:grid-cols-none">
       {items.map(({ icon: Icon, title, line }) => (
         <li key={title} className="flex items-start gap-4 bg-[var(--bg)] p-6">
-          <Icon size={20} strokeWidth={1.25} className="mt-0.5 shrink-0 text-gold-text" />
+          <Icon size={20} strokeWidth={1.25} className="mt-0.5 shrink-0 text-accent-text" />
           <div>
             <p className="text-[15px] font-medium">{title}</p>
             <p className="mt-1 text-[13px] text-fg-muted">{line}</p>
@@ -24,7 +24,7 @@ export function TrustStrip() {
       ))}
       <ReviewOnly>
         <li className="flex items-start gap-4 bg-[var(--bg)] p-6">
-          <ShieldCheck size={20} strokeWidth={1.25} className="mt-0.5 shrink-0 text-gold-text" />
+          <ShieldCheck size={20} strokeWidth={1.25} className="mt-0.5 shrink-0 text-accent-text" />
           <div className="text-[15px]">
             <ReviewTag note={site.warrantyStatement.note}>Brand warranty</ReviewTag>
           </div>

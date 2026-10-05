@@ -17,8 +17,8 @@ export default function ShopPage() {
         title="The Collection"
         line="Everything we curate, in one place."
         meta={`${applianceProducts.length} pieces`}
-        tone="steel"
-        shape="fridge-french"
+        image="/images/lifestyle/kitchen-dark-2.jpg"
+        imagePosition="50% 60%"
       />
       <Suspense fallback={<ShopViewStatic />}>
         <ShopView />

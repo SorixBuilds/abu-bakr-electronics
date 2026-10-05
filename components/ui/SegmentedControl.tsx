@@ -51,7 +51,7 @@ export function SegmentedControl<T extends string>({
               className={cn(
                 "min-h-11 rounded-xs border px-4 text-[13px] transition-colors duration-250",
                 on
-                  ? "border-gold-text bg-[rgba(201,169,106,0.08)] text-fg"
+                  ? "border-accent bg-[rgba(179,18,46,0.08)] text-fg"
                   : "border-line text-fg-muted hover:border-[color-mix(in_srgb,var(--fg)_35%,transparent)] hover:text-fg",
               )}
             >

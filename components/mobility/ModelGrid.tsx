@@ -4,8 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import type { Product } from "@/types/product";
-import { ScooterArt } from "./ScooterArt";
-import { scooterVariant } from "./ModelSelector";
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 import { ease } from "@/lib/motion";
 
@@ -32,7 +31,7 @@ export function ModelGrid({ models }: { models: Product[] }) {
       aria-pressed={on}
       className={cn(
         "min-h-11 rounded-xs border px-4 text-[13px] transition-colors",
-        on ? "border-gold bg-[rgba(201,169,106,0.08)] text-fg" : "border-line text-fg-muted hover:text-fg",
+        on ? "border-accent bg-[rgba(179,18,46,0.08)] text-fg" : "border-line text-fg-muted hover:text-fg",
       )}
     >
       {children}
@@ -68,16 +67,22 @@ export function ModelGrid({ models }: { models: Product[] }) {
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.5, ease: ease.outExpo }}
             >
-              <Link href={`/mobility/${m.slug}`} className="group relative block overflow-hidden rounded-sm border border-line-soft bg-graphite p-6">
-                <span className="pointer-events-none absolute left-5 top-3 select-none text-[64px] font-semibold uppercase leading-none tracking-[-0.03em] text-white/[0.04]">
+              <Link
+                href={`/mobility/${m.slug}`}
+                className="group relative block overflow-hidden rounded-md border border-line-soft p-6"
+                style={{ background: "radial-gradient(ellipse at 50% 30%, #4a0d1b, var(--wine-900) 80%)" }}
+              >
+                <span className="pointer-events-none absolute left-5 top-3 select-none text-[64px] font-semibold uppercase leading-none tracking-[-0.03em] text-white/[0.07]">
                   {m.name.replace("Jinpeng ", "")}
                 </span>
                 <div className="relative aspect-[16/10]">
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_14%_at_50%_88%,rgba(201,169,106,0.16),transparent_70%)]" />
-                  <ScooterArt
-                    variant={scooterVariant(m)}
-                    className="absolute inset-0 h-full w-full transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
-                    label={`${m.name} (illustration)`}
+                  <div className="absolute inset-x-[15%] bottom-0 h-[16%] bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,0,0,0.45),transparent_70%)]" />
+                  <Image
+                    src={m.image}
+                    alt={`${m.name} electric scooty`}
+                    fill
+                    sizes="(max-width:640px) 90vw, (max-width:1024px) 45vw, 30vw"
+                    className="object-contain transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
                   />
                 </div>
                 <div className="mt-4 flex items-end justify-between gap-4">

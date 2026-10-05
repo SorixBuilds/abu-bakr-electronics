@@ -65,7 +65,7 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
           {[0, 1, 2].map((n) => (
             <span key={n} className="relative h-px flex-1 overflow-hidden bg-line">
               <motion.span
-                className="absolute inset-0 origin-left bg-gold"
+                className="absolute inset-0 origin-left bg-accent"
                 animate={{ scaleX: step > n ? 1 : step === n ? 0.35 : 0 }}
                 transition={{ duration: 0.5, ease: ease.outExpo }}
               />
@@ -100,7 +100,7 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
                     <Link
                       href={productHref(results[0])}
                       onClick={onNavigate}
-                      className="group mt-5 grid gap-6 rounded-sm border border-gold/50 p-4 sm:grid-cols-[180px_1fr] sm:items-center"
+                      className="group mt-5 grid gap-6 rounded-sm border border-accent p-4 sm:grid-cols-[180px_1fr] sm:items-center"
                     >
                       <div className="relative aspect-[4/5] overflow-hidden rounded-sm sm:aspect-[4/5]">
                         <ProductMedia product={results[0]} sizes="180px" />
@@ -110,7 +110,7 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
                         <p className="mt-2 text-[14px] text-fg-muted">{results[0].tagline}</p>
                         <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-fg-muted">{results[0].keySpecs.join(" · ")}</p>
                         <span className="mt-4 inline-flex items-center gap-2 text-button">
-                          View details <ArrowRight size={14} strokeWidth={1.25} className="text-gold transition-transform group-hover:translate-x-1" />
+                          View details <ArrowRight size={14} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
                         </span>
                       </div>
                     </Link>
@@ -209,15 +209,15 @@ function Question({
               onClick={() => onChoose(o.value)}
               className={cn(
                 "group flex min-h-16 items-center justify-between gap-4 rounded-sm border px-5 py-4 text-left transition-colors duration-250",
-                on ? "border-gold bg-[rgba(201,169,106,0.06)]" : "border-line hover:border-[color-mix(in_srgb,var(--fg)_35%,transparent)]",
+                on ? "border-accent bg-[rgba(179,18,46,0.06)]" : "border-line hover:border-[color-mix(in_srgb,var(--fg)_35%,transparent)]",
               )}
             >
               <span>
                 <span className="block text-[16px]">{o.label}</span>
                 {o.line && <span className="mt-0.5 block text-[13px] text-fg-muted">{o.line}</span>}
               </span>
-              <span className={cn("flex size-5 shrink-0 items-center justify-center rounded-full border", on ? "border-gold" : "border-line")}>
-                {on && <span className="size-2 rounded-full bg-gold" />}
+              <span className={cn("flex size-5 shrink-0 items-center justify-center rounded-full border", on ? "border-accent" : "border-line")}>
+                {on && <span className="size-2 rounded-full bg-accent" />}
               </span>
             </button>
           );

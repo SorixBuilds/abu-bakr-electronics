@@ -1,19 +1,35 @@
 /**
- * Hero media (Asset Plan A-01 / A-01p). Drop the encoded files into /public/video and set the paths.
- * While null, the hero renders the §14.3 fallback: an animated dark interior-light gradient.
+ * Every photo and video used outside product data (V2 §4). All paths are checked by
+ * scripts/check-assets.mjs before each build — a missing file fails the build.
+ *
+ * Sources: Pexels (free commercial licence) and Jinpeng Pakistan model images
+ * (pitch use only — client to request the dealer media kit for production).
  */
 export const heroMedia = {
-  desktop: null as string | null, // "/video/hero.mp4"
-  mobile: null as string | null, // "/video/hero-mobile.mp4"
-  poster: null as string | null, // "/video/hero-poster.webp"
-  posterMobile: null as string | null, // "/video/hero-poster-mobile.webp"
+  video: "/video/hero.mp4",
+  videoMobile: "/video/hero-mobile.mp4",
+  poster: "/video/hero-poster.jpg",
+  posterMobile: "/video/hero-poster-mobile.jpg",
 };
 
-/** Showroom / CTA photography (A-14, A-15, A-16). null → atmospheric scene. */
+export const categoryImages = {
+  cooling: "/images/categories/climate.jpg",
+  refrigeration: "/images/categories/freshness.jpg",
+  "home-appliances": "/images/categories/living.jpg",
+  electronics: "/images/categories/electronics.jpg",
+  mobility: "/images/mobility/thrill.png",
+} as const;
+
 export const editorialMedia = {
-  showroomLarge: null as string | null,
-  showroomSmall: null as string | null,
-  finalCta: null as string | null,
-  climateRoom: null as string | null,
-  mobilityHero: null as string | null,
+  climateRoom: "/images/products/ac-room.jpg",
+  fridgeBlack: "/images/products/fridge-black.jpg",
+  fridgeSteel: "/images/products/fridge-sbs.jpg",
+  kitchenDark2: "/images/lifestyle/kitchen-dark-2.jpg",
+  kitchenDark3: "/images/lifestyle/kitchen-dark-3.jpg",
+  livingNight: "/images/lifestyle/living-night.jpg",
+  livingCity: "/images/lifestyle/living-city.jpg",
+  showroom1: "/images/showroom/showroom-1.jpg",
+  showroom2: "/images/showroom/showroom-2.jpg",
 };
+
+export const mobilityImage = (slug: string) => `/images/mobility/${slug}.png`;

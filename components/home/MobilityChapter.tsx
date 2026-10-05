@@ -8,10 +8,11 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ModelSelector } from "@/components/mobility/ModelSelector";
 import { useIsDesktop } from "@/hooks/useMediaQuery";
 import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
+import { wineGradient } from "@/lib/brand";
 
 const models = homeSelectorOrder.map((s) => mobilityModels.find((m) => m.slug === s)!);
 
-/** §6.6 — obsidian chapter entered through a clip-path wipe (desktop). */
+/** V2 §7.4 — the wine room, entered through a clip-path wipe (desktop). */
 export function MobilityChapter() {
   const ref = useRef<HTMLElement>(null);
   const desktop = useIsDesktop();
@@ -27,11 +28,12 @@ export function MobilityChapter() {
     <div className="bg-ivory">
       <motion.section
         ref={ref}
-        className="theme-dark section-y bg-obsidian"
-        style={wipe ? { clipPath: clip } : undefined}
+        className="theme-wine section-y relative overflow-hidden"
+        style={{ background: wineGradient, ...(wipe ? { clipPath: clip } : {}) }}
         aria-label="Electric mobility — Jinpeng"
       >
-        <div className="container-lux">
+        <div className="grain pointer-events-none absolute inset-0" />
+        <div className="container-lux relative">
           <SectionHeading
             eyebrow={home.mobility.eyebrow}
             title={home.mobility.title}

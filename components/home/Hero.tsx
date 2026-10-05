@@ -1,53 +1,49 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "motion/react";
-import { Pause, Play } from "lucide-react";
+import { ArrowRight, Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { home } from "@/content/home";
 import { heroMedia } from "@/content/media";
+import { worlds } from "@/content/categories";
 import { LuxuryButton } from "@/components/ui/LuxuryButton";
-import { useIntro } from "@/components/layout/Preloader";
+import { Photo } from "@/components/product/Media";
 import { useUi } from "@/store/ui";
 import { ease } from "@/lib/motion";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
 import { cn } from "@/lib/cn";
 
-/** §6.1 — cinematic opening. Video when available; otherwise the §14.3 interior-light fallback. */
+/**
+ * V2 §5 — "Cinema + Showcase": full-bleed video, left copy, and four real photo cards
+ * overlapping into the next section. The poster (a frame of the same clip) is the LCP element.
+ */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const introDone = useIntro((s) => s.done);
+  const pausedRef = useRef(false);
   const set = useUi((s) => s.set);
   const mobile = useIsMobile();
   const reduced = useReducedMotionSafe();
   const [paused, setPaused] = useState(false);
-  const [videoOk, setVideoOk] = useState(false);
-  const pausedRef = useRef(false);
+  const [playing, setPlaying] = useState(false);
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const scrollFx = !mobile && !reduced;
-  const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
-  const darken = useTransform(scrollYProgress, [0, 1], [0, 0.35]);
-  const textY = useTransform(scrollYProgress, [0, 0.6], [0, -60]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const mediaScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  const copyY = useTransform(scrollYProgress, [0, 0.6], [0, -50]);
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
 
-  // Choose video source in JS (<source media> is unreliable for video) and apply fallbacks (§13.2).
+  // Choose the source in JS (<source media> is unreliable for video); the poster covers every failure case.
   useEffect(() => {
     const v = videoRef.current;
-    const src = mobile ? heroMedia.mobile : heroMedia.desktop;
     const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-    if (!v || !src || reduced || conn?.saveData) return;
-    v.src = src;
-    let started = false;
-    const onPlaying = () => {
-      started = true;
-      setVideoOk(true);
-    };
+    if (!v || reduced || conn?.saveData) return;
+    v.src = mobile ? heroMedia.videoMobile : heroMedia.video;
+    const onPlaying = () => setPlaying(true);
     v.addEventListener("playing", onPlaying);
-    v.play().catch(() => setVideoOk(false));
-    const t = setTimeout(() => !started && setVideoOk(false), 2500);
-    // Pause off-screen and when the tab is hidden
+    v.play().catch(() => setPlaying(false));
     const io = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) v.pause();
       else if (!document.hidden && !pausedRef.current) v.play().catch(() => {});
@@ -56,7 +52,6 @@ export function Hero() {
     const onVis = () => (document.hidden ? v.pause() : !pausedRef.current && v.play().catch(() => {}));
     document.addEventListener("visibilitychange", onVis);
     return () => {
-      clearTimeout(t);
       io.disconnect();
       v.removeEventListener("playing", onPlaying);
       document.removeEventListener("visibilitychange", onVis);
@@ -68,207 +63,129 @@ export function Hero() {
     pausedRef.current = next;
     setPaused(next);
     const v = videoRef.current;
-    if (v && videoOk) {
-      if (next) v.pause();
-      else v.play().catch(() => {});
-    }
+    if (!v) return;
+    if (next) v.pause();
+    else v.play().catch(() => {});
   };
 
-  const go = introDone;
-  const t = (ms: number) => ms / 1000;
-  const enter = (delay: number, y = 16, duration = 0.8) => ({
+  const enter = (delay: number, y = 18) => ({
     initial: { opacity: 0, y: reduced ? 0 : y },
-    animate: go ? { opacity: 1, y: 0 } : undefined,
-    transition: { duration: reduced ? 0.15 : duration, ease: ease.outExpo, delay: reduced ? 0 : t(delay) },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: reduced ? 0.15 : 0.9, ease: ease.outExpo, delay: reduced ? 0 : delay },
   });
-  const poster = mobile ? (heroMedia.posterMobile ?? heroMedia.poster) : heroMedia.poster;
 
   return (
-    <section
-      ref={ref}
-      className="theme-dark relative -mt-[60px] h-[calc(100svh-36px)] min-h-[600px] overflow-hidden bg-obsidian lg:-mt-[72px]"
-      aria-label="Introduction"
-    >
-      {/* Media layer */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0, scale: reduced ? 1 : 1.08 }}
-        animate={go ? { opacity: 1, scale: 1 } : undefined}
-        transition={{ duration: reduced ? 0.2 : 2.4, ease: ease.outExpo }}
+    <>
+      <section
+        ref={ref}
+        data-nav="dark"
+        className="theme-dark relative -mt-[60px] h-[calc(100svh-36px)] min-h-[660px] overflow-hidden bg-obsidian lg:-mt-[72px]"
+        aria-label="Introduction"
       >
         <motion.div className="absolute inset-0" style={scrollFx ? { scale: mediaScale } : undefined}>
-          <InteriorLight paused={paused || reduced} />
-          {poster && (
-            // eslint-disable-next-line @next/next/no-img-element -- LCP poster, preloaded
-            <img
-              src={poster}
-              alt=""
-              aria-hidden
-              className={cn("absolute inset-0 h-full w-full object-cover", !reduced && !videoOk && "animate-[kenburns_20s_ease-out_forwards]")}
-              fetchPriority="high"
-            />
-          )}
-          {(heroMedia.desktop || heroMedia.mobile) && (
-            <video
-              ref={videoRef}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster={poster ?? undefined}
-              aria-hidden="true"
-              className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-700", videoOk ? "opacity-100" : "opacity-0")}
-            />
-          )}
+          {/* Desktop and mobile posters are both rendered; CSS picks one so the server HTML is correct. */}
+          <Photo src={heroMedia.poster} alt="" priority sizes="100vw" vignette={false} className="hidden bg-obsidian md:block" />
+          <Photo src={heroMedia.posterMobile} alt="" priority sizes="100vw" vignette={false} className="bg-obsidian md:hidden" />
+          <video
+            ref={videoRef}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            className={cn("absolute inset-0 h-full w-full object-cover saturate-[0.92] transition-opacity duration-700", playing ? "opacity-100" : "opacity-0")}
+          />
         </motion.div>
-        {/* Overlay stack */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,11,13,0.55)_0%,rgba(10,11,13,0.05)_35%,rgba(10,11,13,0.15)_60%,rgba(10,11,13,0.92)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_15%_70%,rgba(10,11,13,0.55),transparent_60%)]" />
-        {scrollFx && <motion.div className="absolute inset-0 bg-obsidian" style={{ opacity: darken }} />}
-      </motion.div>
-      {/* Grain sits outside the fading layer: visible from first paint */}
-      <div className="grain pointer-events-none absolute inset-0" />
+        {/* Overlays: left/top for legibility, the right half stays bright; bottom fade for the cards */}
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(11,10,12,0.8)_0%,rgba(11,10,12,0.45)_50%,rgba(11,10,12,0.25)_75%)] md:bg-[linear-gradient(90deg,rgba(11,10,12,0.82)_0%,rgba(11,10,12,0.45)_45%,rgba(11,10,12,0.05)_72%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-[linear-gradient(180deg,transparent,rgba(11,10,12,0.8))]" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(11,10,12,0.55),transparent)]" />
 
-      {/* Copy */}
-      <motion.div
-        className="container-lux absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+96px)] md:bottom-[12vh]"
-        style={scrollFx ? { y: textY, opacity: textOpacity } : undefined}
-      >
-        <div>
-          <motion.p {...enter(300, 12, 0.7)} className="text-eyebrow text-ivory/70">
-            <span className="mr-3 inline-block h-px w-6 bg-gold align-middle" />
-            {home.hero.eyebrow}
-          </motion.p>
-          <h1
-            className="mt-6 text-[clamp(44px,13vw,64px)] font-medium leading-[0.92] tracking-[-0.02em] md:text-[clamp(56px,9vw,152px)]"
-            aria-label="Abu Bakr Electronics"
-          >
-            {home.hero.headline.map((line, i) => (
-              <span key={line} className="block overflow-hidden pb-[0.04em]" aria-hidden>
-                <motion.span
-                  className="block"
-                  initial={{ y: reduced ? 0 : "110%", opacity: reduced ? 0 : 1 }}
-                  animate={go ? { y: "0%", opacity: 1 } : undefined}
-                  transition={{ duration: reduced ? 0.15 : 1.1, ease: ease.outExpo, delay: reduced ? 0 : t(450 + i * 120) }}
-                >
-                  {line}
-                </motion.span>
-              </span>
-            ))}
-          </h1>
-          <motion.p {...enter(900)} className="mt-6 max-w-[760px] font-serif text-[24px] italic text-ivory/85 md:text-[28px]">
-            {home.hero.subline}
-          </motion.p>
-          <div className="mt-9 flex flex-col gap-3 md:flex-row md:gap-4">
-            <motion.div {...enter(1050)}>
-              <LuxuryButton href="/shop" magnetic icon="arrow" className="w-full md:w-auto">
+        <motion.div className="container-lux absolute inset-x-0 top-[13svh] md:top-[17vh]" style={scrollFx ? { y: copyY, opacity: copyOpacity } : undefined}>
+          <div className="max-w-[780px]">
+            <motion.p {...enter(0.1, 10)} className="flex items-center gap-3 text-eyebrow text-on-dark">
+              <span aria-hidden className="size-1.5 rounded-full bg-cherry-hi" />
+              {home.hero.eyebrow}
+            </motion.p>
+            <h1 className="mt-6 text-[clamp(40px,5.2vw,84px)] font-medium leading-[1.02] tracking-[-0.025em] text-on-dark">
+              {home.hero.headline.map((line, i) => (
+                <span key={line} className="block overflow-hidden pb-[0.06em] md:whitespace-nowrap">
+                  <span className="block animate-[line-up_1.1s_cubic-bezier(0.16,1,0.3,1)_both]" style={{ animationDelay: `${0.15 + i * 0.12}s` }}>
+                    {line}
+                  </span>
+                </span>
+              ))}
+            </h1>
+            <motion.p {...enter(0.5)} className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-on-dark/85 md:text-[18px]">
+              {home.hero.sub}
+            </motion.p>
+            <motion.div {...enter(0.65)} className="mt-9 flex flex-col gap-3 sm:flex-row sm:gap-4">
+              <LuxuryButton href="/shop" magnetic icon="arrow" className="w-full sm:w-auto">
                 Explore the Collection
               </LuxuryButton>
-            </motion.div>
-            <motion.div {...enter(1130)}>
-              <LuxuryButton
-                variant="ghost"
-                icon="whatsapp"
-                iconPosition="start"
-                magnetic
-                onClick={() => set({ advisorOpen: true })}
-                className="w-full md:w-auto"
-              >
+              <LuxuryButton variant="ghost" icon="whatsapp" iconPosition="start" onClick={() => set({ advisorOpen: true })} className="w-full sm:w-auto">
                 Speak to an Advisor
               </LuxuryButton>
             </motion.div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Footnote, scroll cue, pause */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={go ? { opacity: 1 } : undefined}
-        transition={{ delay: reduced ? 0 : 1.4, duration: 0.6 }}
-        className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom)+28px)] hidden text-center font-mono text-[11px] tracking-[0.12em] text-ivory/55 md:block"
-      >
-        {home.hero.footnote}
-      </motion.p>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={go ? { opacity: 1 } : undefined}
-        transition={{ delay: reduced ? 0 : 1.4, duration: 0.6 }}
-        className="absolute bottom-[calc(env(safe-area-inset-bottom)+24px)] right-[var(--gutter)] flex items-end gap-5"
-      >
-        <button
-          onClick={togglePause}
-          aria-label={paused ? "Play background motion" : "Pause background motion"}
-          className="flex size-10 items-center justify-center rounded-full border border-line text-ivory/70 transition-colors hover:border-ivory/40 hover:text-ivory"
-        >
-          {paused ? <Play size={14} strokeWidth={1.5} /> : <Pause size={14} strokeWidth={1.5} />}
-        </button>
-        <div className="hidden flex-col items-center gap-3 md:flex" aria-hidden>
-          <span className="font-mono text-[10px] tracking-[0.2em] text-ivory/55 [writing-mode:vertical-rl]">SCROLL</span>
-          <span className="relative block h-12 w-px overflow-hidden bg-ivory/15">
-            <span className="absolute left-1/2 top-0 size-[3px] -translate-x-1/2 rounded-full bg-gold animate-[scroll-dot_2.4s_ease-in-out_infinite]" />
-          </span>
-        </div>
-      </motion.div>
-    </section>
+        <motion.div {...enter(0.9, 0)} className="container-lux absolute inset-x-0 bottom-[132px] flex items-center justify-between gap-6 md:bottom-[176px]">
+          <p className="hidden font-mono text-[12px] tracking-[0.06em] text-on-dark-muted md:block">{home.hero.footnote}</p>
+          <button
+            onClick={togglePause}
+            aria-label={paused ? "Play background video" : "Pause background video"}
+            className="ml-auto flex size-10 items-center justify-center rounded-full border border-line text-on-dark/80 transition-colors hover:border-on-dark/40 hover:text-on-dark"
+          >
+            {paused ? <Play size={14} strokeWidth={1.5} /> : <Pause size={14} strokeWidth={1.5} />}
+          </button>
+        </motion.div>
+      </section>
+
+      <Showcase />
+    </>
   );
 }
 
-/**
- * Fallback "film": a dark interior at dusk, suggested with light rather than drawn.
- * Warm practical light pools, a cool window column, a perspective floor — all drifting slowly (20s+).
- */
-function InteriorLight({ paused }: { paused: boolean }) {
-  const play = paused ? "paused" : "running";
+/** Four real photo cards overlapping the hero and the next (porcelain) section (V2 §5.2 layer 3). */
+function Showcase() {
+  const reduced = useReducedMotionSafe();
   return (
-    <div className="absolute inset-0 overflow-hidden bg-[#0a0b0d]" aria-hidden>
-      {/* cool window light, upper right */}
-      <div
-        className="absolute -right-[10%] -top-[10%] h-[90%] w-[60%] animate-[drift_26s_ease-in-out_infinite]"
-        style={{ background: "radial-gradient(ellipse 50% 60% at 60% 40%, rgba(120,150,190,0.16), transparent 70%)", animationPlayState: play }}
-      />
-      {/* window mullions */}
-      <div
-        className="absolute right-[14%] top-[6%] h-[58%] w-[26%] opacity-[0.07]"
-        style={{
-          background: "repeating-linear-gradient(90deg, transparent 0 calc(33.3% - 1px), #cfd8e6 calc(33.3% - 1px) 33.3%)",
-          maskImage: "linear-gradient(180deg, black, transparent)",
-        }}
-      />
-      {/* warm pendant pools */}
-      <div
-        className="absolute left-[18%] top-[28%] h-[60%] w-[46%] animate-[drift_32s_ease-in-out_infinite_reverse]"
-        style={{ background: "radial-gradient(ellipse 45% 40% at 50% 45%, rgba(201,169,106,0.20), transparent 70%)", animationPlayState: play }}
-      />
-      <div
-        className="absolute left-[46%] top-[20%] h-[40%] w-[30%] animate-[drift_22s_ease-in-out_infinite]"
-        style={{ background: "radial-gradient(circle at 50% 50%, rgba(225,201,141,0.12), transparent 65%)", animationPlayState: play }}
-      />
-      {/* pendant cords + lights */}
-      {[30, 40, 50].map((x, i) => (
-        <div key={x} className="absolute top-0" style={{ left: `${x}%`, height: `${30 + i * 2}%` }}>
-          <div className="mx-auto h-full w-px bg-gradient-to-b from-transparent to-white/10" />
-          <div
-            className="-mt-1 size-2 -translate-x-[3.5px] rounded-full bg-[#f1dcaa] opacity-70 blur-[1px]"
-            style={{ boxShadow: "0 0 24px 8px rgba(225,201,141,0.35)" }}
-          />
-        </div>
-      ))}
-      {/* counter / island silhouette */}
-      <div className="absolute inset-x-[8%] top-[64%] h-px bg-gradient-to-r from-transparent via-[rgba(225,201,141,0.25)] to-transparent" />
-      <div className="absolute inset-x-[8%] top-[64%] h-[14%] bg-gradient-to-b from-[rgba(255,255,255,0.025)] to-transparent" />
-      {/* perspective floor */}
-      <div
-        className="absolute inset-x-0 bottom-0 h-[34%] opacity-[0.06]"
-        style={{
-          background: "repeating-linear-gradient(90deg, transparent 0 7%, #f4f1ea 7% calc(7% + 1px))",
-          transform: "perspective(600px) rotateX(62deg)",
-          transformOrigin: "50% 100%",
-          maskImage: "linear-gradient(180deg, transparent, black)",
-        }}
-      />
-      {/* tall appliance silhouette, left (fridge column) */}
-      <div className="absolute bottom-[22%] left-[6%] hidden h-[50%] w-[11%] rounded-[3px] border border-white/[0.05] bg-gradient-to-b from-white/[0.035] to-transparent md:block" />
+    <div className="relative z-10 -mt-[110px] bg-[linear-gradient(180deg,transparent_110px,var(--porcelain)_110px)] md:-mt-[150px] md:bg-[linear-gradient(180deg,transparent_150px,var(--porcelain)_150px)]">
+      <ul className="container-lux no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
+        {worlds.map((w, i) => (
+          <motion.li
+            key={w.key}
+            className="w-[70vw] shrink-0 snap-start md:w-auto"
+            initial={{ opacity: 0, y: reduced ? 0 : 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: reduced ? 0.15 : 0.9, ease: ease.outExpo, delay: reduced ? 0 : 0.8 + i * 0.09 }}
+          >
+            <Link
+              href={w.href}
+              className="group relative block aspect-[13/9] overflow-hidden rounded-md border border-[var(--line-dark)] transition-transform duration-500 ease-out-expo hover:-translate-y-1.5"
+              style={{ boxShadow: "0 24px 60px -24px rgba(0,0,0,0.55)" }}
+            >
+              <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-105">
+                <Photo
+                  src={w.image}
+                  alt=""
+                  sizes="(max-width:768px) 70vw, 25vw"
+                  contain={w.onWine}
+                  vignette={false}
+                  className={cn(w.onWine && "bg-[radial-gradient(ellipse_at_50%_40%,var(--wine-500),var(--wine-900))] px-[10%] pb-[22%] pt-[4%]")}
+                />
+              </div>
+              <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-[linear-gradient(180deg,transparent,rgba(11,10,12,0.8))] px-4 pb-3 pt-10">
+                <span className="text-[14px] font-medium text-on-dark">{w.label}</span>
+                <span className="flex size-7 items-center justify-center rounded-full bg-cherry text-white transition-transform duration-300 group-hover:translate-x-1">
+                  <ArrowRight size={13} strokeWidth={1.75} />
+                </span>
+              </div>
+            </Link>
+          </motion.li>
+        ))}
+      </ul>
     </div>
   );
 }

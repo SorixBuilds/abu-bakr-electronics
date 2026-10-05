@@ -1,60 +1,74 @@
 @import "tailwindcss";
 
-/* ───────────────────────── Tokens (§22) ───────────────────────── */
+/* ───────────────────────── Tokens (V2 §3 — Obsidian, Wine & Porcelain) ───────────────────────── */
 :root {
-  --obsidian: #0a0b0d;
-  --graphite: #111316;
-  --graphite-2: #181b1f;
-  --ivory: #f4f1ea;
-  --ivory-2: #e8e4da;
-  --ivory-3: #ddd8cc;
+  /* Darks */
+  --obsidian: #0b0a0c;
+  --graphite: #16141a;
+  --graphite-2: #201d24;
+  /* Brand reds */
+  --wine-900: #2a0710;
+  --wine-700: #4a0d1b;
+  --wine-500: #6e1426;
+  --cherry: #b3122e;
+  --cherry-hi: #d6243f;
+  --cherry-text: #ec5468; /* cherry as small text on dark surfaces (≥4.7:1) */
+  /* Lights */
+  --porcelain: #faf8f5;
+  --ivory: #f2eee6;
+  --stone: #e6e0d6;
+  /* Detail — 1px hairlines and monogram only */
   --gold: #c9a96a;
-  --gold-hi: #e1c98d;
-  --gold-ink: #7a5e28;
-  --electric: #4d8dff;
-  --ink-on-dark: #f4f1ea;
-  --ink-muted-dark: #9b9b96;
-  --ink-on-light: #0a0b0d;
-  --ink-muted-light: #5f5d57;
+  /* Text */
+  --ink: #121014;
+  --ink-muted: #625e66;
+  --on-dark: #f7f3ee;
+  --on-dark-muted: #a9a3ac;
+  --on-wine-muted: #d9c4c8;
+  /* Lines */
   --line-dark: rgba(255, 255, 255, 0.12);
   --line-dark-soft: rgba(255, 255, 255, 0.06);
-  --line-light: rgba(10, 11, 13, 0.12);
-  --line-light-soft: rgba(10, 11, 13, 0.07);
+  --line-light: rgba(18, 16, 20, 0.1);
+  --line-light-soft: rgba(18, 16, 20, 0.06);
+  --line-wine: rgba(255, 220, 225, 0.18);
   --error: #d9826b;
   --success: #a7b89a;
 
   --shadow-modal: 0 40px 120px -20px rgba(0, 0, 0, 0.6);
   --shadow-fab: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
-  --shadow-soft: 0 24px 60px -30px rgba(10, 11, 13, 0.25);
+  --shadow-soft: 0 24px 60px -30px rgba(18, 16, 20, 0.3);
 
   --gutter: 20px;
   --nav-h: 60px;
-  --section-y: 96px;
+  --section-y: 88px;
   --nav-offset: 60px;
 
   /* Semantic, theme-switched (default = dark) */
   --bg: var(--obsidian);
-  --fg: var(--ink-on-dark);
-  --fg-muted: var(--ink-muted-dark);
+  --fg: var(--on-dark);
+  --fg-muted: var(--on-dark-muted);
   --stage: var(--graphite);
   --panel: var(--graphite-2);
   --line: var(--line-dark);
   --line-soft: var(--line-dark-soft);
-  --gold-text: var(--gold);
-  --btn-bg: var(--ivory);
-  --btn-fg: var(--obsidian);
+  --hairline: var(--gold); /* decorative 1px rules */
+  --accent: var(--cherry); /* fills, borders, active lines */
+  --accent-text: var(--cherry-text); /* accent used as text/icon */
+  --btn-bg: var(--cherry);
+  --btn-bg-hover: var(--cherry-hi);
+  --btn-fg: #fff;
 }
 
 @media (min-width: 768px) {
   :root {
     --gutter: 32px;
-    --section-y: 120px;
+    --section-y: 112px;
   }
 }
 @media (min-width: 1024px) {
   :root {
     --nav-h: 72px;
-    --section-y: 160px;
+    --section-y: 140px;
     --nav-offset: 64px;
   }
 }
@@ -65,43 +79,55 @@
 }
 
 @layer base {
-  .theme-dark {
+  .theme-dark,
+  .theme-graphite {
     --bg: var(--obsidian);
-    --fg: var(--ink-on-dark);
-    --fg-muted: var(--ink-muted-dark);
+    --fg: var(--on-dark);
+    --fg-muted: var(--on-dark-muted);
     --stage: var(--graphite);
     --panel: var(--graphite-2);
     --line: var(--line-dark);
     --line-soft: var(--line-dark-soft);
-    --gold-text: var(--gold);
-    --btn-bg: var(--ivory);
-    --btn-fg: var(--obsidian);
+    --hairline: var(--gold);
+    --accent: var(--cherry);
+    --accent-text: var(--cherry-text);
     color: var(--fg);
   }
   .theme-graphite {
     --bg: var(--graphite);
-    --fg: var(--ink-on-dark);
-    --fg-muted: var(--ink-muted-dark);
     --stage: var(--graphite-2);
-    --panel: var(--graphite-2);
-    --line: var(--line-dark);
-    --line-soft: var(--line-dark-soft);
-    --gold-text: var(--gold);
-    --btn-bg: var(--ivory);
-    --btn-fg: var(--obsidian);
-    color: var(--fg);
   }
-  .theme-light {
+  .theme-light,
+  .theme-porcelain {
     --bg: var(--ivory);
-    --fg: var(--ink-on-light);
-    --fg-muted: var(--ink-muted-light);
-    --stage: var(--ivory-2);
-    --panel: var(--ivory-2);
+    --fg: var(--ink);
+    --fg-muted: var(--ink-muted);
+    --stage: var(--stone);
+    --panel: var(--stone);
     --line: var(--line-light);
     --line-soft: var(--line-light-soft);
-    --gold-text: var(--gold-ink);
-    --btn-bg: var(--obsidian);
-    --btn-fg: var(--ivory);
+    --hairline: var(--wine-500);
+    --accent: var(--cherry);
+    --accent-text: var(--cherry);
+    color: var(--fg);
+  }
+  .theme-porcelain {
+    --bg: var(--porcelain);
+  }
+  .theme-wine {
+    --bg: var(--wine-700);
+    --fg: var(--on-dark);
+    --fg-muted: var(--on-wine-muted);
+    --stage: rgba(0, 0, 0, 0.18);
+    --panel: var(--wine-900);
+    --line: var(--line-wine);
+    --line-soft: rgba(255, 220, 225, 0.09);
+    --hairline: var(--gold);
+    --accent: var(--cherry-hi);
+    --accent-text: var(--on-dark);
+    --btn-bg: var(--porcelain);
+    --btn-bg-hover: #fff;
+    --btn-fg: var(--ink);
     color: var(--fg);
   }
 }
@@ -110,13 +136,20 @@
   --color-obsidian: var(--obsidian);
   --color-graphite: var(--graphite);
   --color-graphite-2: var(--graphite-2);
+  --color-wine-900: var(--wine-900);
+  --color-wine-700: var(--wine-700);
+  --color-wine-500: var(--wine-500);
+  --color-cherry: var(--cherry);
+  --color-cherry-hi: var(--cherry-hi);
+  --color-porcelain: var(--porcelain);
   --color-ivory: var(--ivory);
-  --color-ivory-2: var(--ivory-2);
-  --color-ivory-3: var(--ivory-3);
+  --color-stone: var(--stone);
   --color-gold: var(--gold);
-  --color-gold-hi: var(--gold-hi);
-  --color-gold-ink: var(--gold-ink);
-  --color-electric: var(--electric);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-muted: var(--on-dark-muted);
+  --color-on-wine-muted: var(--on-wine-muted);
   --color-error: var(--error);
   --color-success: var(--success);
 
@@ -127,7 +160,9 @@
   --color-panel: var(--panel);
   --color-line: var(--line);
   --color-line-soft: var(--line-soft);
-  --color-gold-text: var(--gold-text);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
 
   --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
@@ -135,7 +170,8 @@
 
   --radius-xs: 2px;
   --radius-sm: 4px;
-  --radius-md: 10px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
 
   --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
@@ -234,7 +270,7 @@
   }
   body {
     background: var(--obsidian);
-    color: var(--ink-on-dark);
+    color: var(--on-dark);
     font-family: var(--font-sans);
     font-size: 15px;
     line-height: 1.6;
@@ -249,16 +285,16 @@
   }
 
   ::selection {
-    background: rgba(201, 169, 106, 0.35);
+    background: rgba(179, 18, 46, 0.28);
     color: inherit;
   }
 
   :focus-visible {
-    outline: 2px solid var(--gold-hi);
+    outline: 2px solid var(--cherry-hi);
     outline-offset: 2px;
   }
   .theme-light :focus-visible {
-    outline-color: var(--gold-ink);
+    outline-color: var(--cherry);
   }
 
   button,
@@ -329,8 +365,8 @@ html.lenis body {
   height: 2px;
   background: linear-gradient(
     to right,
-    var(--gold-text) 0%,
-    var(--gold-text) var(--fill, 50%),
+    var(--accent) 0%,
+    var(--accent) var(--fill, 50%),
     var(--line) var(--fill, 50%),
     var(--line) 100%
   );
@@ -341,7 +377,7 @@ html.lenis body {
 }
 .lux-range::-moz-range-progress {
   height: 2px;
-  background: var(--gold-text);
+  background: var(--accent);
 }
 .lux-range::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -349,17 +385,17 @@ html.lenis body {
   height: 20px;
   margin-top: -9px;
   border-radius: 999px;
-  background: var(--ivory);
-  border: 1px solid var(--gold);
-  box-shadow: 0 0 0 4px rgba(201, 169, 106, 0.15);
+  background: #fff;
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 0 4px rgba(179, 18, 46, 0.14);
   transition: transform 200ms var(--ease-ui);
 }
 .lux-range::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 999px;
-  background: var(--ivory);
-  border: 1px solid var(--gold);
+  background: #fff;
+  border: 1px solid var(--accent);
 }
 .lux-range:active::-webkit-slider-thumb {
   transform: scale(1.12);
@@ -376,18 +412,6 @@ html.lenis body {
   }
 }
 
-/* Hero fallback gradient drift (§14.3) */
-@keyframes drift {
-  0% {
-    transform: translate3d(-4%, -2%, 0) scale(1.05);
-  }
-  50% {
-    transform: translate3d(3%, 2%, 0) scale(1.12);
-  }
-  100% {
-    transform: translate3d(-4%, -2%, 0) scale(1.05);
-  }
-}
 @keyframes kenburns {
   from {
     transform: scale(1);
@@ -492,17 +516,38 @@ html.lenis body {
   font-size: 10.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--ink-muted-dark);
+  color: var(--on-dark-muted);
   padding: 14px 20px 6px;
 }
 
-html[data-preloader="off"] #preloader {
-  display: none;
-}
 
 /* Reserve space for the PDP fixed bottom bar on mobile */
 @media (max-width: 767px) {
   body:has([data-mobile-bar]) {
     padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
+  }
+}
+
+/* One-time attention ring on the WhatsApp button (V2 §6.3) */
+@keyframes pulse-once {
+  0% {
+    box-shadow: 0 0 0 0 rgba(214, 36, 63, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgba(214, 36, 63, 0);
+  }
+}
+@keyframes intro-mark {
+  0% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  30%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
   }
 }

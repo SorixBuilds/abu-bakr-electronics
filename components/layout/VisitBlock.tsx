@@ -13,7 +13,7 @@ export function VisitBlock() {
     <div className="grid gap-12 md:grid-cols-2 md:gap-16">
       <dl className="flex flex-col divide-y divide-line-soft border-y border-line-soft">
         <div className="flex items-start gap-4 py-5">
-          <MapPin size={18} strokeWidth={1.25} className="mt-0.5 text-gold-text" />
+          <MapPin size={18} strokeWidth={1.25} className="mt-0.5 text-accent-text" />
           <div>
             <dt className="text-eyebrow text-fg-muted">Address</dt>
             <dd className="mt-2 text-[16px]">
@@ -22,7 +22,7 @@ export function VisitBlock() {
           </div>
         </div>
         <div className="flex items-start gap-4 py-5">
-          <Clock size={18} strokeWidth={1.25} className="mt-0.5 text-gold-text" />
+          <Clock size={18} strokeWidth={1.25} className="mt-0.5 text-accent-text" />
           <div>
             <dt className="text-eyebrow text-fg-muted">Hours</dt>
             <dd className="mt-2 text-[16px]">
@@ -31,7 +31,7 @@ export function VisitBlock() {
           </div>
         </div>
         <div className="flex items-start gap-4 py-5">
-          <Phone size={18} strokeWidth={1.25} className="mt-0.5 text-gold-text" />
+          <Phone size={18} strokeWidth={1.25} className="mt-0.5 text-accent-text" />
           <div>
             <dt className="text-eyebrow text-fg-muted">Phone</dt>
             <dd className="mt-2 text-[16px]">

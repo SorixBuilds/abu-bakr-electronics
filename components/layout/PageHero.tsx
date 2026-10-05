@@ -1,20 +1,20 @@
 import type { ReactNode } from "react";
-import type { ProductShape } from "@/types/product";
-import { SceneVisual } from "@/components/product/Media";
+import { Photo } from "@/components/product/Media";
 import { RevealText } from "@/components/ui/RevealText";
 import { Reveal } from "@/components/ui/Reveal";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { cn } from "@/lib/cn";
 
-/** Dark image hero that sits beneath the transparent navbar (category, mobility, showroom). */
+/** V2 §8.4 — full-bleed photo hero with a dark (or wine) overlay, sitting beneath the transparent navbar. */
 export function PageHero({
   eyebrow,
   title,
   line,
   meta,
-  tone,
-  shape,
   image,
+  imagePosition,
+  contain,
+  overlay = "dark",
   height = "56vh",
   children,
   className,
@@ -23,41 +23,54 @@ export function PageHero({
   title: string | string[];
   line?: string;
   meta?: ReactNode;
-  tone?: string;
-  shape?: ProductShape;
-  image?: string | null;
+  image: string;
+  imagePosition?: string;
+  /** Cut-out images (Jinpeng) sit on the wine stage instead of filling the frame */
+  contain?: boolean;
+  overlay?: "dark" | "wine";
   height?: string;
   children?: ReactNode;
   className?: string;
 }) {
   return (
     <section
-      className={cn("theme-dark relative -mt-[60px] flex flex-col justify-end overflow-hidden bg-obsidian lg:-mt-[72px]", className)}
-      style={{ minHeight: `max(${height}, 460px)` }}
+      data-nav="dark"
+      className={cn("relative -mt-[60px] flex flex-col justify-end overflow-hidden lg:-mt-[72px]", overlay === "wine" ? "theme-wine" : "theme-dark", className)}
+      style={{ minHeight: `max(${height}, 480px)` }}
     >
-      <div className="absolute inset-0">
-        <SceneVisual
-          tone={tone}
-          shape={shape}
-          image={image}
-          drawingClassName="left-auto right-[6%] w-[min(46%,520px)] opacity-80 max-md:right-[-8%] max-md:w-[70%] max-md:opacity-40"
-        />
-      </div>
-      <div className="grain absolute inset-0" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,11,13,0.55)_0%,rgba(10,11,13,0.1)_40%,rgba(10,11,13,0.85)_100%)]" />
+      <Photo
+        src={image}
+        alt=""
+        priority
+        sizes="100vw"
+        position={imagePosition}
+        contain={contain}
+        className={cn(
+          contain && "bg-[radial-gradient(ellipse_at_70%_45%,var(--wine-500),var(--wine-900)_70%)] py-[10%] pl-[42%] pr-[4%] max-md:pl-[10%] max-md:pb-[42%]",
+        )}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            overlay === "wine"
+              ? "linear-gradient(90deg, rgba(42,7,16,0.85) 0%, rgba(42,7,16,0.35) 55%, rgba(42,7,16,0) 80%), linear-gradient(180deg, rgba(11,10,12,0.5) 0%, transparent 35%)"
+              : "linear-gradient(180deg, rgba(11,10,12,0.6) 0%, rgba(11,10,12,0.15) 40%, rgba(11,10,12,0.85) 100%), linear-gradient(90deg, rgba(11,10,12,0.55), transparent 65%)",
+        }}
+      />
       <div className="container-lux relative pb-14 pt-36 lg:pb-20">
         <Reveal y={12}>
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
-        <RevealText as="h1" lines={title} immediate delay={0.1} className="mt-5 text-display-l max-w-[14ch]" />
+        <RevealText as="h1" lines={title} immediate delay={0.1} className="mt-5 max-w-[14ch] text-display-l text-on-dark" />
         {line && (
           <Reveal delay={0.25} y={16}>
-            <p className="mt-5 max-w-[44ch] text-lede text-ivory/80">{line}</p>
+            <p className="mt-5 max-w-[44ch] text-lede text-on-dark/85">{line}</p>
           </Reveal>
         )}
         {meta && (
           <Reveal delay={0.35} y={12}>
-            <div className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-ivory/55">{meta}</div>
+            <div className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-on-dark-muted">{meta}</div>
           </Reveal>
         )}
         {children}

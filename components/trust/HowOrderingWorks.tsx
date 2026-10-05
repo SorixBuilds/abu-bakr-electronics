@@ -15,7 +15,7 @@ export function HowOrderingWorks({ className, heading = true }: { className?: st
       <Reveal stagger={0.1} className="grid gap-px md:grid-cols-3">
         {steps.map((s, i) => (
           <div key={s.title} className={cn("flex gap-6 border-t border-line py-7 md:flex-col md:gap-5 md:pr-10")}>
-            <span className="font-serif text-[44px] leading-none text-gold-text">{String(i + 1).padStart(2, "0")}</span>
+            <span className="font-serif text-[44px] leading-none text-accent-text">{String(i + 1).padStart(2, "0")}</span>
             <div>
               <p className="text-[18px] font-medium">{s.title}</p>
               <p className="mt-2 max-w-[32ch] text-[14px] text-fg-muted">{s.body}</p>

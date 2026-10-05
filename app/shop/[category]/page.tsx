@@ -6,8 +6,6 @@ import { ShopView, ShopViewStatic } from "@/components/product/ShopView";
 import { categories, getCategory } from "@/content/categories";
 import { productsIn } from "@/data/products";
 
-const tones: Record<string, string> = { cooling: "cool", refrigeration: "steel", "home-appliances": "warm", electronics: "night" };
-
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -28,7 +26,7 @@ export default async function CategoryPage({ params }: PageProps<"/shop/[categor
   const count = productsIn(c.slug).length;
   return (
     <>
-      <PageHero eyebrow="The Collection" title={c.title} line={c.line} meta={`${count} pieces`} tone={tones[c.slug]} shape={c.shape} image={c.image} />
+      <PageHero eyebrow="The Collection" title={c.title} line={c.line} meta={`${count} pieces`} image={c.image} />
       <Suspense fallback={<ShopViewStatic category={c.slug} />}>
         <ShopView category={c.slug} />
       </Suspense>

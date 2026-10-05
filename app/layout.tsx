@@ -5,7 +5,7 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
-import { Preloader, preloaderGateScript } from "@/components/layout/Preloader";
+import { Preloader } from "@/components/layout/Preloader";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { Providers } from "@/components/layout/Providers";
 import { site } from "@/content/site";
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0B0D",
+  themeColor: "#0B0A0C",
   colorScheme: "dark",
   viewportFit: "cover",
 };
@@ -41,9 +41,6 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${manrope.variable} ${instrument.variable} ${geistMono.variable}`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: preloaderGateScript }} />
-      </head>
       <body>
         <a
           href="#main"

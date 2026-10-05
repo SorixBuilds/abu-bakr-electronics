@@ -1,7 +1,8 @@
+/** V2 §5.2 — the brand name lives in the nav; the hero headline sells the promise. */
 const headlineSets = {
-  A: "Home technology, beautifully chosen.",
-  B: "Modern technology. Better living.",
-  C: "The finer side of home technology.",
+  A: ["Home technology,", "beautifully chosen."],
+  B: ["Modern technology.", "Better living."],
+  C: ["The finer side of", "home technology."],
 } as const;
 
 const active: keyof typeof headlineSets = "A";
@@ -9,9 +10,9 @@ const active: keyof typeof headlineSets = "A";
 export const home = {
   hero: {
     eyebrow: "LAHORE, PAKISTAN",
-    headline: ["ABU BAKR", "ELECTRONICS"],
-    subline: headlineSets[active],
-    footnote: "Free delivery across Lahore · Delivering nationwide",
+    headline: headlineSets[active],
+    sub: "Air conditioners, refrigerators, home appliances and Jinpeng electric bikes — delivered free across Lahore.",
+    footnote: "Free delivery across Lahore · Delivering across Pakistan · Speak to an advisor on WhatsApp",
   },
   worlds: {
     eyebrow: "The Collection",

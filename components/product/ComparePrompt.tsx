@@ -28,7 +28,7 @@ export function ComparePrompt({ product, similar }: { product: Product; similar:
         <p className="mt-4 max-w-[36ch] text-fg-muted">Two close alternatives. See them side by side with differences highlighted.</p>
         <button onClick={compare} className="group mt-8 inline-flex min-h-11 items-center gap-2 text-button">
           <span className="link-lux pb-1">Compare side by side</span>
-          <ArrowRight size={14} strokeWidth={1.25} className="text-gold-text transition-transform group-hover:translate-x-1" />
+          <ArrowRight size={14} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
         </button>
       </div>
       <ul className="grid grid-cols-2 gap-3 sm:gap-5">

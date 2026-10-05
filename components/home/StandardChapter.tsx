@@ -61,7 +61,7 @@ function Item({ n, title, body, custom }: { n: number; title: string; body: stri
       <motion.div
         variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: ease.outExpo, delay: 0.3 + n * 0.1 } } }}
       >
-        <span className="font-serif text-[72px] leading-none text-gold-text">{String(n + 1).padStart(2, "0")}</span>
+        <span className="font-serif text-[72px] leading-none text-wine-500">{String(n + 1).padStart(2, "0")}</span>
         {custom ? (
           <div className="mt-8">{custom}</div>
         ) : (

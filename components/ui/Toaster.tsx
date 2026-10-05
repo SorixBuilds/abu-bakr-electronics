@@ -31,7 +31,7 @@ export function Toaster() {
                   t.action!.onClick();
                   dismiss(t.id);
                 }}
-                className="min-h-9 px-2 font-mono text-[11px] uppercase tracking-[0.14em] text-gold hover:text-gold-hi"
+                className="min-h-9 px-2 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-text hover:text-accent-text"
               >
                 {t.action.label}
               </button>

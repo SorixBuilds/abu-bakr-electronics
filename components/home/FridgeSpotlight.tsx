@@ -1,13 +1,15 @@
 "use client";
 
-import { motion, useMotionValueEvent, useScroll, useTransform, type MotionValue } from "motion/react";
+import { motion, useMotionValueEvent, useScroll, useTransform } from "motion/react";
 import { useRef, useState } from "react";
 import { home } from "@/content/home";
+import { editorialMedia } from "@/content/media";
 import { LuxuryButton } from "@/components/ui/LuxuryButton";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { RevealText } from "@/components/ui/RevealText";
 import { Reveal } from "@/components/ui/Reveal";
-import { FridgeArt, finishes, type Finish } from "./FridgeArt";
+import { ImageReveal } from "@/components/ui/ImageReveal";
+import { Photo } from "@/components/product/Media";
 import { useUi } from "@/store/ui";
 import { useIsDesktop } from "@/hooks/useMediaQuery";
 import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
@@ -15,7 +17,15 @@ import { cn } from "@/lib/cn";
 
 const steps = home.fridge.steps;
 
-/** §6.3 — the one scroll-pinned product story. Desktop only; stacked cards on mobile / reduced motion. */
+const finishes = [
+  { value: "black", label: "Black", src: editorialMedia.fridgeBlack, swatch: "#141316" },
+  { value: "steel", label: "Stainless steel", src: editorialMedia.fridgeSteel, swatch: "linear-gradient(135deg,#9a9ea4,#5d6168)" },
+] as const;
+
+/** Soft cherry rim light under the stage — the first, quiet appearance of the brand red (V2 §7.2). */
+const rim = { boxShadow: "0 40px 120px -40px rgba(179,18,46,0.45)" };
+
+/** V2 §7.2 — the one scroll-pinned product story, now with real photography. Stacked on mobile / reduced motion. */
 export function FridgeSpotlight() {
   const desktop = useIsDesktop();
   const reduced = useReducedMotionSafe();
@@ -26,7 +36,7 @@ function Ctas() {
   const set = useUi((s) => s.set);
   return (
     <div className="flex flex-wrap items-center gap-4">
-      <LuxuryButton href="/shop/refrigeration" variant="ghost" icon="arrow">
+      <LuxuryButton href="/shop/refrigeration" icon="arrow">
         View Refrigerators
       </LuxuryButton>
       <LuxuryButton variant="text" onClick={() => set({ requestPriceId: "RF-01" })}>
@@ -40,32 +50,24 @@ function Pinned() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const [step, setStep] = useState(0);
-  const [finish, setFinish] = useState<Finish>("steel");
+  const [finish, setFinish] = useState<(typeof finishes)[number]["value"]>("black");
 
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     setStep(Math.min(3, Math.floor(p * 4)));
-    if (p >= 0.75) setFinish(p < 0.83 ? "steel" : p < 0.91 ? "glass" : "matte");
-    else setFinish("steel");
+    setFinish(p >= 0.86 ? "steel" : "black");
   });
 
-  const productScale = useTransform(scrollYProgress, [0, 0.12], [0.92, 1]);
-  const productOpacity = useTransform(scrollYProgress, [0, 0.08], [0.3, 1]);
-  const coolLight = useTransform(scrollYProgress, [0.22, 0.3, 0.48, 0.55], [0, 1, 1, 0]);
-  const grain = useTransform(scrollYProgress, [0.48, 0.56], [1, 0]);
+  const productScale = useTransform(scrollYProgress, [0, 0.12], [0.94, 1]);
+  const imageZoom = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
   const progress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const dimLine = useTransform(scrollYProgress, [0.02, 0.18, 0.25, 0.28], [0, 1, 1, 0]);
 
   return (
     <section ref={ref} className="theme-dark relative h-[400vh] bg-obsidian" aria-label="Freshness — refrigerator spotlight">
       <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
-        {/* stage light */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_40%_55%_at_50%_30%,rgba(244,241,234,0.07),transparent_70%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_28%_8%_at_50%_86%,rgba(201,169,106,0.16),transparent_70%)]" />
-        <motion.div className="pointer-events-none absolute inset-0 bg-[rgba(77,141,255,0.05)]" style={{ opacity: coolLight }} />
-        <motion.div className="grain pointer-events-none absolute inset-0" style={{ opacity: grain }} />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_40%_55%_at_50%_35%,rgba(247,243,238,0.06),transparent_70%)]" />
+        <div className="grain pointer-events-none absolute inset-0" />
 
-        <div className="container-lux relative grid h-full grid-cols-[1fr_40%_30%] items-center gap-10">
-          {/* Left: heading + step index */}
+        <div className="container-lux relative grid h-full grid-cols-[1fr_36%_30%] items-center gap-10">
           <div className="flex h-full flex-col justify-between py-[14vh]">
             <div>
               <Eyebrow>{home.fridge.eyebrow}</Eyebrow>
@@ -73,12 +75,12 @@ function Pinned() {
             </div>
             <div className="relative pl-6">
               <span aria-hidden className="absolute left-0 top-1 h-[calc(100%-8px)] w-px bg-line" />
-              <motion.span aria-hidden className="absolute left-0 top-1 h-[calc(100%-8px)] w-px origin-top bg-gold" style={{ scaleY: progress }} />
+              <motion.span aria-hidden className="absolute left-0 top-1 h-[calc(100%-8px)] w-px origin-top bg-cherry-hi" style={{ scaleY: progress }} />
               <ol className="flex flex-col gap-6" aria-label="Story steps">
                 {steps.map((s, i) => (
                   <li
                     key={s.n}
-                    className={cn("font-mono text-[12px] tracking-[0.16em] transition-colors duration-500", i === step ? "text-gold" : "text-fg-muted/60")}
+                    className={cn("font-mono text-[12px] tracking-[0.16em] transition-colors duration-500", i === step ? "text-accent-text" : "text-fg-muted/60")}
                   >
                     {s.n}
                   </li>
@@ -87,31 +89,30 @@ function Pinned() {
             </div>
           </div>
 
-          {/* Centre: product */}
-          <motion.div className="relative flex h-[78vh] items-center justify-center" style={{ scale: productScale, opacity: productOpacity }}>
-            {finishes.map((f) => (
-              <FridgeArt
-                key={f.value}
-                finish={f.value}
-                className="absolute h-full w-auto transition-opacity duration-700 ease-in-out-lux"
-                style={{ opacity: finish === f.value ? 1 : 0 }}
-              />
-            ))}
-            {/* dimension line */}
-            <motion.div className="absolute right-[6%] top-[4%] flex h-[84%] items-center gap-3" style={{ opacity: dimLine }} aria-hidden>
-              <DimLine progress={dimLine} />
-              <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-gold [writing-mode:vertical-rl]">640 L · demo</span>
-            </motion.div>
-            {/* finish chips */}
+          <motion.div className="relative aspect-[4/5] max-h-[76vh] w-full justify-self-center" style={{ scale: productScale }}>
+            <div className="absolute inset-0 overflow-hidden rounded-md" style={rim}>
+              {finishes.map((f) => (
+                <motion.div
+                  key={f.value}
+                  className="absolute inset-0 transition-opacity duration-700 ease-in-out-lux"
+                  style={{ opacity: finish === f.value ? 1 : 0, scale: imageZoom }}
+                >
+                  <Photo src={f.src} alt={`Refrigerator in a ${f.label.toLowerCase()} finish`} sizes="40vw" position="62% 50%" />
+                </motion.div>
+              ))}
+            </div>
             <div
-              className={cn("absolute -bottom-2 flex gap-2 transition-all duration-500", step === 3 ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0")}
+              className={cn(
+                "absolute -bottom-14 left-1/2 flex -translate-x-1/2 gap-2 transition-all duration-500",
+                step === 3 ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
+              )}
             >
               {finishes.map((f) => (
                 <span
                   key={f.value}
                   className={cn(
-                    "flex items-center gap-2 rounded-xs border px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em]",
-                    finish === f.value ? "border-gold text-ivory" : "border-line text-fg-muted",
+                    "flex items-center gap-2 whitespace-nowrap rounded-xs border px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em]",
+                    finish === f.value ? "border-cherry-hi text-on-dark" : "border-line text-fg-muted",
                   )}
                 >
                   <span className="size-2.5 rounded-full border border-white/20" style={{ background: f.swatch }} />
@@ -121,7 +122,6 @@ function Pinned() {
             </div>
           </motion.div>
 
-          {/* Right: feature copy */}
           <div className="relative flex h-full flex-col justify-center gap-10">
             {steps.map((s, i) => (
               <motion.div
@@ -131,7 +131,7 @@ function Pinned() {
               >
                 <h3 className="text-h3">{s.title}</h3>
                 <p className="mt-2 max-w-[34ch] text-[15px] text-fg-muted">{s.body}</p>
-                {i === 3 && <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.14em] text-fg-muted/70">Finishes shown are illustrative</p>}
+                {i === 3 && <p className="mt-2 font-mono text-[10.5px] uppercase tracking-[0.14em] text-fg-muted/80">Finishes shown are illustrative</p>}
               </motion.div>
             ))}
             <motion.div animate={{ opacity: step === 3 ? 1 : 0, y: step === 3 ? 0 : 12 }} transition={{ duration: 0.5 }}>
@@ -144,16 +144,6 @@ function Pinned() {
   );
 }
 
-function DimLine({ progress }: { progress: MotionValue<number> }) {
-  return (
-    <div className="relative h-full w-2">
-      <span className="absolute left-0 top-0 h-px w-2 bg-gold" />
-      <motion.span className="absolute left-1/2 top-0 h-full w-px origin-top bg-gold" style={{ scaleY: progress }} />
-      <span className="absolute bottom-0 left-0 h-px w-2 bg-gold" />
-    </div>
-  );
-}
-
 function Stacked() {
   return (
     <section className="theme-dark section-y bg-obsidian" aria-label="Freshness — refrigerator spotlight">
@@ -162,26 +152,26 @@ function Stacked() {
           <Eyebrow>{home.fridge.eyebrow}</Eyebrow>
         </Reveal>
         <RevealText lines={home.fridge.title} className="mt-5 text-h1" />
-        <div className="relative mx-auto mt-12 flex aspect-[3/4] max-h-[70svh] items-center justify-center">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_10%_at_50%_92%,rgba(201,169,106,0.18),transparent_70%)]" />
-          <FridgeArt finish="steel" className="relative h-full w-auto" />
-        </div>
-        <ul className="mt-12 flex flex-col gap-3">
+        <ImageReveal className="mx-auto mt-10 aspect-[4/5] max-h-[70svh] rounded-md">
+          <div className="absolute inset-0" style={rim}>
+            <Photo src={editorialMedia.fridgeBlack} alt="Black refrigerator in a modern kitchen" sizes="100vw" position="62% 50%" />
+          </div>
+        </ImageReveal>
+        <ul className="mt-10 flex flex-col gap-3">
           {steps.map((s, i) => (
-            <Reveal as="li" key={s.n} delay={i * 0.05} className="rounded-sm border border-line-soft bg-graphite p-6">
-              <span className="font-mono text-[11px] tracking-[0.16em] text-gold">{s.n}</span>
+            <Reveal as="li" key={s.n} delay={i * 0.05} className="rounded-md border border-line-soft bg-graphite p-6">
+              <span className="font-mono text-[11px] tracking-[0.16em] text-accent-text">{s.n}</span>
               <h3 className="mt-3 text-h3">{s.title}</h3>
               <p className="mt-2 text-[15px] text-fg-muted">{s.body}</p>
               {i === 3 && (
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-5 grid grid-cols-2 gap-2">
                   {finishes.map((f) => (
-                    <span
-                      key={f.value}
-                      className="flex items-center gap-2 rounded-xs border border-line px-3 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] text-fg-muted"
-                    >
-                      <span className="size-2.5 rounded-full border border-white/20" style={{ background: f.swatch }} />
-                      {f.label}
-                    </span>
+                    <div key={f.value} className="relative aspect-[4/3] overflow-hidden rounded-sm">
+                      <Photo src={f.src} alt={`${f.label} finish`} sizes="45vw" position="62% 50%" />
+                      <span className="absolute bottom-2 left-2 rounded-xs bg-obsidian/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-on-dark">
+                        {f.label}
+                      </span>
+                    </div>
                   ))}
                 </div>
               )}

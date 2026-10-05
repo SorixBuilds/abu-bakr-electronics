@@ -8,7 +8,8 @@ import { cn } from "@/lib/cn";
 import { useFinePointer } from "@/hooks/useMediaQuery";
 import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
 
-type Variant = "primary" | "ghost" | "gold-line" | "text";
+/** V2 §3.4 — primary (cherry), light (porcelain on dark/wine), ghost, text. "gold-line" is kept as an alias of ghost. */
+type Variant = "primary" | "cherry" | "light" | "ghost" | "gold-line" | "text";
 
 type Props = {
   variant?: Variant;
@@ -28,12 +29,18 @@ type Props = {
 };
 
 const base =
-  "group/btn relative inline-flex select-none items-center justify-center gap-3 rounded-xs text-button whitespace-nowrap transition-[border-color,background-color,color,letter-spacing,opacity] duration-250 ease-ui active:scale-[0.98] disabled:opacity-40";
+  "group/btn relative inline-flex select-none items-center justify-center gap-3 rounded-xs text-button whitespace-nowrap transition-[border-color,background-color,color,transform,opacity] duration-250 ease-ui active:scale-[0.98] disabled:opacity-40";
+
+const ghost =
+  "border border-[color-mix(in_srgb,var(--fg)_30%,transparent)] text-fg hover:border-[color-mix(in_srgb,var(--fg)_60%,transparent)] hover:bg-[color-mix(in_srgb,var(--fg)_6%,transparent)]";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:tracking-[0.16em] hover:opacity-95",
-  ghost: "border border-line text-fg hover:border-[color-mix(in_srgb,var(--fg)_40%,transparent)] hover:tracking-[0.16em]",
-  "gold-line": "border border-gold-text text-fg hover:bg-[rgba(201,169,106,0.08)] hover:tracking-[0.16em]",
+  primary: "bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[var(--btn-bg-hover)] hover:-translate-y-px",
+  /** Cherry regardless of section theme (primary turns porcelain on wine). */
+  cherry: "bg-cherry text-white hover:bg-cherry-hi hover:-translate-y-px",
+  light: "bg-porcelain text-ink hover:bg-white hover:-translate-y-px",
+  ghost,
+  "gold-line": ghost,
   text: "text-fg px-0! h-auto! gap-2",
 };
 

@@ -15,14 +15,23 @@ export function ProductBadge({ product }: { product: Product }) {
   const review = useReview((s) => s.enabled);
   const badge = review && product.isDemo ? "DEMO" : product.badge;
   if (!badge) return null;
+  // V2 §8.1 — "NEW IN" is white on cherry; other badges are quiet outlines.
+  const strong = badge === "NEW IN" || badge === "JINPENG";
   return (
-    <span className="rounded-xs border border-[color-mix(in_srgb,var(--fg)_30%,transparent)] px-2 py-1 font-mono text-[10px] tracking-[0.14em] text-fg/80">
+    <span
+      className={cn(
+        "rounded-xs px-2 py-1 font-mono text-[10px] tracking-[0.14em]",
+        strong
+          ? "bg-cherry text-white"
+          : "border border-[color-mix(in_srgb,var(--fg)_30%,transparent)] bg-[color-mix(in_srgb,var(--bg)_70%,transparent)] text-fg/85",
+      )}
+    >
       {badge}
     </span>
   );
 }
 
-/** §9.1 — no border, no shadow; the image stage is the card. */
+/** V2 §8.1 — real photo on a 4:5 stage; hover swaps to the in-situ photo, zooms, and lifts the card. */
 export function ProductCard({
   product,
   variant = "default",
@@ -44,11 +53,14 @@ export function ProductCard({
   const eyebrow = `${categoryTitle(product.category)} · ${product.typeLabel}`;
 
   return (
-    <article className={cn("group/card relative flex flex-col", className)}>
+    <article className={cn("group/card relative flex flex-col transition-transform duration-500 ease-out-expo hover:-translate-y-1", className)}>
       <div className="relative">
         <Link href={href} className="block" aria-label={product.name}>
-          <motion.div layoutId={`img-${product.id}`} className="relative aspect-[4/5] overflow-hidden rounded-sm bg-stage">
-            <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover/card:scale-[1.02]">
+          <motion.div
+            layoutId={`img-${product.id}`}
+            className="relative aspect-[4/5] overflow-hidden rounded-md bg-stage transition-shadow duration-500 group-hover/card:shadow-[var(--shadow-soft)]"
+          >
+            <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover/card:scale-[1.04]">
               <ProductMedia product={product} priority={priority} sizes={sizes} />
               {product.gallery[1] && (
                 <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover/card:opacity-100">
@@ -78,7 +90,7 @@ export function ProductCard({
         {!compact && (
           <button
             onClick={a.quickView}
-            className="absolute inset-x-3 bottom-3 hidden h-10 translate-y-3 items-center justify-center rounded-xs bg-[rgba(10,11,13,0.72)] text-button text-ivory opacity-0 backdrop-blur-md transition-all duration-250 ease-ui group-hover/card:translate-y-0 group-hover/card:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 [@media(hover:hover)]:flex"
+            className="absolute inset-x-3 bottom-3 hidden h-10 translate-y-3 items-center justify-center rounded-xs bg-white text-button text-ink opacity-0 backdrop-blur-md transition-all duration-250 ease-ui group-hover/card:translate-y-0 group-hover/card:opacity-100 focus-visible:translate-y-0 focus-visible:opacity-100 [@media(hover:hover)]:flex"
           >
             Quick View
           </button>
@@ -91,7 +103,10 @@ export function ProductCard({
         {!compact && <p className="line-clamp-1 text-[14px] text-fg-muted">{product.tagline}</p>}
         <span className="mt-1 flex items-center justify-between text-[14px] text-fg">
           {formatPrice(product)}
-          <ArrowRight size={14} strokeWidth={1.25} className="text-gold-text transition-transform duration-250 group-hover/card:translate-x-1" />
+          <span className="flex items-center gap-1.5 text-[13px] font-medium text-accent-text">
+            View
+            <ArrowRight size={14} strokeWidth={1.5} className="transition-transform duration-250 group-hover/card:translate-x-1" />
+          </span>
         </span>
       </Link>
     </article>
@@ -108,7 +123,7 @@ function IconToggle({ on, label, onClick, children }: { on: boolean; label: stri
       className={cn(
         "flex size-11 items-center justify-center rounded-full backdrop-blur-md transition-colors",
         "bg-[color-mix(in_srgb,var(--bg)_55%,transparent)]",
-        on ? "text-gold-text" : "text-fg/80 hover:text-fg",
+        on ? "text-accent-text" : "text-fg/80 hover:text-fg",
       )}
     >
       {children}

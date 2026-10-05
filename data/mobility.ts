@@ -65,9 +65,9 @@ export const mobilityModels: Product[] = rows.map((r, i) => {
     price: null,
     tagline: r.tagline,
     description: `${r.tagline} The Jinpeng ${r.name} — presented at Abu Bakr Electronics.`,
-    image: null,
-    gallery: [],
-    shape: "scooter",
+    // Jinpeng Pakistan model image (pitch use only — see content/media.ts)
+    image: `/images/mobility/${slug}.png`,
+    gallery: [`/images/mobility/${slug}.png`],
     keySpecs: [`${r.topSpeedKmh} km/h`, `${r.rangeKm[0]}–${r.rangeKm[1]} km`, `${r.motorW} W`],
     specs: [
       { group: "Performance", label: "Top speed", value: `${r.topSpeedKmh} km/h` },

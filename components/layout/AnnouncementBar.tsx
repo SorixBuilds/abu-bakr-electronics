@@ -33,11 +33,11 @@ export function AnnouncementBar() {
   const item = items[i];
 
   return (
-    <div className="relative z-[61] flex h-9 items-center justify-center bg-obsidian text-[11px] text-ivory/70" role="region" aria-label="Announcements">
+    <div className="relative z-[61] flex h-9 items-center justify-center bg-wine-900 text-[11px] text-on-dark/90" role="region" aria-label="Announcements">
       <div className="relative h-full w-full max-w-[640px] overflow-hidden">
         {/* Mobile: item 1 only */}
         <p className="flex h-full items-center justify-center gap-2.5 font-mono uppercase tracking-[0.14em] md:hidden">
-          <span aria-hidden className="size-1 rounded-full bg-gold" />
+          <span aria-hidden className="size-1.5 rounded-full bg-cherry-hi" />
           {items[0].text}
         </p>
         <div className="hidden h-full md:block" aria-live="polite">
@@ -50,9 +50,9 @@ export function AnnouncementBar() {
               transition={{ duration: 0.4 }}
               className="absolute inset-0 flex items-center justify-center gap-2.5 font-mono uppercase tracking-[0.14em]"
             >
-              <span aria-hidden className="size-1 rounded-full bg-gold" />
+              <span aria-hidden className="size-1.5 rounded-full bg-cherry-hi" />
               {item.href ? (
-                <a href={item.href} target="_blank" rel="noopener" className="link-lux hover:text-ivory">
+                <a href={item.href} target="_blank" rel="noopener" className="link-lux hover:text-white">
                   {item.text}
                 </a>
               ) : (

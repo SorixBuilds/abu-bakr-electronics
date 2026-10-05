@@ -14,26 +14,6 @@ export interface Feature {
   image?: string;
 }
 
-/** Visual family used by ProductPlaceholder line drawings when no photo exists. */
-export type ProductShape =
-  | "ac-split"
-  | "ac-floor"
-  | "fridge-sbs"
-  | "fridge-french"
-  | "fridge-top"
-  | "fridge-single"
-  | "freezer"
-  | "washer-front"
-  | "washer-top"
-  | "microwave"
-  | "air-fryer"
-  | "dispenser"
-  | "vacuum"
-  | "tv"
-  | "soundbar"
-  | "speaker"
-  | "smart-speaker"
-  | "scooter";
 
 export interface MobilitySpec {
   topSpeedKmh: number;
@@ -55,10 +35,12 @@ export interface Product {
   price: number | null;
   tagline: string;
   description: string;
-  /** null → ProductPlaceholder renders the line drawing for `shape`. */
-  image: string | null;
+  /** Real photo (public path). Required — the asset guard fails the build if it is missing. */
+  image: string;
+  /** At least two photos; gallery[0] is usually `image`. */
   gallery: string[];
-  shape: ProductShape;
+  /** CSS object-position used to vary crops of shared photos. */
+  imagePosition?: string;
   keySpecs: string[];
   specs: Spec[];
   features: Feature[];

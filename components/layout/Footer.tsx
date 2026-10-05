@@ -31,7 +31,7 @@ export function Footer() {
   const socials = (Object.entries(site.socials) as [string, string | null][]).filter(([, v]) => !!v);
 
   return (
-    <footer className="theme-dark relative bg-obsidian">
+    <footer className="theme-dark relative bg-[linear-gradient(180deg,var(--wine-900)_0%,var(--obsidian)_420px)]">
       <div className="container-lux pb-10 pt-24 lg:pt-32">
         <div className="flex flex-col gap-6 border-b border-line-soft pb-14 md:flex-row md:items-end md:justify-between">
           <div className="flex items-center gap-5">
@@ -87,7 +87,7 @@ export function Footer() {
             target="_blank"
             rel="noopener"
             aria-label="WhatsApp"
-            className="flex size-11 items-center justify-center rounded-full border border-line text-ivory/75 transition-colors hover:border-gold hover:text-ivory"
+            className="hidden size-11 items-center justify-center rounded-full border border-line text-on-dark/75 transition-colors hover:border-accent hover:text-on-dark md:flex"
           >
             <MessageCircle size={18} strokeWidth={1.25} />
           </a>

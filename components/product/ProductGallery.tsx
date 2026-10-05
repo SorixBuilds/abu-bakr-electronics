@@ -10,10 +10,9 @@ import { cn } from "@/lib/cn";
 
 /**
  * Main image 4:5 on stage, vertical thumbnails (desktop), swipe + dots (mobile), full-screen lightbox with zoom.
- * When a product has no photography, views are the line drawing presented at different framings.
  */
 export function ProductGallery({ product }: { product: Product }) {
-  const count = Math.max(1, product.gallery.length || 3);
+  const count = Math.max(1, product.gallery.length);
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [ref, api] = useEmblaCarousel({ loop: false });
@@ -40,7 +39,7 @@ export function ProductGallery({ product }: { product: Product }) {
             aria-current={i === index}
             className={cn(
               "relative aspect-[4/5] overflow-hidden rounded-sm border transition-colors",
-              i === index ? "border-gold" : "border-transparent opacity-60 hover:opacity-100",
+              i === index ? "border-accent" : "border-transparent opacity-60 hover:opacity-100",
             )}
           >
             <View product={product} i={i} thumb />
@@ -66,7 +65,7 @@ export function ProductGallery({ product }: { product: Product }) {
         </button>
         <div className="mt-4 flex justify-center gap-2 lg:hidden" aria-hidden>
           {Array.from({ length: count }).map((_, i) => (
-            <span key={i} className={cn("h-px w-8 transition-colors", i === index ? "bg-gold" : "bg-line")} />
+            <span key={i} className={cn("h-px w-8 transition-colors", i === index ? "bg-accent" : "bg-line")} />
           ))}
         </div>
       </div>
@@ -75,19 +74,9 @@ export function ProductGallery({ product }: { product: Product }) {
   );
 }
 
-/** Different framings of the same product when only one (or no) image exists. */
+/** One real photo from the product gallery. */
 function View({ product, i, thumb, priority }: { product: Product; i: number; thumb?: boolean; priority?: boolean }) {
-  if (product.gallery[i] || (i === 0 && product.image)) {
-    return <ProductMedia product={product} index={i} priority={priority} sizes={thumb ? "76px" : "(max-width:1024px) 100vw, 55vw"} />;
-  }
-  const framing = ["", "scale-[1.6] translate-y-[8%]", "scale-[1.25] -translate-x-[10%]"][i % 3];
-  return (
-    <div className="absolute inset-0 overflow-hidden bg-stage">
-      <div className={cn("absolute inset-0 transition-transform", framing)}>
-        <ProductMedia product={product} strokeOpacity={thumb ? 0.5 : 0.6} />
-      </div>
-    </div>
-  );
+  return <ProductMedia product={product} index={i} priority={priority} sizes={thumb ? "76px" : "(max-width:1024px) 100vw, 55vw"} />;
 }
 
 function Lightbox({
@@ -148,7 +137,7 @@ function Lightbox({
                 aria-label={`Image ${n + 1}`}
                 className="flex h-11 w-10 items-center"
               >
-                <span className={cn("h-px w-full", n === i ? "bg-gold" : "bg-line")} />
+                <span className={cn("h-px w-full", n === i ? "bg-accent" : "bg-line")} />
               </button>
             ))}
           </div>

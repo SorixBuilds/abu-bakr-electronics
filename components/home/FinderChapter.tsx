@@ -23,7 +23,7 @@ export function FinderChapter() {
   const begin = () => (mobile ? set({ finderSheetOpen: true }) : setStarted(true));
 
   return (
-    <section id="finder" className="theme-graphite section-y scroll-mt-20 bg-graphite" aria-label="Appliance Finder">
+    <section id="finder" className="theme-dark section-y scroll-mt-20 bg-obsidian" aria-label="Appliance Finder">
       <div className="container-lux">
         <div className="mx-auto max-w-[720px]">
           <AnimatePresence mode="wait" initial={false}>

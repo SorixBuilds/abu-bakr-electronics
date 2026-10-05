@@ -79,10 +79,10 @@ export function CompareTray() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             onClick={() => set({ compareDrawerOpen: true })}
-            className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-4 z-[54] flex h-12 items-center gap-2 rounded-full border border-gold/60 bg-obsidian px-5 text-[13px] text-ivory md:hidden"
+            className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-4 z-[54] flex h-12 items-center gap-2 rounded-full border border-accent bg-obsidian px-5 text-[13px] text-ivory md:hidden"
             style={{ boxShadow: "var(--shadow-fab)" }}
           >
-            <ArrowLeftRight size={15} strokeWidth={1.25} className="text-gold" /> Compare ({products.length})
+            <ArrowLeftRight size={15} strokeWidth={1.25} className="text-accent-text" /> Compare ({products.length})
           </motion.button>
         </>
       )}

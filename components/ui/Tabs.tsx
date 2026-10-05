@@ -60,7 +60,7 @@ export function Tabs({
             className={cn(
               "relative shrink-0 whitespace-nowrap transition-colors duration-250",
               variant === "underline" ? "pb-4 pt-1 text-[15px] min-h-11" : "min-h-11 rounded-xs border px-4 text-[13px]",
-              variant === "chips" && (on ? "border-gold-text text-fg" : "border-line text-fg-muted"),
+              variant === "chips" && (on ? "border-accent text-fg" : "border-line text-fg-muted"),
               variant === "underline" && (on ? "text-fg" : "text-fg-muted hover:text-fg"),
             )}
           >
@@ -68,7 +68,7 @@ export function Tabs({
             {variant === "underline" && on && (
               <motion.span
                 layoutId={`${prefix}-indicator`}
-                className="absolute inset-x-0 -bottom-px h-px bg-gold-text"
+                className="absolute inset-x-0 -bottom-px h-px bg-accent"
                 transition={{ type: "spring", stiffness: 400, damping: 40 }}
               />
             )}

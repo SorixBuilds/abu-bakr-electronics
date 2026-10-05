@@ -153,7 +153,7 @@ function Info({ product, onNavigate }: { product: Product; onNavigate: () => voi
               onClick={a.toggleSave}
               aria-pressed={a.saved}
               aria-label="Save"
-              className={`flex size-11 items-center justify-center rounded-full ${a.saved ? "text-gold" : "text-fg-muted hover:text-fg"}`}
+              className={`flex size-11 items-center justify-center rounded-full ${a.saved ? "text-accent-text" : "text-fg-muted hover:text-fg"}`}
             >
               <Heart size={18} strokeWidth={1.25} fill={a.saved ? "currentColor" : "none"} />
             </button>
@@ -161,7 +161,7 @@ function Info({ product, onNavigate }: { product: Product; onNavigate: () => voi
               onClick={a.toggleCompare}
               aria-pressed={a.inCompare}
               aria-label="Compare"
-              className={`flex size-11 items-center justify-center rounded-full ${a.inCompare ? "text-gold" : "text-fg-muted hover:text-fg"}`}
+              className={`flex size-11 items-center justify-center rounded-full ${a.inCompare ? "text-accent-text" : "text-fg-muted hover:text-fg"}`}
             >
               <ArrowLeftRight size={18} strokeWidth={1.25} />
             </button>

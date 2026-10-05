@@ -83,7 +83,7 @@ export function Rail({
       {showDots && state.snaps > 1 && (
         <div className="mt-8 flex gap-1.5 md:hidden" aria-hidden>
           {Array.from({ length: state.snaps }).map((_, i) => (
-            <span key={i} className={cn("h-px flex-1 transition-colors duration-300", i === state.index ? "bg-gold-text" : "bg-line")} />
+            <span key={i} className={cn("h-px flex-1 transition-colors duration-300", i === state.index ? "bg-accent" : "bg-line")} />
           ))}
         </div>
       )}

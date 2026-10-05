@@ -22,7 +22,7 @@ export function SpecTrio({ spec, className, compact }: { spec: MobilitySpec; cla
       </div>
       <div
         className={cn(
-          "relative flex flex-col items-center justify-center border-x border-gold/40 px-2 text-center",
+          "relative flex flex-col items-center justify-center border-x border-accent px-2 text-center",
           ring && "md:aspect-square md:max-h-[300px] md:border-x-0",
         )}
       >

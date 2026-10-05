@@ -29,7 +29,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       {navs > 0 && (
         <motion.div
           key={navs}
-          className="fixed inset-x-0 top-0 z-[90] h-[2px] origin-left bg-gold"
+          className="fixed inset-x-0 top-0 z-[90] h-[2px] origin-left bg-accent"
           initial={{ scaleX: 0, opacity: 1 }}
           animate={{ scaleX: 1, opacity: 0 }}
           transition={{ scaleX: { duration: 0.5, ease: ease.outExpo }, opacity: { delay: 0.45, duration: 0.3 } }}

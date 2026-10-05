@@ -29,11 +29,11 @@ export function CompareTable({ products, onRemove, onNavigate }: { products: Pro
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <label className="flex min-h-11 cursor-pointer items-center gap-3 text-[14px]">
           <input type="checkbox" checked={highlight} onChange={(e) => setHighlight(e.target.checked)} className="peer sr-only" />
-          <span className="relative h-5 w-9 rounded-full border border-line transition-colors peer-checked:border-gold peer-focus-visible:outline-2 peer-focus-visible:outline-gold-hi">
+          <span className="relative h-5 w-9 rounded-full border border-line transition-colors peer-checked:border-accent peer-focus-visible:outline-2 peer-focus-visible:outline-cherry-hi">
             <span
               className={cn(
                 "absolute top-1/2 size-3 -translate-y-1/2 rounded-full transition-all",
-                highlight ? "left-[19px] bg-gold" : "left-[3px] bg-fg-muted",
+                highlight ? "left-[19px] bg-accent" : "left-[3px] bg-fg-muted",
               )}
             />
           </span>
@@ -77,12 +77,12 @@ export function CompareTable({ products, onRemove, onNavigate }: { products: Pro
               const values = products.map((p) => val(p, k));
               const differs = new Set(values).size > 1;
               return (
-                <tr key={k} className={cn("border-t border-line-soft transition-colors", highlight && differs && "bg-[rgba(201,169,106,0.06)]")}>
+                <tr key={k} className={cn("border-t border-line-soft transition-colors", highlight && differs && "bg-[rgba(179,18,46,0.06)]")}>
                   <th
                     scope="row"
                     className="sticky left-0 z-10 bg-[var(--bg)] py-4 pr-3 align-top font-mono text-[10.5px] font-normal uppercase tracking-[0.14em] text-fg-muted"
                   >
-                    <span className={cn("block", highlight && differs && "text-gold-text")}>{k}</span>
+                    <span className={cn("block", highlight && differs && "text-accent-text")}>{k}</span>
                   </th>
                   {values.map((v, i) => (
                     <td key={i} className="px-3 py-4 align-top text-[14px]">

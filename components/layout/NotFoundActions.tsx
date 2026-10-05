@@ -12,7 +12,7 @@ export function NotFoundActions() {
         onClick={() => set({ paletteOpen: true })}
         className="flex h-[52px] flex-1 items-center gap-3 rounded-xs border border-line px-5 text-left text-[15px] text-fg-muted transition-colors hover:border-ivory/40 hover:text-fg"
       >
-        <Search size={17} strokeWidth={1.25} className="text-gold" />
+        <Search size={17} strokeWidth={1.25} className="text-accent-text" />
         Search the collection
       </button>
       <LuxuryButton variant="gold-line" icon="whatsapp" iconPosition="start" onClick={() => set({ advisorOpen: true })}>

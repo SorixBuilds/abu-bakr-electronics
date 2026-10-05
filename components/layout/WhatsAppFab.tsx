@@ -6,7 +6,7 @@ import { useAnyOverlay, useUi } from "@/store/ui";
 import { useCompare } from "@/store/compare";
 import { usePathname } from "next/navigation";
 
-/** 56px obsidian FAB with gold hairline (§22.7). Opens the advisor chooser. */
+/** V2 §6.3 — 56px cherry button with a white icon and a single pulse ring on load. Opens the advisor chooser. */
 export function WhatsAppFab() {
   const overlay = useAnyOverlay();
   const set = useUi((s) => s.set);
@@ -25,7 +25,7 @@ export function WhatsAppFab() {
           transition={{ duration: 0.3 }}
           onClick={() => set({ advisorOpen: true })}
           aria-label="Speak to an advisor on WhatsApp"
-          className={`fixed right-4 z-[55] flex size-14 items-center justify-center rounded-full border border-gold/70 bg-obsidian text-ivory transition-colors hover:border-gold-hi md:right-6 ${
+          className={`fixed right-4 z-[55] flex size-14 items-center justify-center rounded-full bg-cherry text-white transition-colors hover:bg-cherry-hi animate-[pulse-once_1.4s_ease-out_1.2s_1_backwards] md:right-6 ${
             onPdp
               ? "max-md:hidden md:bottom-6"
               : compare > 0 && pathname !== "/compare"

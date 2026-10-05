@@ -138,7 +138,7 @@ export function MobileMenu() {
                 Speak to an Advisor
               </LuxuryButton>
               <p className="mt-4 flex items-center justify-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ivory/55">
-                <Truck size={14} strokeWidth={1.25} className="text-gold" /> Free delivery across Lahore
+                <Truck size={14} strokeWidth={1.25} className="text-accent-text" /> Free delivery across Lahore
               </p>
             </div>
           </div>

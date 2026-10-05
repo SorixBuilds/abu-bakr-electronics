@@ -54,7 +54,7 @@ export function CommandPalette() {
           <Dialog.Description className="sr-only">Search products, categories and tools</Dialog.Description>
           <Command label="Search" loop>
             <div className="flex items-center gap-3 border-b border-line px-5">
-              <Search size={18} strokeWidth={1.25} className="text-gold" />
+              <Search size={18} strokeWidth={1.25} className="text-accent-text" />
               <Command.Input
                 autoFocus
                 placeholder='Search — try "1.5 ton", "side-by-side" or "Jinpeng"'
@@ -128,7 +128,7 @@ export function CommandPalette() {
 
               <Command.Group heading="Contact">
                 <Command.Item value="whatsapp advisor contact speak" onSelect={() => run(() => openWhatsApp(advisorText("a product")))} className={itemCls}>
-                  <MessageCircle size={16} strokeWidth={1.25} className="shrink-0 text-gold" /> Speak to an advisor on WhatsApp
+                  <MessageCircle size={16} strokeWidth={1.25} className="shrink-0 text-accent-text" /> Speak to an advisor on WhatsApp
                 </Command.Item>
                 <Command.Item value="contact page visit showroom" onSelect={() => go("/contact")} className={itemCls}>
                   <ArrowRight size={16} strokeWidth={1.25} className="shrink-0 text-ivory/40" /> Contact & showroom

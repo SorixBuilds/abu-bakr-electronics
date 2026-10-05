@@ -1,4 +1,5 @@
-import type { CategorySlug, ProductShape } from "@/types/product";
+import type { CategorySlug } from "@/types/product";
+import { categoryImages } from "./media";
 
 export type ShopCategory = Exclude<CategorySlug, "mobility">;
 
@@ -8,9 +9,7 @@ export interface CategoryInfo {
   line: string;
   /** Short line used on home tiles / mega panel */
   tileLine: string;
-  /** null → atmospheric gradient + line drawing */
-  image: string | null;
-  shape: ProductShape;
+  image: string;
   filters: { key: string; label: string; options: { value: string; label: string }[] }[];
 }
 
@@ -20,8 +19,7 @@ export const categories: CategoryInfo[] = [
     title: "Climate",
     line: "Air conditioners, sized for your room.",
     tileLine: "Air conditioners for every room.",
-    image: null,
-    shape: "ac-split",
+    image: categoryImages["cooling"],
     filters: [
       {
         key: "type",
@@ -50,8 +48,7 @@ export const categories: CategoryInfo[] = [
     title: "Freshness",
     line: "Refrigerators and freezers, from compact to grand.",
     tileLine: "Refrigeration, from compact to grand.",
-    image: null,
-    shape: "fridge-sbs",
+    image: categoryImages["refrigeration"],
     filters: [
       {
         key: "type",
@@ -80,8 +77,7 @@ export const categories: CategoryInfo[] = [
     title: "Living",
     line: "Laundry, kitchen and everyday home appliances.",
     tileLine: "Home appliances & electronics.",
-    image: null,
-    shape: "washer-front",
+    image: categoryImages["home-appliances"],
     filters: [
       {
         key: "type",
@@ -102,8 +98,7 @@ export const categories: CategoryInfo[] = [
     title: "Electronics",
     line: "Screens, sound and everyday technology.",
     tileLine: "Screens, sound and everyday technology.",
-    image: null,
-    shape: "tv",
+    image: categoryImages["electronics"],
     filters: [
       {
         key: "type",
@@ -124,43 +119,43 @@ export const categoryTitle = (slug: CategorySlug) => (slug === "mobility" ? "Ele
 
 export const categoryHref = (slug: CategorySlug) => (slug === "mobility" ? "/mobility" : `/shop/${slug}`);
 
-/** Home "Four Worlds" tiles */
+/** Home "Four Worlds" tiles and hero showcase cards */
 export const worlds = [
   {
     key: "climate",
     title: "Climate",
+    label: "Air Conditioners",
     line: "Air conditioners for every room.",
     href: "/shop/cooling",
-    shape: "ac-split" as ProductShape,
-    image: null as string | null,
-    tone: "cool",
+    image: categoryImages.cooling,
+    onWine: false,
   },
   {
     key: "freshness",
     title: "Freshness",
+    label: "Refrigerators",
     line: "Refrigeration, from compact to grand.",
     href: "/shop/refrigeration",
-    shape: "fridge-sbs" as ProductShape,
-    image: null as string | null,
-    tone: "steel",
+    image: categoryImages.refrigeration,
+    onWine: false,
   },
   {
     key: "living",
     title: "Living",
+    label: "Home & Electronics",
     line: "Home appliances & electronics.",
     href: "/shop/home-appliances",
-    shape: "washer-front" as ProductShape,
-    image: null as string | null,
-    tone: "warm",
+    image: categoryImages["home-appliances"],
+    onWine: false,
     secondary: { label: "Electronics", href: "/shop/electronics" },
   },
   {
     key: "mobility",
     title: "Mobility",
+    label: "Jinpeng Electric",
     line: "Electric bikes & scooties, including Jinpeng.",
     href: "/mobility",
-    shape: "scooter" as ProductShape,
-    image: null as string | null,
-    tone: "electric",
+    image: categoryImages.mobility,
+    onWine: true,
   },
 ];

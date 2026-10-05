@@ -33,7 +33,7 @@ export function ContactForm() {
   if (state === "done") {
     return (
       <div className="rounded-sm border border-line p-8 md:p-12">
-        <span className="flex size-12 items-center justify-center rounded-full border border-gold text-gold">
+        <span className="flex size-12 items-center justify-center rounded-full border border-accent text-accent-text">
           <Check size={20} strokeWidth={1.25} />
         </span>
         <p className="mt-6 text-h3">Thank you.</p>

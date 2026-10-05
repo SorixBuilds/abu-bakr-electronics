@@ -4,10 +4,8 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { categories } from "@/content/categories";
-import { SceneVisual } from "@/components/product/Media";
+import { Photo } from "@/components/product/Media";
 import { ease } from "@/lib/motion";
-
-const tones = ["cool", "steel", "warm", "night"];
 
 export function MegaPanel({ onEnter, onLeave, onClose }: { onEnter: () => void; onLeave: () => void; onClose: () => void }) {
   return (
@@ -19,7 +17,7 @@ export function MegaPanel({ onEnter, onLeave, onClose }: { onEnter: () => void; 
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
       transition={{ duration: 0.45, ease: ease.outExpo }}
-      className="absolute inset-x-0 top-full hidden border-b border-[rgba(255,255,255,0.08)] bg-[rgba(10,11,13,0.94)] backdrop-blur-[16px] lg:block"
+      className="absolute inset-x-0 top-full hidden border-b border-[rgba(255,255,255,0.08)] bg-[rgba(11,10,12,0.96)] backdrop-blur-[16px] lg:block"
     >
       <div className="container-lux grid grid-cols-[1fr_280px] gap-12 py-10">
         <ul className="grid grid-cols-4 gap-3">
@@ -33,12 +31,12 @@ export function MegaPanel({ onEnter, onLeave, onClose }: { onEnter: () => void; 
               <Link href={`/shop/${c.slug}`} onClick={onClose} className="group block">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-sm">
                   <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]">
-                    <SceneVisual tone={tones[i]} shape={c.shape} image={c.image} />
+                    <Photo src={c.image} alt={c.title} sizes="260px" />
                   </div>
                 </div>
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-[17px] font-medium text-ivory">{c.title}</span>
-                  <ArrowRight size={14} strokeWidth={1.25} className="text-gold transition-transform duration-250 group-hover:translate-x-1" />
+                  <ArrowRight size={14} strokeWidth={1.25} className="text-cherry-hi transition-transform duration-250 group-hover:translate-x-1" />
                 </div>
                 <p className="mt-1 text-[13px] text-ivory/55">{c.tileLine}</p>
               </Link>
@@ -63,12 +61,12 @@ export function MegaPanel({ onEnter, onLeave, onClose }: { onEnter: () => void; 
                 <ArrowRight
                   size={14}
                   strokeWidth={1.25}
-                  className="text-gold opacity-0 transition-all duration-250 group-hover:translate-x-1 group-hover:opacity-100"
+                  className="text-cherry-hi opacity-0 transition-all duration-250 group-hover:translate-x-1 group-hover:opacity-100"
                 />
               </Link>
             ))}
           </div>
-          <Link href="/shop" onClick={onClose} className="mt-8 text-eyebrow text-gold link-lux self-start pb-1">
+          <Link href="/shop" onClick={onClose} className="mt-8 text-eyebrow text-accent-text link-lux self-start pb-1">
             View the full collection →
           </Link>
         </div>

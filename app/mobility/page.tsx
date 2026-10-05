@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { mobilityModels } from "@/data/mobility";
-import { editorialMedia } from "@/content/media";
+import { mobilityImage } from "@/content/media";
 import { copy } from "@/content/copy";
 import { PageHero } from "@/components/layout/PageHero";
 import { ModelSelector } from "@/components/mobility/ModelSelector";
 import { ModelGrid } from "@/components/mobility/ModelGrid";
 import { MobilityFinalActions, MobilityHeroActions } from "@/components/mobility/MobilityHeroActions";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { wineGradient } from "@/lib/brand";
 import { Reveal } from "@/components/ui/Reveal";
 
 export const metadata: Metadata = {
@@ -30,21 +31,21 @@ export default function MobilityPage() {
         eyebrow="Electric Mobility · Jinpeng"
         title="The future of everyday movement."
         line="Electric bikes and scooties, including the Jinpeng range."
-        tone="electric"
-        shape="scooter"
-        image={editorialMedia.mobilityHero}
+        image={mobilityImage("thrill")}
+        contain
+        overlay="wine"
         height="88vh"
       >
         <MobilityHeroActions />
       </PageHero>
 
-      <section className="theme-dark section-y bg-obsidian" aria-label="Model selector">
+      <section className="theme-wine section-y" style={{ background: wineGradient }} aria-label="Model selector">
         <div className="container-lux">
           <ModelSelector models={mobilityModels} variant="full" />
         </div>
       </section>
 
-      <section id="models" className="theme-dark scroll-mt-20 bg-obsidian pb-[var(--section-y)]" aria-label="All models">
+      <section id="models" className="theme-dark section-y scroll-mt-20 bg-obsidian" aria-label="All models">
         <div className="container-lux">
           <SectionHeading
             eyebrow="The Range"
@@ -57,13 +58,13 @@ export default function MobilityPage() {
         </div>
       </section>
 
-      <section className="theme-graphite section-y bg-graphite" aria-label="Why electric">
+      <section className="theme-porcelain section-y bg-porcelain" aria-label="Why electric">
         <div className="container-lux">
           <SectionHeading eyebrow="Why electric" title="Simpler to own." className="mb-14" />
           <Reveal stagger={0.1} className="grid gap-px md:grid-cols-3">
             {why.map((w, i) => (
               <div key={w.t} className="border-t border-line py-8 md:pr-10">
-                <span className="font-serif text-[44px] leading-none text-gold">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-serif text-[44px] leading-none text-wine-500">{String(i + 1).padStart(2, "0")}</span>
                 <p className="mt-6 text-[20px] font-medium">{w.t}</p>
                 <p className="mt-2 max-w-[34ch] text-fg-muted">{w.b}</p>
               </div>
@@ -71,7 +72,7 @@ export default function MobilityPage() {
           </Reveal>
           <Link href="/compare?ids=JP-01,JP-02,JP-04" className="group mt-14 inline-flex min-h-11 items-center gap-2 text-button">
             <span className="link-lux pb-1">Compare Jinpeng models</span>
-            <ArrowRight size={14} strokeWidth={1.25} className="text-gold transition-transform group-hover:translate-x-1" />
+            <ArrowRight size={14} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </section>

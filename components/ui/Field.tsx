@@ -5,12 +5,12 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const inputCls =
-  "peer h-[52px] w-full rounded-none border-0 border-b border-line bg-transparent px-0 text-[16px] text-fg placeholder:text-fg-muted/60 outline-none transition-colors focus:border-gold focus-visible:outline-none";
+  "peer h-[52px] w-full rounded-none border-0 border-b border-line bg-transparent px-0 text-[16px] text-fg placeholder:text-fg-muted/60 outline-none transition-colors focus:border-accent focus-visible:outline-none";
 
 function Wrap({ id, label, error, children, hint }: { id: string; label: string; error?: string; hint?: string; children: ReactNode }) {
   return (
     <div className="group flex flex-col">
-      <label htmlFor={id} className="text-eyebrow text-fg-muted transition-colors group-focus-within:text-gold-hi">
+      <label htmlFor={id} className="text-eyebrow text-fg-muted transition-colors group-focus-within:text-accent-text">
         {label}
       </label>
       {children}

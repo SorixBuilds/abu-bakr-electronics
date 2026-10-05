@@ -26,13 +26,13 @@ export function AdvisorChooser() {
                 openWhatsApp(advisorText(t === "Something else" ? "something else" : t.toLowerCase()));
                 set({ advisorOpen: false });
               }}
-              className="group flex min-h-14 w-full items-center justify-between border-b border-line-soft text-left text-[16px] transition-colors hover:text-gold-hi"
+              className="group flex min-h-14 w-full items-center justify-between border-b border-line-soft text-left text-[16px] transition-colors hover:text-accent-text"
             >
               {t}
               <ArrowUpRight
                 size={16}
                 strokeWidth={1.25}
-                className="text-gold transition-transform duration-250 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                className="text-accent-text transition-transform duration-250 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
             </button>
           </li>

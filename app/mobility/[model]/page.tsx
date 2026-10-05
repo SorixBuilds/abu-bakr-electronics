@@ -57,7 +57,7 @@ export default async function ModelPage({ params }: PageProps<"/mobility/[model]
                 <Reveal stagger={0.06} as="ul" className="mt-6 grid gap-px sm:grid-cols-2">
                   {m.mobility.highlights.map((h) => (
                     <div key={h} className="flex items-center gap-4 border-t border-line py-5">
-                      <span aria-hidden className="size-1.5 rotate-45 bg-gold" />
+                      <span aria-hidden className="size-1.5 rotate-45 bg-accent" />
                       <span className="text-[17px]">{h}</span>
                     </div>
                   ))}

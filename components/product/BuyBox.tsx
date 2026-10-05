@@ -103,10 +103,10 @@ export function BuyBox({ product, testRide, headingAs: H = "h1" }: { product: Pr
 
         <div className="mt-6 flex flex-col gap-3 rounded-sm bg-stage p-5 text-[14px]">
           <p className="flex items-center gap-3">
-            <Truck size={17} strokeWidth={1.25} className="text-gold-text" /> Free delivery across Lahore
+            <Truck size={17} strokeWidth={1.25} className="text-accent-text" /> Free delivery across Lahore
           </p>
           <p className="flex items-center gap-3">
-            <MapPin size={17} strokeWidth={1.25} className="text-gold-text" /> Delivering across Pakistan — ask about your city
+            <MapPin size={17} strokeWidth={1.25} className="text-accent-text" /> Delivering across Pakistan — ask about your city
           </p>
         </div>
         {testRide && (
@@ -152,7 +152,7 @@ export function BuyBox({ product, testRide, headingAs: H = "h1" }: { product: Pr
         <button
           onClick={whatsapp}
           aria-label="WhatsApp an advisor"
-          className="flex size-11 shrink-0 items-center justify-center rounded-xs border border-gold/70 text-ivory"
+          className="flex size-11 shrink-0 items-center justify-center rounded-xs border border-accent text-ivory"
         >
           <MessageCircle size={18} strokeWidth={1.25} />
         </button>
@@ -166,7 +166,7 @@ function Tertiary({ on, onClick, icon, children }: { on?: boolean; onClick: () =
     <button
       onClick={onClick}
       aria-pressed={on}
-      className={cn("flex min-h-11 items-center gap-2 px-3 text-[13px] transition-colors first:pl-0", on ? "text-gold-text" : "text-fg-muted hover:text-fg")}
+      className={cn("flex min-h-11 items-center gap-2 px-3 text-[13px] transition-colors first:pl-0", on ? "text-accent-text" : "text-fg-muted hover:text-fg")}
     >
       {icon}
       {children}

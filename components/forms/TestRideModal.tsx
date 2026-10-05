@@ -49,7 +49,7 @@ function TestRideForm({ initial, onDone }: { initial: string; onDone: () => void
   if (sent) {
     return (
       <div className="py-6 text-center">
-        <span className="mx-auto flex size-12 items-center justify-center rounded-full border border-gold text-gold">
+        <span className="mx-auto flex size-12 items-center justify-center rounded-full border border-accent text-accent-text">
           <Check size={20} strokeWidth={1.25} />
         </span>
         <p className="mt-6 text-h3">Request received.</p>

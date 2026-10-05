@@ -11,7 +11,7 @@ import { ProductGrid } from "./ProductGrid";
 import { Modal } from "@/components/ui/Modal";
 import { LuxuryButton } from "@/components/ui/LuxuryButton";
 import { RoomGuide } from "@/components/tools/RoomGuide";
-import { SceneVisual } from "./Media";
+import { Photo } from "./Media";
 import { useUi } from "@/store/ui";
 import { cn } from "@/lib/cn";
 import { ease } from "@/lib/motion";
@@ -82,7 +82,7 @@ function ShopViewInner({ category, params }: { category?: ShopCategory; params: 
       <div className="sticky top-[var(--nav-offset)] z-40 border-b transition-[top] duration-300 ease-ui border-line-soft bg-[rgba(10,11,13,0.86)] backdrop-blur-[16px]">
         <div className="container-lux flex min-h-16 items-center gap-3">
           <button onClick={() => setSheet(true)} className="flex min-h-11 items-center gap-2 rounded-xs border border-line px-4 text-[13px] md:hidden">
-            <SlidersHorizontal size={15} strokeWidth={1.25} /> Filters {activeCount > 0 && <span className="font-mono text-gold">({activeCount})</span>}
+            <SlidersHorizontal size={15} strokeWidth={1.25} /> Filters {activeCount > 0 && <span className="font-mono text-accent-text">({activeCount})</span>}
           </button>
           <div className="hidden flex-1 flex-wrap items-center gap-2 md:flex">
             {groups.map((g) => (
@@ -123,7 +123,7 @@ function ShopViewInner({ category, params }: { category?: ShopCategory; params: 
               <button
                 aria-pressed={cols === 2}
                 onClick={() => setCols(2)}
-                className={cn("flex size-11 items-center justify-center", cols === 2 ? "text-gold" : "text-fg-muted hover:text-fg")}
+                className={cn("flex size-11 items-center justify-center", cols === 2 ? "text-accent-text" : "text-fg-muted hover:text-fg")}
                 aria-label="Two columns"
               >
                 <Grid2x2 size={17} strokeWidth={1.25} />
@@ -131,7 +131,7 @@ function ShopViewInner({ category, params }: { category?: ShopCategory; params: 
               <button
                 aria-pressed={cols === 3}
                 onClick={() => setCols(3)}
-                className={cn("flex size-11 items-center justify-center", cols === 3 ? "text-gold" : "text-fg-muted hover:text-fg")}
+                className={cn("flex size-11 items-center justify-center", cols === 3 ? "text-accent-text" : "text-fg-muted hover:text-fg")}
                 aria-label="Three columns"
               >
                 <Grid3x3 size={17} strokeWidth={1.25} />
@@ -148,11 +148,7 @@ function ShopViewInner({ category, params }: { category?: ShopCategory; params: 
               vals.map((v) => {
                 const label = groups.find((g) => g.key === k)?.options.find((o) => o.value === v)?.label ?? v;
                 return (
-                  <button
-                    key={k + v}
-                    onClick={() => toggle(k, v)}
-                    className="flex min-h-9 items-center gap-2 rounded-xs border border-gold/60 px-3 text-[12px]"
-                  >
+                  <button key={k + v} onClick={() => toggle(k, v)} className="flex min-h-9 items-center gap-2 rounded-xs border border-accent px-3 text-[12px]">
                     {label} <X size={12} strokeWidth={1.5} />
                   </button>
                 );
@@ -193,7 +189,7 @@ function ShopViewInner({ category, params }: { category?: ShopCategory; params: 
                       onClick={() => toggle(g.key, o.value)}
                       className={cn(
                         "min-h-11 rounded-xs border px-4 text-[14px]",
-                        on ? "border-gold bg-[rgba(201,169,106,0.08)]" : "border-line text-fg-muted",
+                        on ? "border-accent bg-[rgba(179,18,46,0.08)]" : "border-line text-fg-muted",
                       )}
                     >
                       {o.label}
@@ -249,11 +245,11 @@ function FilterPopover({
         aria-expanded={open}
         className={cn(
           "flex min-h-11 items-center gap-2 rounded-xs border px-4 text-[13px] transition-colors",
-          selected.length ? "border-gold/70 text-fg" : "border-line text-fg-muted hover:text-fg",
+          selected.length ? "border-accent text-fg" : "border-line text-fg-muted hover:text-fg",
         )}
       >
         {label}
-        {selected.length > 0 && <span className="font-mono text-gold">{selected.length}</span>}
+        {selected.length > 0 && <span className="font-mono text-accent-text">{selected.length}</span>}
         <ChevronDown size={14} strokeWidth={1.25} className={cn("transition-transform", open && "rotate-180")} />
       </button>
       <AnimatePresence>
@@ -276,7 +272,7 @@ function FilterPopover({
                   onClick={() => onToggle(o.value)}
                   className="flex min-h-11 w-full items-center gap-3 rounded-xs px-3 text-left text-[14px] hover:bg-white/5"
                 >
-                  <span className={cn("flex size-4 items-center justify-center rounded-[2px] border", on ? "border-gold bg-gold" : "border-line")}>
+                  <span className={cn("flex size-4 items-center justify-center rounded-[2px] border", on ? "border-accent bg-accent" : "border-line")}>
                     {on && <span className="size-1.5 rounded-[1px] bg-obsidian" />}
                   </span>
                   {o.label}
@@ -307,7 +303,7 @@ function EditorialFinish() {
   return (
     <div className="grid overflow-hidden rounded-sm border border-line-soft md:grid-cols-2">
       <div className="relative aspect-[4/3] md:aspect-auto">
-        <SceneVisual tone="steel" shape="fridge-french" />
+        <Photo src="/images/products/fridge-sbs.jpg" alt="A stainless-steel side-by-side refrigerator" sizes="(max-width:768px) 100vw, 50vw" />
       </div>
       <div className="flex flex-col justify-center bg-graphite p-8 md:p-14">
         <span className="text-eyebrow text-fg-muted">Finish matters</span>

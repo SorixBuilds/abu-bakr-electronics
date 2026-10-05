@@ -51,11 +51,11 @@ export function CollectionRail() {
                     </motion.div>
                   )),
                   <motion.div key="all" variants={{ out: { opacity: 0, y: 12 }, in: { opacity: 1, y: 0 } }} className="h-full">
-                    <Link href={`/shop/${tab}`} className="group flex aspect-[4/5] flex-col justify-end rounded-sm bg-ivory-3 p-8">
+                    <Link href={`/shop/${tab}`} className="group flex aspect-[4/5] flex-col justify-end rounded-sm bg-stone p-8">
                       <span className="text-eyebrow text-fg-muted">View all</span>
                       <span className="mt-3 flex items-center gap-3 text-h3">
                         {tabs.find((t) => t.value === tab)?.label}
-                        <ArrowRight size={20} strokeWidth={1.25} className="text-gold-text transition-transform group-hover:translate-x-1" />
+                        <ArrowRight size={20} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
                       </span>
                     </Link>
                   </motion.div>,
