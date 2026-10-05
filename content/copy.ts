@@ -1,0 +1,32 @@
+export const copy = {
+  cta: {
+    advisor: "Speak to an Advisor",
+    requestPrice: "Request Price",
+    viewDetails: "View Details",
+    explore: "Explore the Collection",
+    quickView: "Quick View",
+  },
+  compare: {
+    label: "Compare",
+    added: "Added to compare",
+    now: "Compare now",
+    remove: "Remove",
+    full: "You can compare up to 3 products.",
+    empty: "Add up to three products to compare them side by side.",
+  },
+  save: { label: "Save", saved: "Saved" },
+  price: { onRequest: "Price on request", line: "Ask for current price and availability." },
+  availability: "Ask for availability",
+  delivery: {
+    lahore: "Free delivery across Lahore",
+    nationwide: "Delivering across Pakistan",
+    askCity: "Ask an advisor about delivery to your city.",
+    small: "Delivery timelines and charges outside Lahore are confirmed at the time of order.",
+  },
+  demoSpecs: "Illustrative specifications for demonstration.",
+  jinpeng: "Manufacturer-listed specifications. Specifications may vary — confirm with an advisor before purchase.",
+  formSuccess: "Thank you. An advisor will be in touch.",
+  formDemo: "In the live site, an advisor would reply shortly. For this demo, you can also continue on WhatsApp.",
+  error: "Something didn't go through. Please try again, or message us on WhatsApp.",
+  searchEmpty: 'No matches. Try "1.5 ton", "side-by-side" or "Jinpeng".',
+};
