@@ -20,7 +20,7 @@ export function Tabs({
   value: string;
   onChange: (v: string) => void;
   className?: string;
-  variant?: "underline" | "chips";
+  variant?: "underline" | "chips" | "pills";
   label: string;
   idPrefix?: string;
 }) {
@@ -40,7 +40,7 @@ export function Tabs({
     <div
       role="tablist"
       aria-label={label}
-      className={cn("no-scrollbar flex overflow-x-auto", variant === "underline" ? "gap-8 border-b border-line" : "gap-2", className)}
+      className={cn("no-scrollbar flex overflow-x-auto", variant === "underline" ? "gap-8 border-b border-line" : "gap-2 p-px", className)}
     >
       {tabs.map((t, i) => {
         const on = t.value === value;
@@ -59,12 +59,20 @@ export function Tabs({
             onKeyDown={(e) => onKey(e, i)}
             className={cn(
               "relative shrink-0 whitespace-nowrap transition-colors duration-250",
-              variant === "underline" ? "pb-4 pt-1 text-[15px] min-h-11" : "min-h-11 rounded-xs border px-4 text-[13px]",
+              variant === "underline" ? "pb-4 pt-1 text-[15px] min-h-11" : variant === "pills" ? "min-h-11 rounded-full border px-5 text-[15px] font-medium" : "min-h-11 rounded-full border px-4 text-[14px]",
               variant === "chips" && (on ? "border-accent text-fg" : "border-line text-fg-muted"),
               variant === "underline" && (on ? "text-fg" : "text-fg-muted hover:text-fg"),
+              variant === "pills" && (on ? "border-transparent text-bg" : "border-line text-fg hover:border-fg"),
             )}
           >
-            {t.label}
+            {variant === "pills" && on && (
+              <motion.span
+                layoutId={`${prefix}-pill`}
+                className="absolute inset-[-1px] rounded-full bg-fg"
+                transition={{ type: "spring", stiffness: 400, damping: 40 }}
+              />
+            )}
+            <span className="relative">{t.label}</span>
             {variant === "underline" && on && (
               <motion.span
                 layoutId={`${prefix}-indicator`}

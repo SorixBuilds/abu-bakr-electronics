@@ -39,7 +39,7 @@ export function Faq() {
               className="flex min-h-16 w-full items-center justify-between gap-6 py-5 text-left text-[18px]"
             >
               {it.q}
-              <Plus size={18} strokeWidth={1.25} className={cn("shrink-0 text-accent-text transition-transform duration-300", on && "rotate-45")} />
+              <Plus size={18} strokeWidth={1.75} className={cn("shrink-0 text-accent-text transition-transform duration-300", on && "rotate-45")} />
             </button>
             <AnimatePresence initial={false}>
               {on && (

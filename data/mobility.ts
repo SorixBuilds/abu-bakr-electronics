@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import { img } from "@/lib/media";
 
 type Row = {
   name: string;
@@ -65,9 +66,10 @@ export const mobilityModels: Product[] = rows.map((r, i) => {
     price: null,
     tagline: r.tagline,
     description: `${r.tagline} The Jinpeng ${r.name} — presented at Abu Bakr Electronics.`,
-    // Jinpeng Pakistan model image (pitch use only — see content/media.ts)
-    image: `/images/mobility/${slug}.png`,
-    gallery: [`/images/mobility/${slug}.png`],
+    asset: `jinpeng-${slug}`,
+    photoStatus: "manufacturer",
+    image: img(`jinpeng-${slug}`),
+    gallery: [img(`jinpeng-${slug}`)],
     keySpecs: [`${r.topSpeedKmh} km/h`, `${r.rangeKm[0]}–${r.rangeKm[1]} km`, `${r.motorW} W`],
     specs: [
       { group: "Performance", label: "Top speed", value: `${r.topSpeedKmh} km/h` },

@@ -30,7 +30,7 @@ export function CompareDrawer() {
       {products.length > 0 && (
         <Link href={`/compare?ids=${ids.join(",")}`} onClick={close} className="group mt-8 inline-flex min-h-11 items-center gap-2 text-button">
           <span className="link-lux pb-1">Open full comparison</span>
-          <ArrowRight size={14} strokeWidth={1.25} className="transition-transform group-hover:translate-x-1" />
+          <ArrowRight size={14} strokeWidth={1.75} className="transition-transform group-hover:translate-x-1" />
         </Link>
       )}
     </Modal>

@@ -5,12 +5,12 @@ import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 const inputCls =
-  "peer h-[52px] w-full rounded-none border-0 border-b border-line bg-transparent px-0 text-[16px] text-fg placeholder:text-fg-muted/60 outline-none transition-colors focus:border-accent focus-visible:outline-none";
+  "peer h-[52px] w-full rounded-sm border border-line bg-white px-4 text-[16px] text-ink placeholder:text-muted/70 outline-none transition-[border-color,box-shadow] focus:border-cherry focus:shadow-[0_0_0_3px_var(--blush)] focus-visible:outline-none aria-[invalid=true]:border-error";
 
 function Wrap({ id, label, error, children, hint }: { id: string; label: string; error?: string; hint?: string; children: ReactNode }) {
   return (
     <div className="group flex flex-col">
-      <label htmlFor={id} className="text-eyebrow text-fg-muted transition-colors group-focus-within:text-accent-text">
+      <label htmlFor={id} className="mb-2 text-[14px] font-semibold text-ink-2 transition-colors group-focus-within:text-cherry">
         {label}
       </label>
       {children}
@@ -19,7 +19,7 @@ function Wrap({ id, label, error, children, hint }: { id: string; label: string;
           {error}
         </p>
       ) : hint ? (
-        <p className="mt-2 text-[12px] text-fg-muted">{hint}</p>
+        <p className="mt-2 text-[13px] text-muted">{hint}</p>
       ) : null}
     </div>
   );
@@ -38,7 +38,7 @@ export function TextArea({ label, error, className, ...props }: TextareaHTMLAttr
   const id = useId();
   return (
     <Wrap id={id} label={label} error={error}>
-      <textarea id={id} rows={3} className={cn(inputCls, "h-auto min-h-[88px] resize-none py-3", className)} {...props} />
+      <textarea id={id} rows={3} className={cn(inputCls, "h-auto min-h-[96px] resize-none py-3", className)} {...props} />
     </Wrap>
   );
 }
@@ -54,7 +54,7 @@ export function Select({
   return (
     <Wrap id={id} label={label} error={error}>
       <div className="relative">
-        <select id={id} className={cn(inputCls, "appearance-none pr-8 [&>option]:bg-graphite-2 [&>option]:text-ivory", className)} {...props}>
+        <select id={id} className={cn(inputCls, "appearance-none pr-10", className)} {...props}>
           {options.map((o) => {
             const v = typeof o === "string" ? { value: o, label: o } : o;
             return (
@@ -64,7 +64,7 @@ export function Select({
             );
           })}
         </select>
-        <ChevronDown size={16} strokeWidth={1.25} className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-fg-muted" />
+        <ChevronDown size={16} strokeWidth={1.75} className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted" />
       </div>
     </Wrap>
   );

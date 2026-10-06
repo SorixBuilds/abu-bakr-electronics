@@ -1,59 +1,64 @@
 @import "tailwindcss";
 
-/* ───────────────────────── Tokens (V2 §3 — Obsidian, Wine & Porcelain) ───────────────────────── */
+/* ───────────────────────── Tokens (V3 §4 — The Bordeaux Showroom, light-first) ───────────────────────── */
 :root {
-  /* Darks */
-  --obsidian: #0b0a0c;
-  --graphite: #16141a;
-  --graphite-2: #201d24;
-  /* Brand reds */
-  --wine-900: #2a0710;
-  --wine-700: #4a0d1b;
-  --wine-500: #6e1426;
-  --cherry: #b3122e;
-  --cherry-hi: #d6243f;
-  --cherry-text: #ec5468; /* cherry as small text on dark surfaces (≥4.7:1) */
-  /* Lights */
-  --porcelain: #faf8f5;
-  --ivory: #f2eee6;
-  --stone: #e6e0d6;
-  /* Detail — 1px hairlines and monogram only */
-  --gold: #c9a96a;
-  /* Text */
-  --ink: #121014;
-  --ink-muted: #625e66;
-  --on-dark: #f7f3ee;
-  --on-dark-muted: #a9a3ac;
-  --on-wine-muted: #d9c4c8;
-  /* Lines */
-  --line-dark: rgba(255, 255, 255, 0.12);
-  --line-dark-soft: rgba(255, 255, 255, 0.06);
-  --line-light: rgba(18, 16, 20, 0.1);
-  --line-light-soft: rgba(18, 16, 20, 0.06);
-  --line-wine: rgba(255, 220, 225, 0.18);
-  --error: #d9826b;
-  --success: #a7b89a;
+  /* Base */
+  --porcelain: #f7f4f0;
+  --white: #ffffff;
+  --bone: #ece6de;
+  --line-c: #e2dbd2;
 
-  --shadow-modal: 0 40px 120px -20px rgba(0, 0, 0, 0.6);
-  --shadow-fab: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
-  --shadow-soft: 0 24px 60px -30px rgba(18, 16, 20, 0.3);
+  /* Ink */
+  --ink: #151214;
+  --ink-2: #3b3538;
+  --muted: #6e676b;
+
+  /* Brand — Bordeaux */
+  --bordeaux-900: #2b0812;
+  --bordeaux: #5c0f22;
+  --bordeaux-600: #7a1830;
+
+  /* Action — Cherry */
+  --cherry: #c8102e;
+  --cherry-hi: #e8344e;
+  --blush: #f6e4e7;
+  /* cherry for small text on ink/Bordeaux (≥4.5:1 on both) */
+  --cherry-soft: #ff7a8c;
+
+  /* Detail — 1px hairlines & monogram ring only */
+  --champagne: #b89a62;
+
+  /* Category stages (V3 §4.2) */
+  --stage-ice: #dce7ee;
+  --stage-frost: #dfe9e3;
+  --stage-sand: #efe3d3;
+  --stage-graphite: #24201f;
+  --stage-bordeaux: #5c0f22;
+  --ice-tint: #eef3f6;
+
+  /* Depth */
+  --shadow-card: 0 1px 2px rgba(21, 18, 20, 0.04), 0 12px 32px -12px rgba(21, 18, 20, 0.12);
+  --shadow-lift: 0 2px 4px rgba(21, 18, 20, 0.05), 0 24px 56px -16px rgba(21, 18, 20, 0.2);
+  --shadow-cherry: 0 12px 28px -10px rgba(200, 16, 46, 0.45);
+  --shadow-modal: 0 2px 4px rgba(21, 18, 20, 0.05), 0 40px 100px -24px rgba(21, 18, 20, 0.35);
+  --shadow-fab: 0 12px 28px -10px rgba(200, 16, 46, 0.55);
 
   --gutter: 20px;
-  --nav-h: 60px;
-  --section-y: 88px;
-  --nav-offset: 60px;
+  --nav-h: 72px;
+  --section-y: 72px;
+  --nav-offset: 72px;
 
-  /* Semantic, theme-switched (default = dark) */
-  --bg: var(--obsidian);
-  --fg: var(--on-dark);
-  --fg-muted: var(--on-dark-muted);
-  --stage: var(--graphite);
-  --panel: var(--graphite-2);
-  --line: var(--line-dark);
-  --line-soft: var(--line-dark-soft);
-  --hairline: var(--gold); /* decorative 1px rules */
-  --accent: var(--cherry); /* fills, borders, active lines */
-  --accent-text: var(--cherry-text); /* accent used as text/icon */
+  /* Semantic, theme-switched (default = porcelain) */
+  --bg: var(--porcelain);
+  --fg: var(--ink);
+  --fg-muted: var(--muted);
+  --stage: var(--bone);
+  --panel: var(--white);
+  --line: var(--line-c);
+  --line-soft: rgba(21, 18, 20, 0.06);
+  --hairline: var(--champagne);
+  --accent: var(--cherry);
+  --accent-text: var(--cherry);
   --btn-bg: var(--cherry);
   --btn-bg-hover: var(--cherry-hi);
   --btn-fg: #fff;
@@ -61,97 +66,113 @@
 
 @media (min-width: 768px) {
   :root {
-    --gutter: 32px;
-    --section-y: 112px;
+    --gutter: 24px;
   }
 }
 @media (min-width: 1024px) {
   :root {
-    --nav-h: 72px;
-    --section-y: 140px;
-    --nav-offset: 64px;
-  }
-}
-@media (min-width: 1280px) {
-  :root {
-    --gutter: 48px;
+    --section-y: 112px;
   }
 }
 
 @layer base {
-  .theme-dark,
-  .theme-graphite {
-    --bg: var(--obsidian);
-    --fg: var(--on-dark);
-    --fg-muted: var(--on-dark-muted);
-    --stage: var(--graphite);
-    --panel: var(--graphite-2);
-    --line: var(--line-dark);
-    --line-soft: var(--line-dark-soft);
-    --hairline: var(--gold);
-    --accent: var(--cherry);
-    --accent-text: var(--cherry-text);
-    color: var(--fg);
-  }
-  .theme-graphite {
-    --bg: var(--graphite);
-    --stage: var(--graphite-2);
-  }
-  .theme-light,
-  .theme-porcelain {
-    --bg: var(--ivory);
+  .theme-porcelain,
+  .theme-light {
+    --bg: var(--porcelain);
     --fg: var(--ink);
-    --fg-muted: var(--ink-muted);
-    --stage: var(--stone);
-    --panel: var(--stone);
-    --line: var(--line-light);
-    --line-soft: var(--line-light-soft);
-    --hairline: var(--wine-500);
+    --fg-muted: var(--muted);
+    --stage: var(--bone);
+    --panel: var(--white);
+    --line: var(--line-c);
+    --line-soft: rgba(21, 18, 20, 0.06);
     --accent: var(--cherry);
     --accent-text: var(--cherry);
+    --btn-bg: var(--cherry);
+    --btn-bg-hover: var(--cherry-hi);
+    --btn-fg: #fff;
     color: var(--fg);
   }
-  .theme-porcelain {
-    --bg: var(--porcelain);
+  .theme-white {
+    --bg: var(--white);
+    --stage: var(--porcelain);
+    color: var(--fg);
   }
-  .theme-wine {
-    --bg: var(--wine-700);
-    --fg: var(--on-dark);
-    --fg-muted: var(--on-wine-muted);
-    --stage: rgba(0, 0, 0, 0.18);
-    --panel: var(--wine-900);
-    --line: var(--line-wine);
-    --line-soft: rgba(255, 220, 225, 0.09);
-    --hairline: var(--gold);
+  .theme-bone {
+    --bg: var(--bone);
+    --stage: var(--porcelain);
+    color: var(--fg);
+  }
+  .theme-ice {
+    --bg: var(--ice-tint);
+    color: var(--fg);
+  }
+  /* Dark moments: ink (footer) and graphite (electronics) */
+  .theme-dark,
+  .theme-ink,
+  .theme-graphite {
+    --bg: var(--ink);
+    --fg: #ffffff;
+    --fg-muted: rgba(255, 255, 255, 0.68);
+    --stage: #221d20;
+    --panel: #1d191b;
+    --line: rgba(255, 255, 255, 0.14);
+    --line-soft: rgba(255, 255, 255, 0.07);
     --accent: var(--cherry-hi);
-    --accent-text: var(--on-dark);
-    --btn-bg: var(--porcelain);
-    --btn-bg-hover: #fff;
-    --btn-fg: var(--ink);
+    --accent-text: var(--cherry-soft);
+    --btn-bg: #ffffff;
+    --btn-bg-hover: var(--porcelain);
+    --btn-fg: var(--bordeaux);
+    color: var(--fg);
+  }
+  .theme-graphite {
+    --bg: var(--stage-graphite);
+  }
+  /* Brand moment: Bordeaux */
+  .theme-wine,
+  .theme-bordeaux {
+    --bg: var(--bordeaux);
+    --fg: #ffffff;
+    --fg-muted: rgba(255, 255, 255, 0.74);
+    --stage: rgba(0, 0, 0, 0.16);
+    --panel: var(--bordeaux-900);
+    --line: rgba(255, 255, 255, 0.22);
+    --line-soft: rgba(255, 255, 255, 0.1);
+    --accent: var(--cherry-hi);
+    --accent-text: #ffffff;
+    --btn-bg: #ffffff;
+    --btn-bg-hover: var(--porcelain);
+    --btn-fg: var(--bordeaux);
     color: var(--fg);
   }
 }
 
 @theme inline {
-  --color-obsidian: var(--obsidian);
-  --color-graphite: var(--graphite);
-  --color-graphite-2: var(--graphite-2);
-  --color-wine-900: var(--wine-900);
-  --color-wine-700: var(--wine-700);
-  --color-wine-500: var(--wine-500);
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-black: #000;
+  --color-white: #fff;
+
+  --color-porcelain: var(--porcelain);
+  --color-bone: var(--bone);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-bordeaux-900: var(--bordeaux-900);
+  --color-bordeaux: var(--bordeaux);
+  --color-bordeaux-600: var(--bordeaux-600);
   --color-cherry: var(--cherry);
   --color-cherry-hi: var(--cherry-hi);
-  --color-porcelain: var(--porcelain);
-  --color-ivory: var(--ivory);
-  --color-stone: var(--stone);
-  --color-gold: var(--gold);
-  --color-ink: var(--ink);
-  --color-ink-muted: var(--ink-muted);
-  --color-on-dark: var(--on-dark);
-  --color-on-dark-muted: var(--on-dark-muted);
-  --color-on-wine-muted: var(--on-wine-muted);
-  --color-error: var(--error);
-  --color-success: var(--success);
+  --color-blush: var(--blush);
+  --color-cherry-soft: var(--cherry-soft);
+  --color-champagne: var(--champagne);
+  --color-ice: var(--stage-ice);
+  --color-frost: var(--stage-frost);
+  --color-sand: var(--stage-sand);
+  --color-graphite: var(--stage-graphite);
+  --color-ice-tint: var(--ice-tint);
+  --color-error: #b3261e;
+  --color-success: #2e7d4f;
 
   --color-bg: var(--bg);
   --color-fg: var(--fg);
@@ -164,14 +185,16 @@
   --color-accent: var(--accent);
   --color-accent-text: var(--accent-text);
 
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bodoni), "Bodoni 72", Didot, ui-serif, Georgia, serif;
 
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 28px;
+  --radius-3xl: 32px;
 
   --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
@@ -179,46 +202,54 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
 
+  --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+  --shadow-cherry: var(--shadow-cherry);
+
+  --ease-lux: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out-lux: cubic-bezier(0.65, 0, 0.35, 1);
-  --ease-ui: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ───────────────────────── Typography (§16) ───────────────────────── */
+/* ───────────────────────── Typography (V3 §4.3) ───────────────────────── */
 @utility text-display-xl {
-  font-size: clamp(56px, 9vw, 152px);
-  line-height: 0.92;
-  letter-spacing: -0.03em;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7.2vw, 120px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  font-weight: 400;
 }
 @utility text-display-l {
-  font-size: clamp(40px, 6vw, 96px);
-  line-height: 0.98;
-  letter-spacing: -0.025em;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.015em;
   font-weight: 400;
 }
 @utility text-h1 {
-  font-size: clamp(36px, 4.2vw, 64px);
-  line-height: 1.04;
-  letter-spacing: -0.02em;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.015em;
+  font-weight: 400;
 }
 @utility text-h2 {
-  font-size: clamp(30px, 3.2vw, 48px);
-  line-height: 1.08;
-  letter-spacing: -0.015em;
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.6vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  font-weight: 400;
 }
 @utility text-h3 {
-  font-size: clamp(22px, 2vw, 28px);
+  font-size: clamp(20px, 1.8vw, 26px);
   line-height: 1.2;
   letter-spacing: -0.01em;
-  font-weight: 500;
+  font-weight: 600;
 }
 @utility text-lede {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(20px, 1.8vw, 28px);
+  font-size: clamp(20px, 1.8vw, 26px);
   line-height: 1.3;
 }
 @utility text-body-l {
@@ -226,30 +257,28 @@
   line-height: 1.6;
 }
 @utility text-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.2;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
 }
 @utility text-spec {
-  font-family: var(--font-mono);
-  font-size: clamp(36px, 4.5vw, 72px);
+  font-family: var(--font-display);
+  font-size: clamp(40px, 4vw, 64px);
   line-height: 1;
   letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 @utility text-button {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
   font-weight: 600;
 }
 @utility container-lux {
   width: 100%;
-  max-width: 1440px;
+  max-width: calc(1320px + 2 * var(--gutter));
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
@@ -264,37 +293,39 @@
     overflow-x: clip;
   }
   html {
-    background: var(--obsidian);
-    color-scheme: dark;
+    background: var(--porcelain);
+    color-scheme: light;
+    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
   }
   body {
-    background: var(--obsidian);
-    color: var(--on-dark);
+    background: var(--porcelain);
+    color: var(--ink);
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
-  @media (min-width: 768px) {
-    body {
-      font-size: 16px;
-    }
+  em,
+  i {
+    font-style: italic;
   }
 
   ::selection {
-    background: rgba(179, 18, 46, 0.28);
+    background: rgba(200, 16, 46, 0.18);
     color: inherit;
   }
 
   :focus-visible {
-    outline: 2px solid var(--cherry-hi);
+    outline: 2px solid var(--cherry);
     outline-offset: 2px;
   }
-  .theme-light :focus-visible {
-    outline-color: var(--cherry);
+  .theme-dark :focus-visible,
+  .theme-bordeaux :focus-visible,
+  .theme-wine :focus-visible {
+    outline-color: #fff;
   }
 
   button,
@@ -306,42 +337,18 @@
   }
 }
 
-/* Lenis */
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-/* Film grain (generated tile; falls back to nothing) */
-.grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("/images/grain.png");
-  background-size: 200px 200px;
-  opacity: 0.035;
-  mix-blend-mode: overlay;
-}
-
-/* Animated underline links */
+@layer components {
+/* Text link — cherry, underline appears on hover (V3 §4.5) */
 .link-lux {
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0% 1px;
-  background-position: 100% 100%;
-  background-repeat: no-repeat;
-  transition: background-size 300ms var(--ease-ui);
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 250ms var(--ease-lux);
 }
 .link-lux:hover,
 .link-lux:focus-visible {
-  background-size: 100% 1px;
-  background-position: 0 100%;
+  text-decoration-color: currentColor;
 }
 
 /* Hide scrollbars on rails */
@@ -352,7 +359,99 @@ html.lenis body {
   display: none;
 }
 
-/* Range slider (§22.14) */
+/* ───────────────────────── Stage (V3 §3.4) ───────────────────────── */
+.stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--stage-color, var(--bone));
+}
+/* soft top light */
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.55), transparent 60%);
+  pointer-events: none;
+}
+.stage[data-dark]::before {
+  background: radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.12), transparent 60%);
+}
+/* floor shadow */
+.stage-floor {
+  position: absolute;
+  left: 50%;
+  bottom: var(--floor, 9%);
+  width: var(--floor-w, 70%);
+  height: 12%;
+  translate: -50% 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(20, 17, 20, 0.22), transparent 70%);
+  transition:
+    width 300ms var(--ease-lux),
+    opacity 300ms var(--ease-lux);
+  pointer-events: none;
+}
+.stage[data-dark] .stage-floor {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.45), transparent 70%);
+}
+.stage-product {
+  filter: drop-shadow(0 30px 40px rgba(20, 17, 20, 0.18));
+  transition:
+    transform 300ms var(--ease-lux),
+    filter 300ms var(--ease-lux);
+}
+@media (hover: hover) {
+  .group:hover .stage-product,
+  .stage:hover .stage-product {
+    transform: translateY(-6px) scale(1.03);
+  }
+  .group:hover .stage-floor,
+  .stage:hover .stage-floor {
+    width: calc(var(--floor-w, 70%) * 1.12);
+    opacity: 0.85;
+  }
+}
+
+/* Reveal (V3 §5) — CSS-driven; see components/ui/Reveal.tsx */
+.rv,
+.rv-item {
+  transition:
+    opacity 700ms var(--ease-lux) var(--rv-d, 0s),
+    transform 700ms var(--ease-lux) var(--rv-d, 0s);
+}
+.rv[data-rv="out"],
+.rv-group[data-rv="out"] > .rv-item {
+  opacity: 0;
+  transform: translateY(var(--rv-y, 24px));
+}
+@media (prefers-reduced-motion: reduce) {
+  .rv[data-rv="out"],
+  .rv-group[data-rv="out"] > .rv-item {
+    transform: none;
+  }
+}
+
+/* Framed photo grade (V3 §3.3 Mode B) */
+.framed {
+  position: relative;
+  overflow: hidden;
+}
+.framed img {
+  filter: saturate(0.9) contrast(1.04) brightness(1.02);
+}
+.framed::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(20, 17, 20, 0.06);
+  pointer-events: none;
+}
+
+}
+
+/* Range slider */
 .lux-range {
   -webkit-appearance: none;
   appearance: none;
@@ -362,7 +461,8 @@ html.lenis body {
   cursor: pointer;
 }
 .lux-range::-webkit-slider-runnable-track {
-  height: 2px;
+  height: 4px;
+  border-radius: 999px;
   background: linear-gradient(
     to right,
     var(--accent) 0%,
@@ -372,30 +472,32 @@ html.lenis body {
   );
 }
 .lux-range::-moz-range-track {
-  height: 2px;
+  height: 4px;
+  border-radius: 999px;
   background: var(--line);
 }
 .lux-range::-moz-range-progress {
-  height: 2px;
+  height: 4px;
+  border-radius: 999px;
   background: var(--accent);
 }
 .lux-range::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   margin-top: -9px;
   border-radius: 999px;
   background: #fff;
-  border: 1px solid var(--accent);
-  box-shadow: 0 0 0 4px rgba(179, 18, 46, 0.14);
-  transition: transform 200ms var(--ease-ui);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-card);
+  transition: transform 200ms var(--ease-lux);
 }
 .lux-range::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   background: #fff;
-  border: 1px solid var(--accent);
+  border: 2px solid var(--accent);
 }
 .lux-range:active::-webkit-slider-thumb {
   transform: scale(1.12);
@@ -404,7 +506,7 @@ html.lenis body {
   .lux-range::-webkit-slider-thumb {
     width: 28px;
     height: 28px;
-    margin-top: -13px;
+    margin-top: -12px;
   }
   .lux-range::-moz-range-thumb {
     width: 28px;
@@ -412,30 +514,6 @@ html.lenis body {
   }
 }
 
-@keyframes kenburns {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.05);
-  }
-}
-@keyframes scroll-dot {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  15% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(48px);
-    opacity: 0;
-  }
-}
 @keyframes halo {
   0% {
     transform: scale(1);
@@ -444,14 +522,6 @@ html.lenis body {
   100% {
     transform: scale(3.2);
     opacity: 0;
-  }
-}
-@keyframes line-up {
-  from {
-    transform: translateY(105%);
-  }
-  to {
-    transform: translateY(0);
   }
 }
 @keyframes packet {
@@ -470,84 +540,66 @@ html.lenis body {
     opacity: 0;
   }
 }
-@keyframes monogram-pulse {
-  0%,
-  100% {
-    opacity: 0.4;
+@keyframes grid-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
   }
-  50% {
+  to {
     opacity: 1;
+    transform: none;
   }
 }
-@keyframes progress-bar {
-  0% {
+@keyframes slide-progress {
+  from {
     transform: scaleX(0);
   }
-  60% {
-    transform: scaleX(0.7);
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes pulse-once {
+  0% {
+    box-shadow: 0 0 0 0 rgba(232, 52, 78, 0.5);
   }
   100% {
-    transform: scaleX(0.92);
+    box-shadow: 0 0 0 18px rgba(232, 52, 78, 0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.15s !important;
-    scroll-behavior: auto !important;
   }
 }
 
-/* Vaul overlay above everything */
 [data-vaul-drawer] {
   touch-action: none;
 }
 
 /* cmdk */
 [cmdk-item][data-selected="true"] {
-  background: rgba(244, 241, 234, 0.06);
+  background: var(--blush);
 }
 [cmdk-group-heading] {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--on-dark-muted);
+  color: var(--muted);
   padding: 14px 20px 6px;
 }
-
 
 /* Reserve space for the PDP fixed bottom bar on mobile */
 @media (max-width: 767px) {
   body:has([data-mobile-bar]) {
     padding-bottom: calc(env(safe-area-inset-bottom) + 72px);
-  }
-}
-
-/* One-time attention ring on the WhatsApp button (V2 §6.3) */
-@keyframes pulse-once {
-  0% {
-    box-shadow: 0 0 0 0 rgba(214, 36, 63, 0.55);
-  }
-  100% {
-    box-shadow: 0 0 0 18px rgba(214, 36, 63, 0);
-  }
-}
-@keyframes intro-mark {
-  0% {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  30%,
-  70% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
   }
 }

@@ -1,10 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { waLink, generalText } from "@/lib/whatsapp";
-import { sessionGet, sessionSet } from "@/store/storage";
 import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
 
 const items = [
@@ -13,65 +11,42 @@ const items = [
   { text: "Speak to an advisor on WhatsApp →", href: waLink(generalText) },
 ];
 
+/** V3 §7 — 36px Bordeaux bar, white 13px text, cherry-hi dot, rotating messages. */
 export function AnnouncementBar() {
   const [i, setI] = useState(0);
-  const [hidden, setHidden] = useState(false);
   const reduced = useReducedMotionSafe();
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- read session flag after hydration
-    if (sessionGet("ab-announce") === "0") setHidden(true);
-  }, []);
-
-  useEffect(() => {
     if (reduced) return;
-    const t = setInterval(() => setI((v) => (v + 1) % items.length), 5000);
+    const t = setInterval(() => setI((v) => (v + 1) % items.length), 4500);
     return () => clearInterval(t);
   }, [reduced]);
 
-  if (hidden) return null;
   const item = items[i];
 
   return (
-    <div className="relative z-[61] flex h-9 items-center justify-center bg-wine-900 text-[11px] text-on-dark/90" role="region" aria-label="Announcements">
-      <div className="relative h-full w-full max-w-[640px] overflow-hidden">
-        {/* Mobile: item 1 only */}
-        <p className="flex h-full items-center justify-center gap-2.5 font-mono uppercase tracking-[0.14em] md:hidden">
-          <span aria-hidden className="size-1.5 rounded-full bg-cherry-hi" />
-          {items[0].text}
-        </p>
-        <div className="hidden h-full md:block" aria-live="polite">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="absolute inset-0 flex items-center justify-center gap-2.5 font-mono uppercase tracking-[0.14em]"
-            >
-              <span aria-hidden className="size-1.5 rounded-full bg-cherry-hi" />
-              {item.href ? (
-                <a href={item.href} target="_blank" rel="noopener" className="link-lux hover:text-white">
-                  {item.text}
-                </a>
-              ) : (
-                item.text
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
+    <div className="relative z-[61] h-9 bg-bordeaux text-[13px] text-white" role="region" aria-label="Announcements">
+      <div className="relative mx-auto h-full max-w-[640px] overflow-hidden" aria-live="polite">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.p
+            key={i}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.35 }}
+            className="absolute inset-0 flex items-center justify-center gap-2.5 px-4"
+          >
+            <span aria-hidden className="size-1.5 shrink-0 rounded-full bg-cherry-hi" />
+            {item.href ? (
+              <a href={item.href} target="_blank" rel="noopener" className="link-lux">
+                {item.text}
+              </a>
+            ) : (
+              item.text
+            )}
+          </motion.p>
+        </AnimatePresence>
       </div>
-      <button
-        onClick={() => {
-          sessionSet("ab-announce", "0");
-          setHidden(true);
-        }}
-        className="absolute right-3 hidden size-9 items-center justify-center text-ivory/50 transition-colors hover:text-ivory md:flex"
-        aria-label="Dismiss announcement"
-      >
-        <X size={14} strokeWidth={1.25} />
-      </button>
     </div>
   );
 }

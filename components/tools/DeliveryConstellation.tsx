@@ -33,11 +33,11 @@ export function DeliveryConstellation() {
       <svg ref={ref} viewBox={vb} className="h-auto w-full" role="img" aria-label="Delivery from Lahore to cities across Pakistan">
         <defs>
           <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
-            <circle cx="1" cy="1" r="1" fill="rgba(18,16,20,0.08)" />
+            <circle cx="1" cy="1" r="1" fill="rgba(21,18,20,0.15)" />
           </pattern>
           <radialGradient id="lahore-glow">
-            <stop offset="0" stopColor="rgba(214,36,63,0.28)" />
-            <stop offset="1" stopColor="rgba(214,36,63,0)" />
+            <stop offset="0" stopColor="rgba(232,52,78,0.28)" />
+            <stop offset="1" stopColor="rgba(232,52,78,0)" />
           </radialGradient>
         </defs>
         <rect x="-200" y="-200" width="1400" height="1600" fill="url(#dots)" />
@@ -52,7 +52,7 @@ export function DeliveryConstellation() {
               <motion.path
                 d={d}
                 fill="none"
-                stroke="rgba(179,18,46,0.6)"
+                stroke="rgba(200,16,46,0.7)"
                 strokeWidth={mobile ? 1.6 : 1}
                 initial={{ pathLength: reduced ? 1 : 0, opacity: reduced ? 1 : 0 }}
                 animate={inView ? { pathLength: 1, opacity: 1 } : undefined}
@@ -61,7 +61,7 @@ export function DeliveryConstellation() {
               {!reduced && inView && (
                 <circle
                   r={mobile ? 4.5 : 3}
-                  fill="#B3122E"
+                  fill="#C8102E"
                   style={
                     {
                       offsetPath: `path("${d}")`,
@@ -96,15 +96,15 @@ export function DeliveryConstellation() {
               className="cursor-pointer outline-none"
             >
               <circle cx={p.x} cy={p.y} r={mobile ? 22 : 16} fill="transparent" />
-              <circle cx={p.x} cy={p.y} r={mobile ? 5 : 3.5} fill="#121014" opacity={hover === c.name ? 1 : 0.75} />
+              <circle cx={p.x} cy={p.y} r={mobile ? 5 : 3.5} fill="#151214" opacity={hover === c.name ? 1 : 0.75} />
               <text
                 x={p.x + (end ? -12 : 12)}
                 y={p.y + fs * 0.35 + (mobile ? 0 : (c.dy ?? 0))}
                 textAnchor={end ? "end" : "start"}
                 fontSize={fs}
-                fontFamily="var(--font-geist-mono), monospace"
-                letterSpacing="0.08em"
-                fill={hover === c.name ? "#121014" : "#625E66"}
+                fontFamily="var(--font-inter-tight), sans-serif"
+                letterSpacing="0.06em" fontWeight={600}
+                fill={hover === c.name ? "#151214" : "#3B3538"}
               >
                 {c.name.toUpperCase()}
               </text>
@@ -140,10 +140,10 @@ export function DeliveryConstellation() {
             x={o.x + 18}
             y={o.y + 34}
             fontSize={fs + 3}
-            fontFamily="var(--font-geist-mono), monospace"
+            fontFamily="var(--font-inter-tight), sans-serif"
             letterSpacing="0.1em"
             fill="var(--cherry)"
-            fontWeight={600}
+            fontWeight={700}
           >
             LAHORE
           </text>
@@ -152,7 +152,7 @@ export function DeliveryConstellation() {
 
       {hovered && hp && (
         <div
-          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+14px)] whitespace-nowrap rounded-xs border border-line bg-ink px-3 py-2 text-[12px] text-porcelain"
+          className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-[calc(100%+14px)] whitespace-nowrap rounded-full bg-ink px-3.5 py-2 text-[13px] text-white shadow-card"
           style={{ left: `${mobile ? ((hp.x - 60) / 880) * 100 : hp.x / 10}%`, top: `${mobile ? ((hp.y - 40) / 1100) * 100 : hp.y / 10}%` }}
           role="tooltip"
         >

@@ -30,7 +30,7 @@ export function ProductGallery({ product }: { product: Product }) {
 
   return (
     <div className="flex gap-4 lg:gap-5">
-      <div className="hidden w-[76px] shrink-0 flex-col gap-3 lg:flex">
+      <div className={cn("hidden w-[84px] shrink-0 flex-col gap-3", count > 1 && "lg:flex")}>
         {Array.from({ length: count }).map((_, i) => (
           <button
             key={i}
@@ -38,8 +38,8 @@ export function ProductGallery({ product }: { product: Product }) {
             aria-label={`View image ${i + 1}`}
             aria-current={i === index}
             className={cn(
-              "relative aspect-[4/5] overflow-hidden rounded-sm border transition-colors",
-              i === index ? "border-accent" : "border-transparent opacity-60 hover:opacity-100",
+              "relative aspect-[4/5] overflow-hidden rounded-sm ring-offset-2 transition",
+              i === index ? "ring-2 ring-cherry" : "ring-1 ring-line opacity-70 hover:opacity-100",
             )}
           >
             <View product={product} i={i} thumb />
@@ -47,10 +47,10 @@ export function ProductGallery({ product }: { product: Product }) {
         ))}
       </div>
       <div className="relative min-w-0 flex-1">
-        <div ref={ref} className="overflow-hidden rounded-sm">
+        <div ref={ref} className="overflow-hidden rounded-lg">
           <div className="flex touch-pan-y">
             {Array.from({ length: count }).map((_, i) => (
-              <div key={i} className="relative aspect-[4/5] min-w-0 shrink-0 basis-full">
+              <div key={i} className="relative aspect-[4/5] min-w-0 shrink-0 basis-full sm:aspect-square">
                 <View product={product} i={i} priority={i === 0} />
               </div>
             ))}
@@ -58,14 +58,14 @@ export function ProductGallery({ product }: { product: Product }) {
         </div>
         <button
           onClick={() => setLightbox(true)}
-          className="absolute right-3 top-3 flex size-11 items-center justify-center rounded-full bg-[rgba(10,11,13,0.5)] text-ivory/80 backdrop-blur hover:text-ivory"
+          className="absolute right-3 top-3 flex size-11 items-center justify-center rounded-full bg-white text-ink-2 shadow-card hover:text-ink"
           aria-label="Open full-screen view"
         >
-          <Maximize2 size={16} strokeWidth={1.25} />
+          <Maximize2 size={18} strokeWidth={1.75} />
         </button>
-        <div className="mt-4 flex justify-center gap-2 lg:hidden" aria-hidden>
+        <div className={cn("mt-4 justify-center gap-2 lg:hidden", count > 1 ? "flex" : "hidden")} aria-hidden>
           {Array.from({ length: count }).map((_, i) => (
-            <span key={i} className={cn("h-px w-8 transition-colors", i === index ? "bg-accent" : "bg-line")} />
+            <span key={i} className={cn("h-[3px] w-8 rounded-full transition-colors", i === index ? "bg-cherry" : "bg-line")} />
           ))}
         </div>
       </div>
@@ -107,16 +107,16 @@ function Lightbox({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[90] bg-obsidian" />
-        <Dialog.Content className="theme-dark fixed inset-0 z-[91] flex flex-col outline-none" data-lenis-prevent>
+        <Dialog.Overlay className="fixed inset-0 z-[90] bg-porcelain" />
+        <Dialog.Content className="theme-porcelain fixed inset-0 z-[91] flex flex-col outline-none">
           <Dialog.Title className="sr-only">{product.name} — images</Dialog.Title>
           <Dialog.Description className="sr-only">Scroll or pinch to zoom.</Dialog.Description>
           <div className="flex items-center justify-between px-5 py-4">
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ivory/55">
+            <span className="text-[14px] font-semibold text-muted">
               {i + 1} / {count}
             </span>
-            <Dialog.Close className="flex size-11 items-center justify-center text-ivory/70 hover:text-ivory" aria-label="Close">
-              <X size={22} strokeWidth={1.25} />
+            <Dialog.Close className="flex size-11 items-center justify-center rounded-full bg-white text-ink shadow-card" aria-label="Close">
+              <X size={22} strokeWidth={1.75} />
             </Dialog.Close>
           </div>
           <div className="relative flex-1 touch-pinch-zoom overflow-auto" onWheel={onWheel} onDoubleClick={() => setZoom((z) => (z > 1 ? 1 : 2))}>
@@ -137,7 +137,7 @@ function Lightbox({
                 aria-label={`Image ${n + 1}`}
                 className="flex h-11 w-10 items-center"
               >
-                <span className={cn("h-px w-full", n === i ? "bg-accent" : "bg-line")} />
+                <span className={cn("h-[3px] w-full rounded-full", n === i ? "bg-cherry" : "bg-line")} />
               </button>
             ))}
           </div>

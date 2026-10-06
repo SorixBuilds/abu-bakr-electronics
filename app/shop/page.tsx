@@ -13,12 +13,12 @@ export default function ShopPage() {
   return (
     <>
       <PageHero
-        eyebrow="The Collection"
-        title="The Collection"
-        line="Everything we curate, in one place."
-        meta={`${applianceProducts.length} pieces`}
-        image="/images/lifestyle/kitchen-dark-2.jpg"
-        imagePosition="50% 60%"
+        eyebrow="The collection"
+        title="Everything, in one showroom."
+        italic="one"
+        line="Air conditioners, refrigerators, home appliances and electronics."
+        meta={`${applianceProducts.length} pieces · Price on request`}
+        assets={["fridge-1", "washer-1", "tv-2"]}
       />
       <Suspense fallback={<ShopViewStatic />}>
         <ShopView />

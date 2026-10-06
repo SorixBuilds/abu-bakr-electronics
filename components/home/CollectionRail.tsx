@@ -6,65 +6,66 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { home } from "@/content/home";
 import { productsIn } from "@/data/products";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { categories, type ShopCategory } from "@/content/categories";
+import { Container, Section, SectionIntro } from "@/components/ui/Section";
 import { Tabs } from "@/components/ui/Tabs";
 import { Rail } from "@/components/ui/Rail";
 import { ProductCard } from "@/components/product/ProductCard";
-import type { ShopCategory } from "@/content/categories";
+import { Stage, ProductCut } from "@/components/ui/Stage";
 
-const tabs: { value: ShopCategory; label: string }[] = [
-  { value: "cooling", label: "Climate" },
-  { value: "refrigeration", label: "Freshness" },
-  { value: "home-appliances", label: "Living" },
-  { value: "electronics", label: "Electronics" },
-];
+const tabs = categories.map((c) => ({ value: c.slug, label: c.title }));
 
-/** §6.5 — tabbed horizontal rail. Desktop shows 3.5 cards; mobile 1.2. */
+/** V3 §8.6 — porcelain, "Chosen for you.", pill tabs, rail of product cards: 4 visible on desktop, 1.3 on mobile, arrows + drag. */
 export function CollectionRail() {
   const [tab, setTab] = useState<ShopCategory>("cooling");
-  const items = productsIn(tab).slice(0, 6);
+  const items = productsIn(tab);
+  const cat = categories.find((c) => c.slug === tab)!;
 
   return (
-    <section className="theme-light bg-ivory pb-[var(--section-y)]" aria-label="The collection">
-      <div className="container-lux">
-        <div className="border-t border-line pt-[var(--section-y)]">
-          <SectionHeading eyebrow={home.collection.eyebrow} title={home.collection.title} support={home.collection.support} />
-          <Tabs label="Collection category" tabs={tabs} value={tab} onChange={(v) => setTab(v as ShopCategory)} className="mt-12" idPrefix="collection" />
-        </div>
-        <div id="collection-panel" role="tabpanel" aria-labelledby={`collection-tab-${tab}`} className="mt-10 md:mt-[88px]">
+    <Section tone="porcelain" id="chosen" aria-label="Chosen for you">
+      <Container>
+        <SectionIntro eyebrow={home.collection.eyebrow} title={home.collection.title} italic={home.collection.italic} />
+        <Tabs
+          label="Collection category"
+          tabs={tabs}
+          value={tab}
+          onChange={(v) => setTab(v as ShopCategory)}
+          variant="pills"
+          className="-mx-[var(--gutter)] mt-8 px-[var(--gutter)] md:mx-0 md:px-0"
+          idPrefix="collection"
+        />
+        <div id="collection-panel" role="tabpanel" aria-labelledby={`collection-tab-${tab}`} className="mt-8 md:mt-10">
           <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={tab}
-              initial="out"
-              animate="in"
-              exit="out"
-              variants={{ in: { transition: { staggerChildren: 0.05 } }, out: { transition: { staggerChildren: 0.03 } } }}
-            >
+            <motion.div key={tab} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
               <Rail
-                label={`${tabs.find((t) => t.value === tab)?.label} collection`}
-                slideClassName="basis-[82%] sm:basis-[45%] lg:basis-[calc((100%-60px)/3.5)]"
+                label={`${cat.title}`}
+                slideClassName="basis-[76%] sm:basis-[45%] lg:basis-[calc((100%-60px)/4)] py-2"
+                arrowsClassName="-top-[84px]"
               >
                 {[
-                  ...items.map((p) => (
-                    <motion.div key={p.id} variants={{ out: { opacity: 0, y: 12 }, in: { opacity: 1, y: 0 } }} transition={{ duration: 0.35 }}>
-                      <ProductCard product={p} sizes="(max-width:768px) 82vw, 30vw" />
-                    </motion.div>
-                  )),
-                  <motion.div key="all" variants={{ out: { opacity: 0, y: 12 }, in: { opacity: 1, y: 0 } }} className="h-full">
-                    <Link href={`/shop/${tab}`} className="group flex aspect-[4/5] flex-col justify-end rounded-sm bg-stone p-8">
-                      <span className="text-eyebrow text-fg-muted">View all</span>
-                      <span className="mt-3 flex items-center gap-3 text-h3">
-                        {tabs.find((t) => t.value === tab)?.label}
-                        <ArrowRight size={20} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
+                  ...items.map((p) => <ProductCard key={p.id} product={p} />),
+                  <Link
+                    key="all"
+                    href={`/shop/${tab}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-md bg-white p-2.5 shadow-card transition-shadow duration-300 hover:shadow-lift"
+                  >
+                    <Stage category={tab} radius="md" className="aspect-[4/5]">
+                      <ProductCut id={cat.assets[cat.assets.length - 1]} sizes="300px" />
+                    </Stage>
+                    <span className="flex flex-1 flex-col justify-end px-1.5 pb-2 pt-4">
+                      <span className="text-[13px] text-muted">View all</span>
+                      <span className="mt-1 flex items-center gap-2 font-display text-[26px] leading-tight text-ink">
+                        {cat.title}
+                        <ArrowRight size={20} strokeWidth={1.75} className="text-cherry transition-transform group-hover:translate-x-[3px]" />
                       </span>
-                    </Link>
-                  </motion.div>,
+                    </span>
+                  </Link>,
                 ]}
               </Rail>
             </motion.div>
           </AnimatePresence>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
 }

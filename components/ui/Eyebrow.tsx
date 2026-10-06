@@ -1,11 +1,7 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-export function Eyebrow({ children, className, dot = true }: { children: ReactNode; className?: string; dot?: boolean }) {
-  return (
-    <span className={cn("inline-flex items-center gap-3 text-eyebrow text-fg-muted", className)}>
-      {dot && <span aria-hidden className="h-px w-6 bg-hairline" />}
-      {children}
-    </span>
-  );
+/** V3 §4.3 eyebrow: 12px Inter Tight 600, 0.16em, uppercase, cherry. */
+export function Eyebrow({ children, className }: { children: ReactNode; className?: string; dot?: boolean }) {
+  return <span className={cn("inline-block text-eyebrow text-accent-text", className)}>{children}</span>;
 }

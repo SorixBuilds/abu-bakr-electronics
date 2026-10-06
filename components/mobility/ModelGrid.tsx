@@ -19,7 +19,7 @@ const range = [
   { value: "140+", label: "140+" },
 ];
 
-/** §8.3.3 — nine model cards, automotive style, with speed / range filter chips. */
+/** V3 §9.4 — nine model cards on Bordeaux stages (white text), with speed / range filter pills. */
 export function ModelGrid({ models }: { models: Product[] }) {
   const [s, setS] = useState<string | null>(null);
   const [r, setR] = useState<string | null>(null);
@@ -30,8 +30,8 @@ export function ModelGrid({ models }: { models: Product[] }) {
       onClick={onClick}
       aria-pressed={on}
       className={cn(
-        "min-h-11 rounded-xs border px-4 text-[13px] transition-colors",
-        on ? "border-accent bg-[rgba(179,18,46,0.08)] text-fg" : "border-line text-fg-muted hover:text-fg",
+        "min-h-11 rounded-full border px-4 text-[14px] font-medium transition-colors",
+        on ? "border-cherry bg-blush text-cherry" : "border-line bg-white text-ink-2 hover:border-ink",
       )}
     >
       {children}
@@ -65,40 +65,37 @@ export function ModelGrid({ models }: { models: Product[] }) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.5, ease: ease.outExpo }}
+              transition={{ duration: 0.5, ease: ease.lux }}
             >
               <Link
                 href={`/mobility/${m.slug}`}
-                className="group relative block overflow-hidden rounded-md border border-line-soft p-6"
-                style={{ background: "radial-gradient(ellipse at 50% 30%, #4a0d1b, var(--wine-900) 80%)" }}
+                className="theme-bordeaux group relative block overflow-hidden rounded-md p-6 text-white shadow-card transition-shadow duration-300 hover:shadow-lift"
+                style={{ background: "radial-gradient(120% 80% at 50% 0%, #7A1830, #5C0F22 55%, #3E0A17)" }}
               >
-                <span className="pointer-events-none absolute left-5 top-3 select-none text-[64px] font-semibold uppercase leading-none tracking-[-0.03em] text-white/[0.07]">
-                  {m.name.replace("Jinpeng ", "")}
-                </span>
                 <div className="relative aspect-[16/10]">
-                  <div className="absolute inset-x-[15%] bottom-0 h-[16%] bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,0,0,0.45),transparent_70%)]" />
+                  <div className="absolute inset-x-[15%] bottom-0 h-[16%] bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,0,0,0.45),transparent_70%)] transition-[inset] duration-300 group-hover:inset-x-[10%]" />
                   <Image
                     src={m.image}
                     alt={`${m.name} electric scooty`}
                     fill
                     sizes="(max-width:640px) 90vw, (max-width:1024px) 45vw, 30vw"
-                    className="object-contain transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
+                    className="object-contain drop-shadow-[0_24px_30px_rgba(0,0,0,0.35)] transition-transform duration-300 ease-lux group-hover:-translate-y-1.5 group-hover:scale-[1.03]"
                   />
                 </div>
                 <div className="mt-4 flex items-end justify-between gap-4">
                   <div>
-                    <p className="text-[24px] font-medium leading-none">{m.name.replace("Jinpeng ", "")}</p>
-                    <p className="mt-2 text-[13px] text-fg-muted">{m.tagline}</p>
+                    <p className="font-display text-[30px] leading-none">{m.name.replace("Jinpeng ", "")}</p>
+                    <p className="mt-2 text-[14px] text-white/75">{m.tagline}</p>
                   </div>
                 </div>
-                <dl className="mt-5 grid grid-cols-3 border-t border-line-soft pt-4 font-mono text-[13px]">
+                <dl className="mt-5 grid grid-cols-3 border-t border-white/15 pt-4 text-[14px] tabular-nums">
                   {[
                     ["Speed", `${m.mobility!.topSpeedKmh} km/h`],
                     ["Range", `${m.mobility!.rangeKm[0]}–${m.mobility!.rangeKm[1]}`],
                     ["Motor", `${m.mobility!.motorW} W`],
                   ].map(([k, v]) => (
                     <div key={k}>
-                      <dt className="text-[10px] uppercase tracking-[0.16em] text-fg-muted">{k}</dt>
+                      <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/65">{k}</dt>
                       <dd className="mt-1">{v}</dd>
                     </div>
                   ))}

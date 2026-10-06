@@ -1,58 +1,74 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Truck, MapPin } from "lucide-react";
 import { home } from "@/content/home";
 import { copy } from "@/content/copy";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Container, Section, SectionIntro } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
+import { LuxuryButton } from "@/components/ui/LuxuryButton";
 import { openWhatsApp } from "@/lib/whatsapp";
-import { Photo } from "@/components/product/Media";
-import { ImageReveal } from "@/components/ui/ImageReveal";
-import { editorialMedia } from "@/content/media";
 
 const DeliveryConstellation = dynamic(() => import("@/components/tools/DeliveryConstellation").then((m) => m.DeliveryConstellation), {
   ssr: false,
   loading: () => <div className="aspect-[4/5] md:aspect-square" />,
 });
 
-/** V2 §7.7 — porcelain chapter: the two verified promises, a city photo and the constellation dark-on-light. */
+/** V3 §8.10 — white: the two verified lines + "Check delivery to my city", the city constellation restyled for light. */
 export function DeliveryChapter() {
   return (
-    <section className="theme-porcelain section-y bg-porcelain" aria-label="Delivery across Pakistan">
-      <div className="container-lux grid items-center gap-14 lg:grid-cols-[40fr_60fr] lg:gap-16">
-        <div>
-          <SectionHeading eyebrow={home.delivery.eyebrow} title={home.delivery.title} />
-          <Reveal stagger={0.1} className="mt-12 flex flex-col">
+    <Section tone="white" id="delivery" aria-label="Delivery across Pakistan">
+      <Container className="grid items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <SectionIntro eyebrow={home.delivery.eyebrow} title={home.delivery.title} italic={home.delivery.italic} />
+          <Reveal stagger={0.08} className="mt-8 flex flex-col gap-3">
             {[
-              { t: "Free across Lahore", b: "Complimentary delivery anywhere in the city." },
-              { t: "Across Pakistan", b: "We deliver nationwide. Ask an advisor about your city." },
+              { icon: Truck, t: "Free delivery across Lahore", b: "Complimentary, anywhere in the city." },
+              { icon: MapPin, t: "Delivering across Pakistan", b: "Ask an advisor about your city." },
             ].map((x) => (
-              <div key={x.t} className="flex gap-5 border-t border-line py-6">
-                <span aria-hidden className="mt-2 size-2 shrink-0 rotate-45 bg-accent" />
-                <div>
-                  <p className="text-[20px] font-medium">{x.t}</p>
-                  <p className="mt-1 text-fg-muted">{x.b}</p>
-                </div>
+              <div key={x.t} className="flex items-center gap-4 rounded-md bg-porcelain p-4">
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-blush text-cherry">
+                  <x.icon size={24} strokeWidth={1.75} />
+                </span>
+                <span>
+                  <span className="block text-[17px] font-semibold text-ink">{x.t}</span>
+                  <span className="block text-[14px] text-muted">{x.b}</span>
+                </span>
               </div>
             ))}
           </Reveal>
-          <p className="mt-4 text-[13px] text-fg-muted">{copy.delivery.small}</p>
-          <button
+          <p className="mt-4 text-[13px] text-muted">{copy.delivery.small}</p>
+          <LuxuryButton
+            variant="cherry"
+            icon="whatsapp"
+            iconPosition="start"
+            className="mt-8 w-full sm:w-auto"
             onClick={() => openWhatsApp("Assalam o Alaikum, do you deliver to ___? I'm interested in: ")}
-            className="group mt-10 inline-flex min-h-11 items-center gap-2 text-button"
           >
-            <span className="link-lux pb-1">Check delivery to my city</span>
-            <ArrowRight size={14} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
-          </button>
-          <ImageReveal className="mt-10 hidden aspect-[16/9] max-w-[420px] rounded-md lg:block">
-            <Photo src={editorialMedia.livingCity} alt="An apartment overlooking the city at night" sizes="420px" />
-          </ImageReveal>
+            Check delivery to my city
+          </LuxuryButton>
         </div>
-        <div className="mx-auto w-full max-w-[720px]">
-          <DeliveryConstellation />
+        <div className="mx-auto w-full max-w-[680px] lg:col-span-7">
+          <WhenNear>
+            <DeliveryConstellation />
+          </WhenNear>
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   );
+}
+
+/** Mount children (and load their code) only when scrolled within ~600px. */
+function WhenNear({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setNear(true), io.disconnect()), { rootMargin: "600px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return <div ref={ref}>{near ? children : <div className="aspect-[4/5] md:aspect-square" />}</div>;
 }

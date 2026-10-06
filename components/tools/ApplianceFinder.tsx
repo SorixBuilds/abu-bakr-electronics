@@ -14,7 +14,7 @@ import { cn } from "@/lib/cn";
 
 type Answers = { cat?: FinderCategory; s2?: string; s3?: string };
 
-/** §6.7 / §20.6 — three questions, one considered recommendation + two alternates. */
+/** V3 §8.8 — three questions (logic unchanged), one recommendation on its stage + two alternates, shortlist to WhatsApp. */
 export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState(1);
@@ -60,22 +60,22 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div>
       {/* progress */}
-      <div className="mb-10 flex items-center gap-4">
+      <div className="mb-8 flex items-center gap-4">
         <div className="flex flex-1 gap-1.5" aria-hidden>
           {[0, 1, 2].map((n) => (
-            <span key={n} className="relative h-px flex-1 overflow-hidden bg-line">
+            <span key={n} className="relative h-1 flex-1 overflow-hidden rounded-full bg-line">
               <motion.span
-                className="absolute inset-0 origin-left bg-accent"
+                className="absolute inset-0 origin-left rounded-full bg-cherry"
                 animate={{ scaleX: step > n ? 1 : step === n ? 0.35 : 0 }}
                 transition={{ duration: 0.5, ease: ease.outExpo }}
               />
             </span>
           ))}
         </div>
-        <span className="font-mono text-[11px] tracking-[0.14em] text-fg-muted">{step < 3 ? `${step + 1} / 3` : "RESULT"}</span>
+        <span className="text-[13px] font-semibold text-muted tabular-nums">{step < 3 ? `${step + 1} of 3` : "Your shortlist"}</span>
       </div>
 
-      <div className="relative min-h-[360px]">
+      <div className="relative min-h-[340px]">
         <AnimatePresence mode="wait" custom={dir} initial={false}>
           <motion.div
             key={step}
@@ -88,29 +88,29 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.45, ease: ease.outExpo }}
+            transition={{ duration: 0.4, ease: ease.lux }}
           >
             {step < 3 ? (
               <Question title={q.title} options={q.options} value={a[q.key]} onChoose={choose} />
             ) : (
               <div>
-                <p className="text-eyebrow text-fg-muted">Our recommendation</p>
+                <p className="text-eyebrow text-cherry">Our recommendation</p>
                 {results[0] ? (
                   <>
                     <Link
                       href={productHref(results[0])}
                       onClick={onNavigate}
-                      className="group mt-5 grid gap-6 rounded-sm border border-accent p-4 sm:grid-cols-[180px_1fr] sm:items-center"
+                      className="group mt-4 grid gap-5 rounded-lg bg-white p-3 shadow-card ring-1 ring-line sm:grid-cols-[200px_1fr] sm:items-center"
                     >
-                      <div className="relative aspect-[4/5] overflow-hidden rounded-sm sm:aspect-[4/5]">
-                        <ProductMedia product={results[0]} sizes="180px" />
+                      <div className="relative aspect-[4/3] overflow-hidden rounded-md sm:aspect-[4/5]">
+                        <ProductMedia product={results[0]} sizes="(max-width:640px) 90vw, 200px" />
                       </div>
                       <div className="pb-2 sm:pb-0 sm:pr-4">
-                        <p className="text-[20px] font-medium leading-snug">{results[0].name}</p>
-                        <p className="mt-2 text-[14px] text-fg-muted">{results[0].tagline}</p>
-                        <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-fg-muted">{results[0].keySpecs.join(" · ")}</p>
-                        <span className="mt-4 inline-flex items-center gap-2 text-button">
-                          View details <ArrowRight size={14} strokeWidth={1.25} className="text-accent-text transition-transform group-hover:translate-x-1" />
+                        <p className="text-[20px] font-semibold leading-snug text-ink">{results[0].name}</p>
+                        <p className="mt-2 font-display text-[18px] italic text-ink-2">{results[0].tagline}</p>
+                        <p className="mt-2 text-[14px] text-muted">{results[0].keySpecs.join(" · ")} · Price on request</p>
+                        <span className="mt-4 inline-flex items-center gap-1.5 text-[15px] font-semibold text-cherry">
+                          View details <ArrowRight size={16} strokeWidth={1.75} className="transition-transform group-hover:translate-x-[3px]" />
                         </span>
                       </div>
                     </Link>
@@ -121,14 +121,14 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
                             <Link
                               href={productHref(p)}
                               onClick={onNavigate}
-                              className="flex items-center gap-4 rounded-sm border border-line p-3 transition-colors hover:border-[color-mix(in_srgb,var(--fg)_35%,transparent)]"
+                              className="flex items-center gap-3 rounded-md bg-white p-2 ring-1 ring-line transition-shadow hover:shadow-card"
                             >
-                              <div className="relative h-16 w-[52px] shrink-0 overflow-hidden rounded-xs">
-                                <ProductMedia product={p} sizes="52px" />
+                              <div className="relative h-[72px] w-[64px] shrink-0 overflow-hidden rounded-xs">
+                                <ProductMedia product={p} sizes="64px" />
                               </div>
                               <div className="min-w-0">
-                                <p className="text-[11px] uppercase tracking-[0.14em] text-fg-muted">Alternative</p>
-                                <p className="line-clamp-2 text-[14px] leading-snug">{p.name}</p>
+                                <p className="text-[12px] font-semibold text-muted">Alternative</p>
+                                <p className="line-clamp-2 text-[14px] font-semibold leading-snug text-ink">{p.name}</p>
                               </div>
                             </Link>
                           </li>
@@ -140,12 +140,12 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
                   <p className="mt-5 text-fg-muted">An advisor can suggest the right option — send your answers below.</p>
                 )}
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <LuxuryButton variant="gold-line" icon="whatsapp" iconPosition="start" onClick={send}>
-                    Send my shortlist to an advisor
+                  <LuxuryButton variant="cherry" icon="whatsapp" iconPosition="start" onClick={send}>
+                    Send my shortlist on WhatsApp
                   </LuxuryButton>
                   <LuxuryButton
-                    variant="ghost"
-                    icon={<RotateCcw size={14} strokeWidth={1.5} />}
+                    variant="secondary"
+                    icon={<RotateCcw size={16} strokeWidth={1.75} />}
                     onClick={() => {
                       setA({});
                       go(0);
@@ -161,8 +161,8 @@ export function ApplianceFinder({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       {step > 0 && step < 3 && (
-        <button onClick={() => go(step - 1)} className="mt-6 flex min-h-11 items-center gap-2 text-[14px] text-fg-muted hover:text-fg">
-          <ArrowLeft size={14} strokeWidth={1.25} /> Back
+        <button onClick={() => go(step - 1)} className="mt-6 flex min-h-11 items-center gap-2 text-[15px] font-semibold text-ink-2 hover:text-ink">
+          <ArrowLeft size={18} strokeWidth={1.75} /> Back
         </button>
       )}
     </div>
@@ -190,10 +190,10 @@ function Question({
   const titleId = `q-${title.replace(/\W+/g, "-")}`;
   return (
     <div>
-      <h3 id={titleId} className="text-h3">
+      <h3 id={titleId} className="font-display text-[28px] leading-tight text-ink md:text-[34px]">
         {title}
       </h3>
-      <div role="radiogroup" aria-labelledby={titleId} className={cn("mt-8 grid gap-3", options.length > 3 ? "sm:grid-cols-2" : "")}>
+      <div role="radiogroup" aria-labelledby={titleId} className={cn("mt-6 grid gap-2.5 sm:gap-3", options.length > 3 ? "sm:grid-cols-2" : "")}>
         {options.map((o, i) => {
           const on = value === o.value;
           return (
@@ -208,16 +208,16 @@ function Question({
               onKeyDown={(e) => onKey(e, i)}
               onClick={() => onChoose(o.value)}
               className={cn(
-                "group flex min-h-16 items-center justify-between gap-4 rounded-sm border px-5 py-4 text-left transition-colors duration-250",
-                on ? "border-accent bg-[rgba(179,18,46,0.06)]" : "border-line hover:border-[color-mix(in_srgb,var(--fg)_35%,transparent)]",
+                "group flex min-h-16 items-center justify-between gap-4 rounded-full border px-6 py-3.5 text-left transition-colors duration-300",
+                on ? "border-cherry bg-blush" : "border-line bg-white hover:border-ink",
               )}
             >
               <span>
-                <span className="block text-[16px]">{o.label}</span>
-                {o.line && <span className="mt-0.5 block text-[13px] text-fg-muted">{o.line}</span>}
+                <span className="block text-[16px] font-semibold text-ink">{o.label}</span>
+                {o.line && <span className="mt-0.5 block text-[13px] text-muted">{o.line}</span>}
               </span>
-              <span className={cn("flex size-5 shrink-0 items-center justify-center rounded-full border", on ? "border-accent" : "border-line")}>
-                {on && <span className="size-2 rounded-full bg-accent" />}
+              <span className={cn("flex size-5 shrink-0 items-center justify-center rounded-full border-2", on ? "border-cherry" : "border-line")}>
+                {on && <span className="size-2 rounded-full bg-cherry" />}
               </span>
             </button>
           );

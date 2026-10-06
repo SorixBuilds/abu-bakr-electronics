@@ -2,56 +2,60 @@
 
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import type { Product } from "@/types/product";
 import Image from "next/image";
+import Link from "next/link";
+import type { Product } from "@/types/product";
 import { SpecTrio } from "./SpecTrio";
-import { wineGradient } from "@/lib/brand";
 import { copy } from "@/content/copy";
 import { ease } from "@/lib/motion";
 import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
 
-/** V2 §7.4/§8.4 — real model photo on the wine stage, name faint behind, spec trio tweening up on load. */
+/** V3 §9.4 — model page stage: the real Jinpeng photo on Bordeaux, specs counting up on load. */
 export function ModelStage({ model }: { model: Product }) {
   const reduced = useReducedMotionSafe();
-  const name = model.name.replace("Jinpeng ", "");
   const zero = { topSpeedKmh: 0, rangeKm: [0, 0] as [number, number], motorW: 0 };
   return (
     <section
-      className="theme-wine relative -mt-[60px] overflow-hidden pb-14 pt-32 lg:-mt-[72px] lg:pt-36"
-      style={{ background: wineGradient }}
-      aria-label={`${model.name} stage`}
+      className="theme-bordeaux relative overflow-hidden pb-12 pt-8 md:pb-16"
+      style={{ background: "linear-gradient(180deg, #5C0F22, #3E0A17)" }}
+      aria-label={`${model.name}`}
     >
-      <div className="grain pointer-events-none absolute inset-0" />
-      <motion.span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-[14%] select-none text-center text-[18vw] font-semibold uppercase leading-none tracking-[-0.03em] text-white/[0.06]"
-        initial={{ opacity: 0, y: reduced ? 0 : 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.4, ease: ease.outExpo }}
-      >
-        {name}
-      </motion.span>
       <div className="container-lux relative">
-        <p className="text-center text-eyebrow text-fg-muted">Jinpeng · Electric scooty</p>
-        <h1 className="mt-4 text-center text-h1">{model.name}</h1>
+        <nav aria-label="Breadcrumb" className="text-[13px] text-white/70">
+          <ol className="flex flex-wrap items-center gap-2">
+            <li>
+              <Link href="/mobility" className="link-lux hover:text-white">
+                Jinpeng Electric
+              </Link>
+            </li>
+            <li aria-hidden>/</li>
+            <li aria-current="page" className="text-white">
+              {model.name.replace("Jinpeng ", "")}
+            </li>
+          </ol>
+        </nav>
+        <p className="mt-8 text-center text-eyebrow text-cherry-soft">Jinpeng · Electric scooty</p>
+        <h1 className="mt-3 text-center text-display-l text-white">{model.name}</h1>
+        <p className="mt-3 text-center font-display text-[22px] italic text-white/80">{model.tagline}</p>
         <motion.div
-          className="relative mx-auto mt-6 aspect-[16/10] max-h-[52vh] w-full max-w-[900px]"
-          initial={{ opacity: 0, x: reduced ? 0 : 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: ease.outExpo, delay: 0.1 }}
+          className="relative mx-auto mt-4 aspect-[16/10] max-h-[50vh] w-full max-w-[880px]"
+          initial={{ opacity: 0, x: reduced ? 0 : 60, scale: reduced ? 1 : 0.96 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: reduced ? 0.15 : 0.8, ease: ease.lux }}
         >
-          <div className="absolute inset-x-[18%] bottom-[2%] h-[14%] bg-[radial-gradient(ellipse_at_50%_50%,rgba(0,0,0,0.5),transparent_70%)]" />
+          <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_85%,rgba(232,52,78,0.25),transparent_60%)]" />
+          <div aria-hidden className="absolute inset-x-[18%] bottom-[3%] h-[12%] bg-[radial-gradient(50%_50%_at_50%_50%,rgba(0,0,0,0.45),transparent_70%)]" />
           <Image
             src={model.image}
             alt={`${model.name} electric scooty`}
             fill
             priority
-            sizes="(max-width:900px) 100vw, 900px"
+            sizes="(max-width:900px) 100vw, 880px"
             className="object-contain object-bottom drop-shadow-[0_30px_40px_rgba(0,0,0,0.35)]"
           />
         </motion.div>
         <TrioOnLoad spec={model.mobility!} zero={zero} />
-        <p className="mx-auto mt-6 max-w-[60ch] text-center text-[12.5px] text-fg-muted">{copy.jinpeng}</p>
+        <p className="mx-auto mt-6 max-w-[60ch] text-center text-[13px] text-white/70">{copy.jinpeng}</p>
       </div>
     </section>
   );
@@ -63,5 +67,5 @@ function TrioOnLoad({ spec, zero }: { spec: NonNullable<Product["mobility"]>; ze
     const t = setTimeout(() => setS(spec), 250);
     return () => clearTimeout(t);
   }, [spec]);
-  return <SpecTrio spec={s} className="mx-auto mt-8 max-w-[880px]" />;
+  return <SpecTrio spec={s} className="mx-auto mt-6 max-w-[760px]" />;
 }

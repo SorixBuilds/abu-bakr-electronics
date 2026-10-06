@@ -34,11 +34,11 @@ export function ContactForm() {
     return (
       <div className="rounded-sm border border-line p-8 md:p-12">
         <span className="flex size-12 items-center justify-center rounded-full border border-accent text-accent-text">
-          <Check size={20} strokeWidth={1.25} />
+          <Check size={20} strokeWidth={1.75} />
         </span>
         <p className="mt-6 text-h3">Thank you.</p>
         <p className="mt-3 max-w-[44ch] text-fg-muted">{copy.formDemo}</p>
-        <LuxuryButton className="mt-8" variant="gold-line" icon="whatsapp" iconPosition="start" onClick={() => openWhatsApp(message())}>
+        <LuxuryButton className="mt-8" variant="secondary" icon="whatsapp" iconPosition="start" onClick={() => openWhatsApp(message())}>
           Continue on WhatsApp
         </LuxuryButton>
       </div>
@@ -64,7 +64,7 @@ export function ContactForm() {
         <TextArea label="Message" value={f.message} onChange={(e) => setF({ ...f, message: e.target.value })} />
       </div>
       <div className="md:col-span-2">
-        <LuxuryButton type="submit" loading={state === "loading"} magnetic>
+        <LuxuryButton type="submit" loading={state === "loading"}>
           Send message
         </LuxuryButton>
       </div>

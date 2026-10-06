@@ -1,10 +1,10 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Abu Bakr Electronics — Home technology, beautifully chosen.";
+export const alt = "Abu Bakr Electronics — Home technology and Jinpeng electric mobility in Lahore.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/** A-18 — monogram + wordmark on obsidian with a gold hairline. */
+/** Share card — V3 brand: Bordeaux field, AB monogram with champagne ring, wordmark with cherry ELECTRONICS. */
 export default async function Image() {
   return new ImageResponse(
     <div
@@ -15,30 +15,30 @@ export default async function Image() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "radial-gradient(ellipse at 50% 40%, #16181c 0%, #0A0B0D 70%)",
-        color: "#F4F1EA",
+        background: "radial-gradient(ellipse at 50% 30%, #7A1830 0%, #5C0F22 45%, #2B0812 100%)",
+        color: "#FFFFFF",
       }}
     >
       <div
         style={{
-          width: 132,
-          height: 132,
+          width: 128,
+          height: 128,
           borderRadius: 999,
-          border: "2px solid #C9A96A",
+          background: "#5C0F22",
+          border: "2px solid #B89A62",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: 56,
+          fontSize: 54,
           fontFamily: "serif",
         }}
       >
         AB
       </div>
-      <div style={{ marginTop: 48, fontSize: 52, letterSpacing: 18, fontWeight: 600 }}>ABU BAKR</div>
-      <div style={{ width: 72, height: 2, background: "#C9A96A", marginTop: 18, marginBottom: 18 }} />
-      <div style={{ fontSize: 22, letterSpacing: 14, color: "#9B9B96" }}>ELECTRONICS</div>
-      <div style={{ marginTop: 44, fontSize: 30, fontStyle: "italic", fontFamily: "serif", color: "rgba(244,241,234,0.8)" }}>
-        Home technology, beautifully chosen.
+      <div style={{ marginTop: 40, fontSize: 84, fontFamily: "serif", letterSpacing: -1 }}>Abu Bakr</div>
+      <div style={{ marginTop: 6, fontSize: 24, letterSpacing: 12, fontWeight: 700, color: "#E8344E" }}>ELECTRONICS</div>
+      <div style={{ marginTop: 40, fontSize: 30, fontStyle: "italic", fontFamily: "serif", color: "rgba(255,255,255,0.82)" }}>
+        Free delivery across Lahore · Delivering across Pakistan
       </div>
     </div>,
     size,

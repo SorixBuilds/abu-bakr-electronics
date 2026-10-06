@@ -3,72 +3,91 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
+import type { CategorySlug } from "@/types/product";
 import { categories } from "@/content/categories";
-import { Photo } from "@/components/product/Media";
+import { productsIn } from "@/data/products";
+import { Stage, ProductCut } from "@/components/ui/Stage";
+import { productHref } from "@/lib/format";
 import { ease } from "@/lib/motion";
 
-export function MegaPanel({ onEnter, onLeave, onClose }: { onEnter: () => void; onLeave: () => void; onClose: () => void }) {
+export type NavKey = CategorySlug;
+
+/** Nav order and labels (V3 §7 — category names spelled out). */
+export const navCategories: { key: NavKey; label: string; href: string; links: { label: string; href: string }[] }[] = [
+  ...categories.map((c) => ({
+    key: c.slug as NavKey,
+    label: c.title,
+    href: `/shop/${c.slug}`,
+    links: [
+      { label: `View all ${c.title.toLowerCase()}`, href: `/shop/${c.slug}` },
+      { label: "Compare", href: "/compare" },
+      ...(c.slug === "cooling" ? [{ label: "Room Cooling Guide", href: "/#room-guide" }] : []),
+      ...(c.slug !== "cooling" ? [{ label: "Help me choose", href: "/#finder" }] : []),
+    ],
+  })),
+  {
+    key: "mobility",
+    label: "Jinpeng Electric",
+    href: "/mobility",
+    links: [
+      { label: "View all Jinpeng models", href: "/mobility" },
+      { label: "Compare models", href: "/compare?ids=JP-01,JP-02,JP-04" },
+      { label: "Help me choose", href: "/#finder" },
+    ],
+  },
+];
+
+const intro: Record<NavKey, string> = {
+  cooling: "Inverter splits, sized for your room.",
+  refrigeration: "From side-by-side to French-door.",
+  "home-appliances": "Laundry and kitchen, beautifully made.",
+  electronics: "Screens and sound for every room.",
+  mobility: "Electric bikes & scooties, including Jinpeng.",
+};
+
+/** V3 §7 — hovering a category opens 3 product cutouts on that category's stage colour + quick links. */
+export function MegaPanel({ active, onEnter, onLeave, onClose }: { active: NavKey; onEnter: () => void; onLeave: () => void; onClose: () => void }) {
+  const cat = navCategories.find((c) => c.key === active)!;
+  const items = (active === "mobility" ? ["thrill", "cruise", "swift"].map((s) => productsIn("mobility").find((p) => p.slug === s)!) : productsIn(active)).slice(0, 3);
+
   return (
     <motion.div
       id="mega-panel"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      initial={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8, transition: { duration: 0.2 } }}
-      transition={{ duration: 0.45, ease: ease.outExpo }}
-      className="absolute inset-x-0 top-full hidden border-b border-[rgba(255,255,255,0.08)] bg-[rgba(11,10,12,0.96)] backdrop-blur-[16px] lg:block"
+      exit={{ opacity: 0, y: -6, transition: { duration: 0.15 } }}
+      transition={{ duration: 0.3, ease: ease.lux }}
+      className="absolute inset-x-0 top-full hidden border-b border-line bg-white shadow-lift min-[1100px]:block"
     >
-      <div className="container-lux grid grid-cols-[1fr_280px] gap-12 py-10">
-        <ul className="grid grid-cols-4 gap-3">
-          {categories.map((c, i) => (
-            <motion.li
-              key={c.slug}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.04 * i, duration: 0.5, ease: ease.outExpo }}
-            >
-              <Link href={`/shop/${c.slug}`} onClick={onClose} className="group block">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-sm">
-                  <div className="absolute inset-0 transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]">
-                    <Photo src={c.image} alt={c.title} sizes="260px" />
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-[17px] font-medium text-ivory">{c.title}</span>
-                  <ArrowRight size={14} strokeWidth={1.25} className="text-cherry-hi transition-transform duration-250 group-hover:translate-x-1" />
-                </div>
-                <p className="mt-1 text-[13px] text-ivory/55">{c.tileLine}</p>
+      <div className="container-lux grid grid-cols-[1fr_260px] gap-10 py-8">
+        <ul className="grid grid-cols-3 gap-4">
+          {items.map((p, i) => (
+            <motion.li key={p.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04 * i, duration: 0.4, ease: ease.lux }}>
+              <Link href={productHref(p)} onClick={onClose} className="group block">
+                <Stage category={p.category} radius="md" className="aspect-[4/3]">
+                  <ProductCut id={p.asset!} sizes="300px" scale={active === "mobility" ? 0.95 : 0.95} />
+                </Stage>
+                <p className="mt-3 line-clamp-1 text-[15px] font-semibold text-ink">{p.name}</p>
+                <p className="text-[13px] text-muted">{p.typeLabel}</p>
               </Link>
             </motion.li>
           ))}
         </ul>
-        <div className="flex flex-col justify-between border-l border-line pl-10">
-          <div className="flex flex-col gap-1">
-            <span className="mb-3 text-eyebrow text-ivory/60">Guidance</span>
-            {[
-              { href: "/#finder", label: "Appliance Finder" },
-              { href: "/#room-guide", label: "Room Cooling Guide" },
-              { href: "/compare", label: "Compare products" },
-            ].map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={onClose}
-                className="group flex min-h-11 items-center justify-between text-[15px] text-ivory/80 hover:text-ivory"
-              >
-                <span className="link-lux">{l.label}</span>
-                <ArrowRight
-                  size={14}
-                  strokeWidth={1.25}
-                  className="text-cherry-hi opacity-0 transition-all duration-250 group-hover:translate-x-1 group-hover:opacity-100"
-                />
-              </Link>
+        <div className="flex flex-col border-l border-line pl-8">
+          <p className="text-eyebrow text-cherry">{cat.label}</p>
+          <p className="mt-3 font-display text-[26px] leading-[1.1] text-ink">{intro[active]}</p>
+          <ul className="mt-6 flex flex-col">
+            {cat.links.map((l) => (
+              <li key={l.href + l.label}>
+                <Link href={l.href} onClick={onClose} className="group flex min-h-11 items-center justify-between text-[15px] font-medium text-ink-2 hover:text-cherry">
+                  {l.label}
+                  <ArrowRight size={16} strokeWidth={1.75} className="text-cherry transition-transform duration-300 group-hover:translate-x-[3px]" />
+                </Link>
+              </li>
             ))}
-          </div>
-          <Link href="/shop" onClick={onClose} className="mt-8 text-eyebrow text-accent-text link-lux self-start pb-1">
-            View the full collection →
-          </Link>
+          </ul>
         </div>
       </div>
     </motion.div>

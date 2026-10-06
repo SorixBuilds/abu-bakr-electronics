@@ -41,7 +41,7 @@ export function ReviewTag({ note, children, className, block }: { note: string; 
   return (
     <span
       className={cn(
-        "group/rt relative inline-flex flex-wrap items-baseline gap-x-2 gap-y-1 decoration-gold decoration-dotted underline underline-offset-4",
+        "group/rt relative inline-flex flex-wrap items-baseline gap-x-2 gap-y-1 decoration-cherry decoration-dotted underline underline-offset-4",
         block && "flex",
         className,
       )}
@@ -49,12 +49,12 @@ export function ReviewTag({ note, children, className, block }: { note: string; 
       tabIndex={0}
     >
       <span>{children}</span>
-      <span className="whitespace-nowrap rounded-xs border border-gold/60 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.14em] text-gold no-underline">
+      <span className="whitespace-nowrap rounded-full bg-blush px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-cherry no-underline">
         Client to confirm
       </span>
       <span
         role="tooltip"
-        className="pointer-events-none absolute left-0 top-full z-50 mt-2 w-max max-w-[260px] rounded-xs border border-gold/40 bg-graphite-2 px-3 py-2 text-[12px] leading-snug text-ivory no-underline opacity-0 shadow-lg transition-opacity group-hover/rt:opacity-100 group-focus/rt:opacity-100"
+        className="pointer-events-none absolute left-0 top-full z-50 mt-2 w-max max-w-[260px] rounded-sm bg-ink px-3 py-2 text-[13px] leading-snug text-white no-underline opacity-0 shadow-lift transition-opacity group-hover/rt:opacity-100 group-focus/rt:opacity-100"
       >
         {note}
       </span>

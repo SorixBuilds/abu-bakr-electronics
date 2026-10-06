@@ -26,7 +26,7 @@ export default async function CategoryPage({ params }: PageProps<"/shop/[categor
   const count = productsIn(c.slug).length;
   return (
     <>
-      <PageHero eyebrow="The Collection" title={c.title} line={c.line} meta={`${count} pieces`} image={c.image} />
+      <PageHero eyebrow={c.world} title={c.heading} italic={c.italic} line={c.line} meta={`${c.title} · ${count} ${count === 1 ? "piece" : "pieces"} · Price on request`} category={c.slug} assets={c.assets} />
       <Suspense fallback={<ShopViewStatic category={c.slug} />}>
         <ShopView category={c.slug} />
       </Suspense>

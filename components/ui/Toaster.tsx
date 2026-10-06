@@ -21,7 +21,7 @@ export function Toaster() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8, transition: { duration: 0.2 } }}
             transition={{ duration: 0.45, ease: ease.outExpo }}
-            className="theme-dark pointer-events-auto flex items-center gap-5 rounded-xs border border-line bg-graphite-2 py-3 pl-5 pr-3 text-[14px] text-ivory"
+            className="theme-ink pointer-events-auto flex items-center gap-5 rounded-full bg-ink py-2.5 pl-5 pr-2.5 text-[14px] text-white shadow-lift"
             style={{ boxShadow: "var(--shadow-fab)" }}
           >
             <span>{t.message}</span>
@@ -31,7 +31,7 @@ export function Toaster() {
                   t.action!.onClick();
                   dismiss(t.id);
                 }}
-                className="min-h-9 px-2 font-mono text-[11px] uppercase tracking-[0.14em] text-accent-text hover:text-accent-text"
+                className="min-h-9 px-2 text-eyebrow text-accent-text hover:text-accent-text"
               >
                 {t.action.label}
               </button>

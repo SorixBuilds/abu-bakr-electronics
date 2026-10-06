@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 
 type Opt<T extends string> = { value: T; label: string };
 
-/** radiogroup with arrow-key navigation; selected = gold 1px border + 6% tint (§22.14). */
+/** radiogroup with arrow-key navigation; V3 pill-cards: selected = blush bg + cherry border. */
 export function SegmentedControl<T extends string>({
   label,
   options,
@@ -49,10 +49,8 @@ export function SegmentedControl<T extends string>({
               onClick={() => onChange(o.value)}
               onKeyDown={(e) => onKey(e, i)}
               className={cn(
-                "min-h-11 rounded-xs border px-4 text-[13px] transition-colors duration-250",
-                on
-                  ? "border-accent bg-[rgba(179,18,46,0.08)] text-fg"
-                  : "border-line text-fg-muted hover:border-[color-mix(in_srgb,var(--fg)_35%,transparent)] hover:text-fg",
+                "min-h-11 rounded-full border px-4 text-[15px] font-medium transition-colors duration-300",
+                on ? "border-cherry bg-blush text-cherry" : "border-line bg-white text-ink-2 hover:border-ink",
               )}
             >
               {o.label}

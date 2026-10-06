@@ -54,7 +54,7 @@ export function ComparePageView() {
         <p className="text-fg-muted">{products.length ? `${products.length} of 3 selected.` : ""}</p>
         {products.length > 0 && (
           <button onClick={share} className="flex min-h-11 items-center gap-2 text-[14px] text-fg-muted hover:text-fg">
-            <Share2 size={16} strokeWidth={1.25} /> Share comparison
+            <Share2 size={16} strokeWidth={1.75} /> Share comparison
           </button>
         )}
       </div>
@@ -62,7 +62,7 @@ export function ComparePageView() {
       {products.length === 0 && (
         <div className="flex justify-center gap-3">
           <LuxuryButton href="/shop" variant="ghost" icon="arrow">
-            Explore the Collection
+            Explore the collection
           </LuxuryButton>
           <Link href="/mobility" className="sr-only">
             Electric Mobility

@@ -1,34 +1,36 @@
 import Link from "next/link";
 import { categories } from "@/content/categories";
 import { NotFoundActions } from "@/components/layout/NotFoundActions";
+import { Stage, ProductCut } from "@/components/ui/Stage";
 
 export default function NotFound() {
   return (
-    <section className="theme-dark relative -mt-[60px] flex min-h-[100svh] items-center overflow-hidden bg-obsidian lg:-mt-[72px]">
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center text-[44vw] font-semibold leading-none tracking-[-0.05em] text-white/[0.035]"
-      >
-        404
-      </span>
-      <div className="container-lux relative py-40 text-center">
-        <p className="text-eyebrow text-fg-muted">Not found</p>
-        <h1 className="mx-auto mt-5 max-w-[16ch] text-balance text-display-l">This page has moved on.</h1>
-        <NotFoundActions />
-        <ul className="mt-14 flex flex-wrap justify-center gap-x-8 gap-y-3 text-[15px] text-fg-muted">
-          {categories.map((c) => (
-            <li key={c.slug}>
-              <Link href={`/shop/${c.slug}`} className="link-lux hover:text-fg">
-                {c.title}
+    <section className="theme-porcelain section-y bg-porcelain">
+      <div className="container-lux grid items-center gap-8 md:grid-cols-12 md:gap-12">
+        <div className="text-center md:col-span-6 md:text-left">
+          <p className="text-eyebrow text-cherry">Page not found</p>
+          <h1 className="mx-auto mt-4 max-w-[14ch] text-balance text-display-l md:mx-0">
+            This page has <em>moved on</em>.
+          </h1>
+          <NotFoundActions />
+          <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] font-medium text-ink-2 md:justify-start">
+            {categories.map((c) => (
+              <li key={c.slug}>
+                <Link href={`/shop/${c.slug}`} className="link-lux flex min-h-11 items-center hover:text-cherry">
+                  {c.title}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/mobility" className="link-lux flex min-h-11 items-center hover:text-cherry">
+                Jinpeng Electric
               </Link>
             </li>
-          ))}
-          <li>
-            <Link href="/mobility" className="link-lux hover:text-fg">
-              Electric Mobility
-            </Link>
-          </li>
-        </ul>
+          </ul>
+        </div>
+        <Stage category="cooling" radius="2xl" className="aspect-[4/3] md:col-span-6">
+          <ProductCut id="ac-3" sizes="(max-width:768px) 90vw, 560px" />
+        </Stage>
       </div>
     </section>
   );

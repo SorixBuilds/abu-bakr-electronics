@@ -11,7 +11,7 @@ import { ProductMedia } from "./Media";
 import { ProductBadge } from "./ProductCard";
 import { useProductActions } from "./useProductActions";
 import { LuxuryButton } from "@/components/ui/LuxuryButton";
-import { brandLabel, productHref } from "@/lib/format";
+import { productHref } from "@/lib/format";
 import { categoryTitle } from "@/content/categories";
 import { copy } from "@/content/copy";
 import { ease } from "@/lib/motion";
@@ -30,15 +30,15 @@ export function QuickView() {
     return (
       <Drawer.Root open={!!product} onOpenChange={(v) => !v && close()}>
         <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 z-[80] bg-[rgba(10,11,13,0.72)] backdrop-blur-[8px]" />
-          <Drawer.Content className="theme-dark fixed inset-x-0 bottom-0 z-[81] flex h-[92svh] flex-col rounded-t-2xl bg-graphite-2 outline-none">
-            <div className="mx-auto mt-3 h-1 w-9 shrink-0 rounded-full bg-ivory/30" aria-hidden />
+          <Drawer.Overlay className="fixed inset-0 z-[80] bg-[rgba(21,18,20,0.45)]" />
+          <Drawer.Content className="theme-white fixed inset-x-0 bottom-0 z-[81] flex h-[92svh] flex-col rounded-t-xl bg-white text-ink outline-none">
+            <div className="mx-auto mt-3 h-1 w-9 shrink-0 rounded-full bg-line" aria-hidden />
             {product && (
               <>
                 <Drawer.Title className="sr-only">{product.name}</Drawer.Title>
                 <Drawer.Description className="sr-only">Quick view</Drawer.Description>
                 <div className="overflow-y-auto px-5 pb-[calc(env(safe-area-inset-bottom)+24px)] pt-4">
-                  <div className="relative mx-auto aspect-[4/5] max-h-[44svh] overflow-hidden rounded-sm">
+                  <div className="relative mx-auto aspect-[4/5] max-h-[44svh] overflow-hidden rounded-lg">
                     <ProductMedia product={product} sizes="90vw" />
                   </div>
                   <Info product={product} onNavigate={close} />
@@ -58,7 +58,7 @@ export function QuickView() {
           <Dialog.Portal forceMount>
             <Dialog.Overlay asChild forceMount>
               <motion.div
-                className="fixed inset-0 z-[80] bg-[rgba(10,11,13,0.72)] backdrop-blur-[8px]"
+                className="fixed inset-0 z-[80] bg-[rgba(21,18,20,0.45)]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -68,8 +68,8 @@ export function QuickView() {
             <div className="pointer-events-none fixed inset-0 z-[81] flex items-center justify-center p-6">
               <Dialog.Content asChild forceMount>
                 <motion.div
-                  className="theme-dark pointer-events-auto relative grid h-[min(640px,88vh)] w-full max-w-[1040px] grid-cols-[1.05fr_1fr] overflow-hidden rounded-md bg-graphite-2 outline-none"
-                  style={{ boxShadow: "var(--shadow-modal)" }}
+                  className="theme-white pointer-events-auto relative grid h-[min(640px,88vh)] w-full max-w-[1040px] grid-cols-[1.05fr_1fr] overflow-hidden rounded-xl bg-white text-ink outline-none"
+                  style={{ boxShadow: "var(--shadow-lift)" }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0, transition: { duration: 0.2 } }}
@@ -77,8 +77,8 @@ export function QuickView() {
                 >
                   <motion.div
                     layoutId={`img-${product.id}`}
-                    className="relative h-full overflow-hidden bg-stage"
-                    transition={{ duration: 0.6, ease: ease.outExpo }}
+                    className="relative h-full overflow-hidden"
+                    transition={{ duration: 0.6, ease: ease.lux }}
                   >
                     <ProductMedia product={product} sizes="520px" />
                   </motion.div>
@@ -93,10 +93,10 @@ export function QuickView() {
                     <Info product={product} onNavigate={close} />
                   </motion.div>
                   <Dialog.Close
-                    className="absolute right-3 top-3 flex size-11 items-center justify-center rounded-full text-fg-muted hover:text-fg"
+                    className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-porcelain text-ink-2 hover:text-ink"
                     aria-label="Close"
                   >
-                    <X size={20} strokeWidth={1.25} />
+                    <X size={20} strokeWidth={1.75} />
                   </Dialog.Close>
                 </motion.div>
               </Dialog.Content>
@@ -116,23 +116,23 @@ function Info({ product, onNavigate }: { product: Product; onNavigate: () => voi
     <div className="flex flex-1 flex-col pt-6 md:pt-0">
       <div className="flex items-center gap-3">
         <ProductBadge product={product} />
-        <span className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-fg-muted">
-          {categoryTitle(product.category)} · {brandLabel(product)}
+        <span className="text-eyebrow text-cherry">
+          {categoryTitle(product.category)}
         </span>
       </div>
-      <h2 className="mt-4 text-[28px] font-medium leading-tight tracking-[-0.01em] md:pr-8">{product.name}</h2>
-      <p className="mt-3 text-lede text-fg/80">{product.tagline}</p>
-      <dl className="mt-7 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line-soft pt-6">
+      <h2 className="mt-3 font-display text-[32px] leading-[1.05] md:pr-8">{product.name}</h2>
+      <p className="mt-3 font-display text-[20px] italic text-ink-2">{product.tagline}</p>
+      <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-6">
         {specs.map((s) => (
           <div key={s.label}>
-            <dt className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-fg-muted">{s.label}</dt>
-            <dd className="mt-1 text-[15px]">{s.value}</dd>
+            <dt className="text-[13px] text-muted">{s.label}</dt>
+            <dd className="mt-0.5 text-[15px] font-medium text-ink">{s.value}</dd>
           </div>
         ))}
       </dl>
       <div className="mt-7">
-        <p className="text-[20px] font-medium">{copy.price.onRequest}</p>
-        <p className="mt-1 text-[13px] text-fg-muted">{copy.price.line}</p>
+        <p className="text-[20px] font-semibold">{copy.price.onRequest}</p>
+        <p className="mt-1 text-[13px] text-muted">{copy.price.line}</p>
       </div>
       <div className="mt-auto flex flex-col gap-4 pt-8">
         <LuxuryButton
@@ -141,33 +141,33 @@ function Info({ product, onNavigate }: { product: Product; onNavigate: () => voi
             setTimeout(() => set({ requestPriceId: product.id }), 120);
           }}
         >
-          Request Price
+          Request price
         </LuxuryButton>
         <div className="flex items-center justify-between">
-          <Link href={productHref(product)} onClick={onNavigate} className="group flex min-h-11 items-center gap-2 text-button">
-            <span className="link-lux pb-1">View full details</span>
-            <ArrowRight size={14} strokeWidth={1.25} className="transition-transform group-hover:translate-x-1" />
+          <Link href={productHref(product)} onClick={onNavigate} className="group flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-cherry">
+            <span className="link-lux">View full details</span>
+            <ArrowRight size={18} strokeWidth={1.75} className="transition-transform group-hover:translate-x-[3px]" />
           </Link>
           <div className="flex gap-1">
             <button
               onClick={a.toggleSave}
               aria-pressed={a.saved}
               aria-label="Save"
-              className={`flex size-11 items-center justify-center rounded-full ${a.saved ? "text-accent-text" : "text-fg-muted hover:text-fg"}`}
+              className={`flex size-11 items-center justify-center rounded-full ${a.saved ? "bg-blush text-cherry" : "bg-porcelain text-ink-2 hover:text-ink"}`}
             >
-              <Heart size={18} strokeWidth={1.25} fill={a.saved ? "currentColor" : "none"} />
+              <Heart size={18} strokeWidth={1.75} fill={a.saved ? "currentColor" : "none"} />
             </button>
             <button
               onClick={a.toggleCompare}
               aria-pressed={a.inCompare}
               aria-label="Compare"
-              className={`flex size-11 items-center justify-center rounded-full ${a.inCompare ? "text-accent-text" : "text-fg-muted hover:text-fg"}`}
+              className={`flex size-11 items-center justify-center rounded-full ${a.inCompare ? "bg-blush text-cherry" : "bg-porcelain text-ink-2 hover:text-ink"}`}
             >
-              <ArrowLeftRight size={18} strokeWidth={1.25} />
+              <ArrowLeftRight size={18} strokeWidth={1.75} />
             </button>
           </div>
         </div>
-        {product.isDemo && <p className="text-[12px] text-fg-muted">{copy.demoSpecs}</p>}
+        {product.isDemo && <p className="text-[13px] text-muted">{copy.demoSpecs}</p>}
       </div>
     </div>
   );

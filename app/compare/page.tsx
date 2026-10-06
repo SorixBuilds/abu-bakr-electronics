@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ComparePageView } from "@/components/compare/ComparePageView";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionIntro } from "@/components/ui/Section";
 
 export const metadata: Metadata = {
   title: "Compare",
@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 export default function ComparePage() {
   return (
-    <div className="theme-dark bg-obsidian">
-      <div className="container-lux pb-[var(--section-y)] pt-16 md:pt-24">
-        <SectionHeading as="h1" size="h1" eyebrow="Compare" title="Side by side." className="mb-12" />
+    <div className="theme-porcelain bg-porcelain">
+      <div className="container-lux pb-[var(--section-y)] pt-10 md:pt-16">
+        <SectionIntro eyebrow="Compare" title="Side by side." italic="by side." className="mb-8 md:mb-10" />
         <Suspense>
           <ComparePageView />
         </Suspense>

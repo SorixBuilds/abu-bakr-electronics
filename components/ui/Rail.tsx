@@ -57,17 +57,17 @@ export function Rail({
             onClick={() => api?.scrollPrev()}
             disabled={!state.prev}
             aria-label="Previous"
-            className="flex size-11 items-center justify-center rounded-full border border-line text-fg transition-colors hover:border-[color-mix(in_srgb,var(--fg)_40%,transparent)] disabled:opacity-30"
+            className="flex size-11 items-center justify-center rounded-full border border-line bg-white text-ink shadow-card transition-colors hover:border-ink disabled:opacity-30"
           >
-            <ArrowLeft size={16} strokeWidth={1.25} />
+            <ArrowLeft size={18} strokeWidth={1.75} />
           </button>
           <button
             onClick={() => api?.scrollNext()}
             disabled={!state.next}
             aria-label="Next"
-            className="flex size-11 items-center justify-center rounded-full border border-line text-fg transition-colors hover:border-[color-mix(in_srgb,var(--fg)_40%,transparent)] disabled:opacity-30"
+            className="flex size-11 items-center justify-center rounded-full border border-line bg-white text-ink shadow-card transition-colors hover:border-ink disabled:opacity-30"
           >
-            <ArrowRight size={16} strokeWidth={1.25} />
+            <ArrowRight size={18} strokeWidth={1.75} />
           </button>
         </div>
       )}
@@ -83,7 +83,7 @@ export function Rail({
       {showDots && state.snaps > 1 && (
         <div className="mt-8 flex gap-1.5 md:hidden" aria-hidden>
           {Array.from({ length: state.snaps }).map((_, i) => (
-            <span key={i} className={cn("h-px flex-1 transition-colors duration-300", i === state.index ? "bg-accent" : "bg-line")} />
+            <span key={i} className={cn("h-[3px] rounded-full flex-1 transition-colors duration-300", i === state.index ? "bg-cherry" : "bg-line")} />
           ))}
         </div>
       )}

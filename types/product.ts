@@ -35,6 +35,10 @@ export interface Product {
   price: number | null;
   tagline: string;
   description: string;
+  /** Manifest asset id (data/photo-manifest.json) — the image path is resolved from it. */
+  asset?: string;
+  /** client | stand-in | manufacturer (from the manifest) */
+  photoStatus?: "client" | "stand-in" | "manufacturer";
   /** Real photo (public path). Required — the asset guard fails the build if it is missing. */
   image: string;
   /** At least two photos; gallery[0] is usually `image`. */

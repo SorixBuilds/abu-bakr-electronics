@@ -2,23 +2,29 @@
 
 import Link from "next/link";
 import { ArrowRight, MessageCircle } from "lucide-react";
-import { motion, useMotionValue, useSpring } from "motion/react";
-import { useRef, type ReactNode, type MouseEvent } from "react";
+import type { ReactNode, MouseEvent } from "react";
 import { cn } from "@/lib/cn";
-import { useFinePointer } from "@/hooks/useMediaQuery";
-import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
 
-/** V2 §3.4 — primary (cherry), light (porcelain on dark/wine), ghost, text. "gold-line" is kept as an alias of ghost. */
-type Variant = "primary" | "cherry" | "light" | "ghost" | "gold-line" | "text";
+/**
+ * V3 §4.5 buttons — pills, sentence case.
+ *  primary   Cherry (on dark/Bordeaux sections it becomes the "on-dark" white pill automatically via --btn-*)
+ *  cherry    Cherry regardless of section
+ *  secondary White, ink text, hairline border (light sections)
+ *  light     "On-dark": white bg, Bordeaux text
+ *  ghost     Ghost-on-dark: transparent, white text, 35% white border (adapts to light sections too)
+ *  text      Cherry text link, underline on hover
+ */
+type Variant = "primary" | "cherry" | "secondary" | "light" | "ghost" | "gold-line" | "text";
 
 type Props = {
   variant?: Variant;
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "lg";
   href?: string;
   external?: boolean;
   onClick?: (e: MouseEvent) => void;
   icon?: "arrow" | "whatsapp" | ReactNode;
   iconPosition?: "start" | "end";
+  /** @deprecated V3 bans magnetic buttons — accepted and ignored */
   magnetic?: boolean;
   className?: string;
   children: ReactNode;
@@ -29,22 +35,22 @@ type Props = {
 };
 
 const base =
-  "group/btn relative inline-flex select-none items-center justify-center gap-3 rounded-xs text-button whitespace-nowrap transition-[border-color,background-color,color,transform,opacity] duration-250 ease-ui active:scale-[0.98] disabled:opacity-40";
+  "group/btn relative inline-flex select-none items-center justify-center gap-2.5 rounded-full text-button whitespace-nowrap transition-[background-color,border-color,color,box-shadow,transform] duration-300 ease-lux active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
 
 const ghost =
-  "border border-[color-mix(in_srgb,var(--fg)_30%,transparent)] text-fg hover:border-[color-mix(in_srgb,var(--fg)_60%,transparent)] hover:bg-[color-mix(in_srgb,var(--fg)_6%,transparent)]";
+  "border border-[color-mix(in_srgb,var(--fg)_35%,transparent)] text-fg hover:border-fg hover:bg-[color-mix(in_srgb,var(--fg)_6%,transparent)]";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[var(--btn-bg-hover)] hover:-translate-y-px",
-  /** Cherry regardless of section theme (primary turns porcelain on wine). */
-  cherry: "bg-cherry text-white hover:bg-cherry-hi hover:-translate-y-px",
-  light: "bg-porcelain text-ink hover:bg-white hover:-translate-y-px",
+  primary: "bg-[var(--btn-bg)] text-[var(--btn-fg)] hover:bg-[var(--btn-bg-hover)] hover:shadow-[var(--shadow-cherry)]",
+  cherry: "bg-cherry text-white hover:bg-cherry-hi hover:shadow-[var(--shadow-cherry)]",
+  secondary: "border border-line bg-white text-ink hover:border-ink",
+  light: "bg-white text-bordeaux hover:bg-porcelain",
   ghost,
   "gold-line": ghost,
-  text: "text-fg px-0! h-auto! gap-2",
+  text: "text-accent-text h-auto! px-0! gap-1.5",
 };
 
-const sizes = { md: "h-11 px-6", lg: "h-[52px] px-7" };
+const sizes = { sm: "h-11 px-5 text-[14px]", md: "h-11 px-6", lg: "h-[52px] px-[26px]" };
 
 export function LuxuryButton({
   variant = "primary",
@@ -54,7 +60,8 @@ export function LuxuryButton({
   onClick,
   icon,
   iconPosition = "end",
-  magnetic,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- swallowed so it never reaches the DOM
+  magnetic: _magnetic,
   className,
   children,
   type = "button",
@@ -62,33 +69,11 @@ export function LuxuryButton({
   loading,
   ...rest
 }: Props) {
-  const fine = useFinePointer();
-  const reduced = useReducedMotionSafe();
-  const ref = useRef<HTMLSpanElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 18 });
-  const sy = useSpring(y, { stiffness: 200, damping: 18 });
-  const isMagnetic = magnetic && fine && !reduced;
-
-  const onMove = (e: MouseEvent) => {
-    if (!isMagnetic || !ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    const dx = e.clientX - (r.left + r.width / 2);
-    const dy = e.clientY - (r.top + r.height / 2);
-    x.set(Math.max(-6, Math.min(6, dx * 0.12)));
-    y.set(Math.max(-6, Math.min(6, dy * 0.2)));
-  };
-  const onLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
   const iconEl =
     icon === "arrow" ? (
-      <ArrowRight size={14} strokeWidth={1.5} className="transition-transform duration-250 ease-ui group-hover/btn:translate-x-1" />
+      <ArrowRight size={18} strokeWidth={1.75} className="transition-transform duration-300 ease-lux group-hover/btn:translate-x-[3px]" />
     ) : icon === "whatsapp" ? (
-      <MessageCircle size={15} strokeWidth={1.5} />
+      <MessageCircle size={18} strokeWidth={1.75} />
     ) : (
       icon
     );
@@ -96,16 +81,11 @@ export function LuxuryButton({
   const inner = (
     <>
       {iconPosition === "start" && iconEl}
-      <span className={cn(variant === "text" && "link-lux pb-1", loading && "opacity-0")}>{children}</span>
+      <span className={cn(variant === "text" && "link-lux", loading && "opacity-0")}>{children}</span>
       {loading && (
         <span className="absolute inset-0 flex items-center justify-center gap-1" aria-hidden>
           {[0, 1, 2].map((i) => (
-            <motion.span
-              key={i}
-              className="size-1 rounded-full bg-current"
-              animate={{ opacity: [0.2, 1, 0.2] }}
-              transition={{ duration: 1, repeat: Infinity, delay: i * 0.15 }}
-            />
+            <span key={i} className="size-1.5 animate-pulse rounded-full bg-current" style={{ animationDelay: `${i * 150}ms` }} />
           ))}
         </span>
       )}
@@ -115,8 +95,8 @@ export function LuxuryButton({
 
   const cls = cn(base, variants[variant], sizes[size], className);
 
-  const el = href ? (
-    external ? (
+  if (href) {
+    return external ? (
       <a href={href} target="_blank" rel="noopener" className={cls} onClick={onClick} {...rest}>
         {inner}
       </a>
@@ -124,19 +104,13 @@ export function LuxuryButton({
       <Link href={href} className={cls} onClick={onClick} {...rest}>
         {inner}
       </Link>
-    )
-  ) : (
+    );
+  }
+  return (
     <button type={type} className={cls} onClick={onClick} disabled={disabled || loading} aria-busy={loading} {...rest}>
       {inner}
     </button>
   );
-
-  if (!isMagnetic) return el;
-  // Width utilities on the button also size the magnetic wrapper.
-  const widths = (className ?? "").split(/\s+/).filter((c) => /^([a-z0-9]+:)*w-/.test(c));
-  return (
-    <motion.span ref={ref} className={cn("inline-flex", widths)} style={{ x: sx, y: sy }} onMouseMove={onMove} onMouseLeave={onLeave}>
-      {el}
-    </motion.span>
-  );
 }
+
+export { LuxuryButton as Button };

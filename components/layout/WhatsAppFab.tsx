@@ -5,19 +5,25 @@ import { MessageCircle } from "lucide-react";
 import { useAnyOverlay, useUi } from "@/store/ui";
 import { useCompare } from "@/store/compare";
 import { usePathname } from "next/navigation";
+import { useScrollState } from "@/hooks/useScrollDirection";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
-/** V2 §6.3 — 56px cherry button with a white icon and a single pulse ring on load. Opens the advisor chooser. */
+/** V3 §7 — 56px cherry circle, bottom-right, hidden while a sheet/modal is open. Opens the advisor chooser. */
 export function WhatsAppFab() {
   const overlay = useAnyOverlay();
   const set = useUi((s) => s.set);
   const compare = useCompare((s) => s.ids.length);
   const pathname = usePathname();
+  const { y } = useScrollState();
+  const mobile = useIsMobile();
+  // On phones the hero has its own WhatsApp action — the FAB arrives after the first screen so it never covers a CTA.
+  const show = !overlay && (!mobile || y > 520);
   // PDP has its own fixed bottom bar (with WhatsApp) on mobile; hide the FAB there.
   const onPdp = pathname.startsWith("/product/") || /^\/mobility\/[^/]+$/.test(pathname);
 
   return (
     <AnimatePresence>
-      {!overlay && (
+      {show && (
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -34,7 +40,7 @@ export function WhatsAppFab() {
           }`}
           style={{ boxShadow: "var(--shadow-fab)" }}
         >
-          <MessageCircle size={22} strokeWidth={1.25} />
+          <MessageCircle size={24} strokeWidth={1.75} />
         </motion.button>
       )}
     </AnimatePresence>

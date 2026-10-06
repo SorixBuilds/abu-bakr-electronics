@@ -32,7 +32,7 @@ export function CompareTray() {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ duration: 0.5, ease: ease.outExpo }}
-            className="theme-dark fixed inset-x-0 bottom-0 z-[54] hidden h-[88px] border-t border-line bg-[rgba(17,19,22,0.92)] backdrop-blur-[16px] md:block"
+            className="theme-white fixed inset-x-0 bottom-0 z-[54] hidden h-[88px] border-t border-line bg-white shadow-[0_-8px_24px_-12px_rgba(21,18,20,0.18)] md:block"
           >
             <div className="container-lux flex h-full items-center gap-6 pr-24">
               <span className="text-eyebrow text-fg-muted">Compare</span>
@@ -40,16 +40,16 @@ export function CompareTray() {
                 {Array.from({ length: MAX_COMPARE }).map((_, i) => {
                   const p = products[i];
                   return (
-                    <li key={p?.id ?? `empty-${i}`} className="relative size-14 overflow-hidden rounded-sm border border-line-soft">
+                    <li key={p?.id ?? `empty-${i}`} className="relative size-14 overflow-hidden rounded-sm ring-1 ring-line">
                       {p ? (
                         <>
                           <ProductMedia product={p} sizes="56px" />
                           <button
                             onClick={() => remove(p.id)}
                             aria-label={`Remove ${p.name} from compare`}
-                            className="absolute inset-0 flex items-center justify-center bg-obsidian/70 opacity-0 transition-opacity hover:opacity-100 focus-visible:opacity-100"
+                            className="absolute inset-0 flex items-center justify-center bg-ink/70 opacity-0 transition-opacity hover:opacity-100 focus-visible:opacity-100"
                           >
-                            <X size={16} strokeWidth={1.25} />
+                            <X size={16} strokeWidth={1.75} />
                           </button>
                         </>
                       ) : (
@@ -79,10 +79,10 @@ export function CompareTray() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}
             onClick={() => set({ compareDrawerOpen: true })}
-            className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-4 z-[54] flex h-12 items-center gap-2 rounded-full border border-accent bg-obsidian px-5 text-[13px] text-ivory md:hidden"
+            className="fixed bottom-[calc(env(safe-area-inset-bottom)+16px)] left-4 z-[54] flex h-12 items-center gap-2 rounded-full bg-ink px-5 text-[14px] font-semibold text-white shadow-lift md:hidden"
             style={{ boxShadow: "var(--shadow-fab)" }}
           >
-            <ArrowLeftRight size={15} strokeWidth={1.25} className="text-accent-text" /> Compare ({products.length})
+            <ArrowLeftRight size={15} strokeWidth={1.75} className="text-accent-text" /> Compare ({products.length})
           </motion.button>
         </>
       )}

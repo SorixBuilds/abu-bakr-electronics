@@ -1,5 +1,4 @@
 import type { CategorySlug } from "@/types/product";
-import { categoryImages } from "./media";
 
 export type ShopCategory = Exclude<CategorySlug, "mobility">;
 
@@ -9,17 +8,25 @@ export interface CategoryInfo {
   line: string;
   /** Short line used on home tiles / mega panel */
   tileLine: string;
-  image: string;
+  /** Poetic world name used in headings (V3 §7: nav spells categories out; poetry moves to headings) */
+  world: string;
+  heading: string;
+  italic: string;
+  /** Manifest cutouts shown in the mega panel / category header (first = lead) */
+  assets: string[];
   filters: { key: string; label: string; options: { value: string; label: string }[] }[];
 }
 
 export const categories: CategoryInfo[] = [
   {
     slug: "cooling",
-    title: "Climate",
+    title: "Air Conditioners",
     line: "Air conditioners, sized for your room.",
     tileLine: "Air conditioners for every room.",
-    image: categoryImages["cooling"],
+    world: "Climate",
+    heading: "Cooling, perfected.",
+    italic: "perfected",
+    assets: ["ac-2", "ac-1", "ac-3"],
     filters: [
       {
         key: "type",
@@ -45,10 +52,13 @@ export const categories: CategoryInfo[] = [
   },
   {
     slug: "refrigeration",
-    title: "Freshness",
+    title: "Refrigerators",
     line: "Refrigerators and freezers, from compact to grand.",
     tileLine: "Refrigeration, from compact to grand.",
-    image: categoryImages["refrigeration"],
+    world: "Freshness",
+    heading: "Freshness, by design.",
+    italic: "by design",
+    assets: ["fridge-1", "fridge-2", "fridge-3"],
     filters: [
       {
         key: "type",
@@ -74,10 +84,13 @@ export const categories: CategoryInfo[] = [
   },
   {
     slug: "home-appliances",
-    title: "Living",
+    title: "Home Appliances",
     line: "Laundry, kitchen and everyday home appliances.",
     tileLine: "Home appliances & electronics.",
-    image: categoryImages["home-appliances"],
+    world: "Living",
+    heading: "Everyday, elevated.",
+    italic: "elevated",
+    assets: ["washer-1", "microwave-1"],
     filters: [
       {
         key: "type",
@@ -98,7 +111,10 @@ export const categories: CategoryInfo[] = [
     title: "Electronics",
     line: "Screens, sound and everyday technology.",
     tileLine: "Screens, sound and everyday technology.",
-    image: categoryImages["electronics"],
+    world: "Electronics",
+    heading: "Screens and sound, considered.",
+    italic: "considered",
+    assets: ["tv-1", "soundbar-1", "tv-2"],
     filters: [
       {
         key: "type",
@@ -115,47 +131,7 @@ export const categories: CategoryInfo[] = [
 
 export const getCategory = (slug: string) => categories.find((c) => c.slug === slug);
 
-export const categoryTitle = (slug: CategorySlug) => (slug === "mobility" ? "Electric Mobility" : (getCategory(slug)?.title ?? slug));
+export const categoryTitle = (slug: CategorySlug) => (slug === "mobility" ? "Jinpeng Electric" : (getCategory(slug)?.title ?? slug));
 
 export const categoryHref = (slug: CategorySlug) => (slug === "mobility" ? "/mobility" : `/shop/${slug}`);
 
-/** Home "Four Worlds" tiles and hero showcase cards */
-export const worlds = [
-  {
-    key: "climate",
-    title: "Climate",
-    label: "Air Conditioners",
-    line: "Air conditioners for every room.",
-    href: "/shop/cooling",
-    image: categoryImages.cooling,
-    onWine: false,
-  },
-  {
-    key: "freshness",
-    title: "Freshness",
-    label: "Refrigerators",
-    line: "Refrigeration, from compact to grand.",
-    href: "/shop/refrigeration",
-    image: categoryImages.refrigeration,
-    onWine: false,
-  },
-  {
-    key: "living",
-    title: "Living",
-    label: "Home & Electronics",
-    line: "Home appliances & electronics.",
-    href: "/shop/home-appliances",
-    image: categoryImages["home-appliances"],
-    onWine: false,
-    secondary: { label: "Electronics", href: "/shop/electronics" },
-  },
-  {
-    key: "mobility",
-    title: "Mobility",
-    label: "Jinpeng Electric",
-    line: "Electric bikes & scooties, including Jinpeng.",
-    href: "/mobility",
-    image: categoryImages.mobility,
-    onWine: true,
-  },
-];

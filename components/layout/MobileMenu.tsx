@@ -3,22 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { Search, Heart, ArrowLeftRight, Truck } from "lucide-react";
+import { Search, Heart, ArrowLeftRight, ChevronRight } from "lucide-react";
 import { useEffect } from "react";
 import { useUi } from "@/store/ui";
 import { useSaved } from "@/store/saved";
 import { useCompare } from "@/store/compare";
 import { categories } from "@/content/categories";
+import { Stage, ProductCut } from "@/components/ui/Stage";
 import { LuxuryButton } from "@/components/ui/LuxuryButton";
 import { ease } from "@/lib/motion";
+import type { CategorySlug } from "@/types/product";
 
-const links = [
-  { href: "/shop", label: "Collection" },
-  { href: "/mobility", label: "Electric Mobility" },
-  { href: "/showroom", label: "Showroom" },
-  { href: "/contact", label: "Contact" },
+const rows: { slug: CategorySlug; label: string; href: string; asset: string }[] = [
+  ...categories.map((c) => ({ slug: c.slug as CategorySlug, label: c.title, href: `/shop/${c.slug}`, asset: c.assets[0] })),
+  { slug: "mobility", label: "Jinpeng Electric", href: "/mobility", asset: "jinpeng-thrill" },
 ];
 
+/** V3 §7 — full-screen white sheet, large category rows with a small cutout on its stage colour, WhatsApp pinned at the bottom. */
 export function MobileMenu() {
   const open = useUi((s) => s.menuOpen);
   const set = useUi((s) => s.set);
@@ -52,57 +53,46 @@ export function MobileMenu() {
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="theme-dark fixed inset-0 z-[59] flex flex-col overflow-y-auto bg-obsidian pt-24 lg:hidden"
+          className="theme-white fixed inset-x-0 bottom-0 top-0 z-[59] flex flex-col bg-white pt-[108px] min-[1100px]:hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.25 } }}
-          transition={{ duration: 0.35 }}
+          exit={{ opacity: 0, transition: { duration: 0.2 } }}
+          transition={{ duration: 0.25 }}
         >
-          <div className="container-lux flex flex-1 flex-col pb-[calc(env(safe-area-inset-bottom)+24px)] pt-4">
-            <div className="flex items-center justify-between border-b border-line pb-3">
-              <button
-                onClick={() => {
-                  close();
-                  set({ paletteOpen: true });
-                }}
-                className="flex h-11 flex-1 items-center gap-3 text-ivory/60"
-              >
-                <Search size={18} strokeWidth={1.25} /> Search the collection
-              </button>
-            </div>
-            <nav aria-label="Mobile">
-              <ul className="mt-6 flex flex-col">
-                {links.map((l, i) => (
-                  <motion.li
-                    key={l.href}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.06 * i + 0.05, duration: 0.6, ease: ease.outExpo }}
-                  >
-                    <Link href={l.href} onClick={close} className="block py-2 text-[34px] font-normal leading-tight tracking-[-0.02em]">
-                      {l.label}
+          <div className="container-lux flex-1 overflow-y-auto pb-4">
+            <button
+              onClick={() => {
+                close();
+                set({ paletteOpen: true });
+              }}
+              className="mt-3 flex h-12 w-full items-center gap-3 rounded-sm border border-line bg-porcelain px-4 text-[15px] text-muted"
+            >
+              <Search size={20} strokeWidth={1.75} /> Search the collection
+            </button>
+
+            <nav aria-label="Mobile" className="mt-4">
+              <ul className="flex flex-col divide-y divide-line">
+                {rows.map((r, i) => (
+                  <motion.li key={r.slug} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.04 * i, duration: 0.4, ease: ease.lux }}>
+                    <Link href={r.href} onClick={close} className="group flex items-center gap-4 py-3">
+                      <Stage category={r.slug} radius="md" className="h-16 w-20 shrink-0">
+                        <ProductCut id={r.asset} sizes="96px" shadow={false} scale={1.05} />
+                      </Stage>
+                      <span className="flex-1 font-display text-[26px] leading-tight text-ink">{r.label}</span>
+                      <ChevronRight size={20} strokeWidth={1.75} className="text-muted" />
                     </Link>
                   </motion.li>
                 ))}
               </ul>
             </nav>
 
-            <motion.ul className="mt-8 grid grid-cols-2 gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-              {categories.map((c) => (
-                <li key={c.slug}>
-                  <Link
-                    href={`/shop/${c.slug}`}
-                    onClick={close}
-                    className="flex min-h-[64px] flex-col justify-end rounded-sm border border-line-soft bg-graphite p-3"
-                  >
-                    <span className="text-[15px]">{c.title}</span>
-                    <span className="line-clamp-1 text-[12px] text-fg-muted">{c.tileLine}</span>
-                  </Link>
-                </li>
-              ))}
-            </motion.ul>
-
-            <div className="mt-5 flex gap-5 text-[14px] text-ivory/70">
+            <div className="mt-4 flex flex-wrap gap-x-6 text-[15px] text-ink-2">
+              <Link href="/showroom" onClick={close} className="flex min-h-11 items-center">
+                Showroom
+              </Link>
+              <Link href="/contact" onClick={close} className="flex min-h-11 items-center">
+                Contact
+              </Link>
               <button
                 onClick={() => {
                   close();
@@ -110,7 +100,7 @@ export function MobileMenu() {
                 }}
                 className="flex min-h-11 items-center gap-2"
               >
-                <Heart size={16} strokeWidth={1.25} /> Saved ({saved})
+                <Heart size={18} strokeWidth={1.75} /> Saved ({saved})
               </button>
               {compare > 0 && (
                 <button
@@ -120,27 +110,25 @@ export function MobileMenu() {
                   }}
                   className="flex min-h-11 items-center gap-2"
                 >
-                  <ArrowLeftRight size={16} strokeWidth={1.25} /> Compare ({compare})
+                  <ArrowLeftRight size={18} strokeWidth={1.75} /> Compare ({compare})
                 </button>
               )}
             </div>
+          </div>
 
-            <div className="mt-auto pt-8">
-              <LuxuryButton
-                className="w-full"
-                icon="whatsapp"
-                iconPosition="start"
-                onClick={() => {
-                  close();
-                  set({ advisorOpen: true });
-                }}
-              >
-                Speak to an Advisor
-              </LuxuryButton>
-              <p className="mt-4 flex items-center justify-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ivory/55">
-                <Truck size={14} strokeWidth={1.25} className="text-accent-text" /> Free delivery across Lahore
-              </p>
-            </div>
+          <div className="container-lux border-t border-line bg-white pb-[calc(env(safe-area-inset-bottom)+16px)] pt-4">
+            <LuxuryButton
+              className="w-full"
+              icon="whatsapp"
+              iconPosition="start"
+              onClick={() => {
+                close();
+                set({ advisorOpen: true });
+              }}
+            >
+              WhatsApp us
+            </LuxuryButton>
+            <p className="mt-3 text-center text-[13px] text-muted">Free delivery across Lahore · Delivering across Pakistan</p>
           </div>
         </motion.div>
       )}

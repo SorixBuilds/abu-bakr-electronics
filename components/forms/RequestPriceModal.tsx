@@ -12,13 +12,15 @@ import { isPkMobile } from "@/lib/validators";
 import { contactCities } from "@/content/cities";
 import { copy } from "@/content/copy";
 import type { Product } from "@/types/product";
+import { ProductMedia } from "@/components/product/Media";
+import { formatPrice } from "@/lib/format";
 
 export function RequestPriceModal() {
   const id = useUi((s) => s.requestPriceId);
   const set = useUi((s) => s.set);
   const product = id ? getProductById(id) : undefined;
   return (
-    <Modal open={!!product} onOpenChange={(v) => !v && set({ requestPriceId: null })} title="Request price" description={product?.name} maxWidth={520}>
+    <Modal open={!!product} onOpenChange={(v) => !v && set({ requestPriceId: null })} title="Request price" maxWidth={520}>
       {product && <RequestPriceForm key={product.id} product={product} onDone={() => set({ requestPriceId: null })} />}
     </Modal>
   );
@@ -53,22 +55,22 @@ function RequestPriceForm({ product, onDone }: { product: Product; onDone: () =>
   if (state === "callback") {
     return (
       <div className="py-6 text-center">
-        <span className="mx-auto flex size-12 items-center justify-center rounded-full border border-accent text-accent-text">
-          <Check size={20} strokeWidth={1.25} />
+        <span className="mx-auto flex size-14 items-center justify-center rounded-full bg-blush text-cherry">
+          <Check size={20} strokeWidth={1.75} />
         </span>
-        <p className="mt-6 text-h3">{copy.formSuccess}</p>
+        <p className="mt-5 font-display text-[28px] leading-tight">{copy.formSuccess}</p>
         <p className="mx-auto mt-3 max-w-[38ch] text-[14px] text-fg-muted">{copy.formDemo}</p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
           <LuxuryButton
             size="md"
-            variant="gold-line"
+            variant="secondary"
             icon="whatsapp"
             iconPosition="start"
             onClick={() => openWhatsApp(priceRequestText(product, { name: f.name.trim(), city: f.city, note: f.note.trim() || undefined }))}
           >
             Continue on WhatsApp
           </LuxuryButton>
-          <LuxuryButton size="md" variant="ghost" onClick={onDone}>
+          <LuxuryButton size="md" variant="secondary" onClick={onDone}>
             Close
           </LuxuryButton>
         </div>
@@ -77,7 +79,17 @@ function RequestPriceForm({ product, onDone }: { product: Product; onDone: () =>
   }
 
   return (
-    <form onSubmit={sendWhatsApp} noValidate className="flex flex-col gap-7">
+    <form onSubmit={sendWhatsApp} noValidate className="flex flex-col gap-5">
+      {/* V3 §9.5 — blush header strip with the product */}
+      <div className="-mt-1 flex items-center gap-4 rounded-md bg-blush p-3">
+        <div className="relative size-16 shrink-0 overflow-hidden rounded-xs">
+          <ProductMedia product={product} sizes="64px" />
+        </div>
+        <div className="min-w-0">
+          <p className="line-clamp-2 text-[15px] font-semibold leading-snug text-ink">{product.name}</p>
+          <p className="text-[13px] text-cherry">{formatPrice(product)}</p>
+        </div>
+      </div>
       <Field label="Your name" autoComplete="name" value={f.name} error={errors.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
       <Field
         label="Phone"
@@ -93,14 +105,14 @@ function RequestPriceForm({ product, onDone }: { product: Product; onDone: () =>
       <Select label="City" options={contactCities} value={f.city} onChange={(e) => setF({ ...f, city: e.target.value })} />
       <TextArea label="Note (optional)" value={f.note} onChange={(e) => setF({ ...f, note: e.target.value })} />
       <div className="flex flex-col gap-3 pt-1">
-        <LuxuryButton type="submit" icon="whatsapp" iconPosition="start">
+        <LuxuryButton type="submit" variant="cherry" icon="whatsapp" iconPosition="start">
           Send on WhatsApp
         </LuxuryButton>
-        <LuxuryButton variant="ghost" onClick={callback} loading={state === "loading"}>
+        <LuxuryButton variant="secondary" onClick={callback} loading={state === "loading"}>
           Request a callback
         </LuxuryButton>
       </div>
-      <p className="text-center font-mono text-[10.5px] uppercase tracking-[0.14em] text-fg-muted">Free delivery across Lahore · Delivering across Pakistan</p>
+      <p className="text-center text-[13px] text-muted">Free delivery across Lahore · Delivering across Pakistan</p>
     </form>
   );
 }

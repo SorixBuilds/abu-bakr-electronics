@@ -1,79 +1,73 @@
-import type { ReactNode } from "react";
-import { Photo } from "@/components/product/Media";
-import { RevealText } from "@/components/ui/RevealText";
+import Image from "next/image";
+import type { CSSProperties, ReactNode } from "react";
+import type { CategorySlug } from "@/types/product";
+import { asset, darkStage, stageColor } from "@/lib/media";
+import { Eyebrow, Heading } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { cn } from "@/lib/cn";
 
-/** V2 §8.4 — full-bleed photo hero with a dark (or wine) overlay, sitting beneath the transparent navbar. */
+/**
+ * V3 §9.3 — page header: a full-width stage band in the category colour (≈360px on desktop),
+ * title left in Bodoni, a group of 2–3 product cutouts right. Without `category` it is a porcelain band.
+ * Mobile-first: copy first, the cutout group below it in a shorter strip.
+ */
 export function PageHero({
   eyebrow,
   title,
+  italic,
   line,
   meta,
-  image,
-  imagePosition,
-  contain,
-  overlay = "dark",
-  height = "56vh",
+  category,
+  assets = [],
   children,
   className,
 }: {
   eyebrow: string;
-  title: string | string[];
+  title: string;
+  italic?: string;
   line?: string;
   meta?: ReactNode;
-  image: string;
-  imagePosition?: string;
-  /** Cut-out images (Jinpeng) sit on the wine stage instead of filling the frame */
-  contain?: boolean;
-  overlay?: "dark" | "wine";
-  height?: string;
+  category?: CategorySlug;
+  /** Manifest asset ids, lead first */
+  assets?: string[];
   children?: ReactNode;
   className?: string;
 }) {
+  const dark = category ? darkStage(category) : false;
+  const items = assets.slice(0, 3);
+  // Lead in the middle, supporting pieces either side, a little smaller and behind.
+  const slots = items.length === 1 ? [{ left: 50, h: 88, z: 2 }] : items.length === 2 ? [{ left: 38, h: 88, z: 2 }, { left: 72, h: 62, z: 1 }] : [{ left: 50, h: 90, z: 3 }, { left: 20, h: 62, z: 1 }, { left: 80, h: 66, z: 2 }];
+
   return (
     <section
-      data-nav="dark"
-      className={cn("relative -mt-[60px] flex flex-col justify-end overflow-hidden lg:-mt-[72px]", overlay === "wine" ? "theme-wine" : "theme-dark", className)}
-      style={{ minHeight: `max(${height}, 480px)` }}
+      className={cn("stage relative", dark ? "theme-graphite text-white" : "theme-porcelain", className)}
+      data-dark={dark || undefined}
+      style={{ "--stage-color": category ? stageColor[category] : "var(--bone)" } as CSSProperties}
     >
-      <Photo
-        src={image}
-        alt=""
-        priority
-        sizes="100vw"
-        position={imagePosition}
-        contain={contain}
-        className={cn(
-          contain && "bg-[radial-gradient(ellipse_at_70%_45%,var(--wine-500),var(--wine-900)_70%)] py-[10%] pl-[42%] pr-[4%] max-md:pl-[10%] max-md:pb-[42%]",
-        )}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            overlay === "wine"
-              ? "linear-gradient(90deg, rgba(42,7,16,0.85) 0%, rgba(42,7,16,0.35) 55%, rgba(42,7,16,0) 80%), linear-gradient(180deg, rgba(11,10,12,0.5) 0%, transparent 35%)"
-              : "linear-gradient(180deg, rgba(11,10,12,0.6) 0%, rgba(11,10,12,0.15) 40%, rgba(11,10,12,0.85) 100%), linear-gradient(90deg, rgba(11,10,12,0.55), transparent 65%)",
-        }}
-      />
-      <div className="container-lux relative pb-14 pt-36 lg:pb-20">
-        <Reveal y={12}>
-          <Eyebrow>{eyebrow}</Eyebrow>
+      <div className="container-lux grid items-center gap-4 pb-6 pt-10 md:min-h-[360px] md:grid-cols-12 md:gap-8 md:py-12">
+        <Reveal className="md:col-span-6">
+          <Eyebrow className={dark ? "text-cherry-soft" : undefined}>{eyebrow}</Eyebrow>
+          <Heading as="h1" size="display-l" italic={italic} className="mt-3 max-w-[14ch]">
+            {title}
+          </Heading>
+          {line && <p className={cn("mt-4 max-w-[44ch] text-body-l", dark ? "text-white/75" : "text-ink-2")}>{line}</p>}
+          {meta && <p className={cn("mt-4 text-[14px] font-semibold", dark ? "text-white/65" : "text-muted")}>{meta}</p>}
+          {children}
         </Reveal>
-        <RevealText as="h1" lines={title} immediate delay={0.1} className="mt-5 max-w-[14ch] text-display-l text-on-dark" />
-        {line && (
-          <Reveal delay={0.25} y={16}>
-            <p className="mt-5 max-w-[44ch] text-lede text-on-dark/85">{line}</p>
-          </Reveal>
+        {items.length > 0 && (
+          <div className="relative h-[200px] sm:h-[240px] md:col-span-6 md:h-[300px]" aria-hidden>
+            {items.map((id, n) => {
+              const a = asset(id);
+              const s = slots[n];
+              return (
+                <div key={id} className="absolute bottom-[6%] w-[46%] -translate-x-1/2" style={{ left: `${s.left}%`, height: `${s.h}%`, zIndex: s.z }}>
+                  <span className="absolute bottom-0 left-1/2 h-[10%] w-[90%] -translate-x-1/2 translate-y-1/2 bg-[radial-gradient(50%_50%_at_50%_50%,rgba(20,17,20,0.22),transparent_70%)]" />
+                  <Image src={a.image} alt="" fill priority={n === 0} sizes="(max-width:768px) 45vw, 300px" className="object-contain object-bottom drop-shadow-[0_24px_30px_rgba(20,17,20,0.18)]" />
+                </div>
+              );
+            })}
+          </div>
         )}
-        {meta && (
-          <Reveal delay={0.35} y={12}>
-            <div className="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-on-dark-muted">{meta}</div>
-          </Reveal>
-        )}
-        {children}
       </div>
     </section>
   );

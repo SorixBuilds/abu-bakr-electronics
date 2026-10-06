@@ -1,0 +1,743 @@
+{
+  "version": 3,
+  "howToSwap": [
+    "1. Put the client's photo in public/client-photos/<id>.jpg (same id as the stand-in it replaces).",
+    "2. Either drop a ready-made transparent cutout at public/client-photos/cutouts/<id>.png (Photoroom / remove.bg), or leave 'mask' as 'model' and run the background remover.",
+    "3. In this file set the asset's \"status\" to \"client\", \"source\" to the new file, clear \"polygon\" / \"retouch\" / \"screen\" if they no longer apply.",
+    "4. Run: npm run prepare-cutouts  → writes public/products/<id>-cut.png. Every page reads the image path from here, so nothing else changes."
+  ],
+  "artDirection": {
+    "basis": "Studied from the Pinterest saves in ../images (reference only — never used, cropped or traced).",
+    "light": "Soft high-key key light from upper front-left, gentle fall-off to lower right. Bright, even, no hard shadows on the product body. Displays glow softly. Our Stage reproduces this with a top radial highlight; every cutout is graded to the same neutral white point so stainless reads cool-silver and white bodies read clean, never blue or yellow.",
+    "angles": {
+      "cooling": "Indoor unit seen slightly from below, 3/4 with the LEFT side panel visible (mirror a shot if needed). Louvres closed or barely open. No painted airflow effects.",
+      "refrigeration": "Straight-on, full height, doors closed, chest height. Handles vertical. No open doors, no food.",
+      "home-appliances": "Straight-on or very slight 3/4, product centred, controls readable.",
+      "electronics": "Straight-on, screen square to camera. Screens show a calm Bordeaux gradient, never a busy UI or someone else's content.",
+      "mobility": "Side or 3/4 profile, wheels on the floor line, facing right."
+    },
+    "colour": "Neutral greys, warm porcelain and cool stainless. Accent warmth from the Bordeaux / Cherry palette, never from the product photo. Avoid AI neon purples, teal casts and orange kitchen light.",
+    "composition": "One product per frame. Product fills 72–80% of the stage height, centred, sitting on a soft floor shadow, generous negative space above for the headline. Same scale for every product inside a category.",
+    "avoid": [
+      "open doors full of food",
+      "people or hands",
+      "rooms and kitchens behind the product",
+      "readable third-party logos",
+      "watermarks",
+      "painted airflow streaks",
+      "AI-generated products"
+    ]
+  },
+  "assets": [
+    {
+      "id": "ac-1",
+      "status": "stand-in",
+      "category": "cooling",
+      "subject": "White split AC indoor unit, 3/4 from below-left",
+      "image": "/products/ac-1-cut.png",
+      "source": "client-photos/stand-ins/ac-1.jpg",
+      "mask": "model",
+      "polygon": [
+        [
+          28.5,
+          31
+        ],
+        [
+          37.5,
+          28.5
+        ],
+        [
+          72,
+          33
+        ],
+        [
+          75,
+          37
+        ],
+        [
+          74.5,
+          63
+        ],
+        [
+          70.5,
+          71
+        ],
+        [
+          66,
+          73
+        ],
+        [
+          29,
+          58.5
+        ],
+        [
+          28.5,
+          40
+        ]
+      ],
+      "retouch": [
+        [
+          53,
+          50.5,
+          5,
+          5.5
+        ]
+      ],
+      "grade": {
+        "saturation": 0.1,
+        "brightness": 1.38
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/6316054/",
+        "photographer": "Max Vakhtbovych",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "ac-2",
+      "status": "stand-in",
+      "category": "cooling",
+      "subject": "White split AC indoor unit, 3/4 from below",
+      "image": "/products/ac-2-cut.png",
+      "source": "client-photos/stand-ins/ac-2.jpg",
+      "mask": "model",
+      "flip": true,
+      "polygon": [
+        [
+          13.8,
+          49.5
+        ],
+        [
+          17.6,
+          47.6
+        ],
+        [
+          85.5,
+          24.4
+        ],
+        [
+          88.3,
+          24.6
+        ],
+        [
+          90.3,
+          27.5
+        ],
+        [
+          89.5,
+          63
+        ],
+        [
+          86.5,
+          67
+        ],
+        [
+          20,
+          81.5
+        ],
+        [
+          16,
+          81
+        ],
+        [
+          13.8,
+          72
+        ]
+      ],
+      "retouch": [
+        [
+          42,
+          46.3,
+          9,
+          4.4
+        ],
+        [
+          67.5,
+          35,
+          5.5,
+          6.5
+        ],
+        [
+          84,
+          26,
+          6,
+          25
+        ]
+      ],
+      "grade": {
+        "saturation": 0.6,
+        "brightness": 1.06
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/37833409/",
+        "photographer": "Kenneth Dave Asto",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "ac-3",
+      "status": "stand-in",
+      "category": "cooling",
+      "subject": "White split AC indoor unit, near front-on",
+      "image": "/products/ac-3-cut.png",
+      "source": "client-photos/stand-ins/ac-3.jpg",
+      "mask": "model",
+      "polygon": [
+        [
+          25,
+          46
+        ],
+        [
+          28,
+          43
+        ],
+        [
+          74,
+          51
+        ],
+        [
+          75.5,
+          55
+        ],
+        [
+          74,
+          72
+        ],
+        [
+          71,
+          74
+        ],
+        [
+          29,
+          67
+        ],
+        [
+          25.5,
+          65
+        ]
+      ],
+      "retouch": [
+        [
+          51,
+          56.8,
+          5,
+          3.2
+        ]
+      ],
+      "grade": {
+        "saturation": 0.3,
+        "brightness": 1.12
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/7166944/",
+        "photographer": "Max Vakhtbovych",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "fridge-1",
+      "status": "stand-in",
+      "category": "refrigeration",
+      "subject": "Dark stainless four-door French-door refrigerator with dispenser, front-on",
+      "image": "/products/fridge-1-cut.png",
+      "source": "client-photos/stand-ins/fridge-1.jpg",
+      "mask": "polygon",
+      "polygon": [
+        [
+          8.8,
+          4
+        ],
+        [
+          90.3,
+          4.1
+        ],
+        [
+          90.8,
+          96.6
+        ],
+        [
+          9.3,
+          97
+        ]
+      ],
+      "radius": 0.6,
+      "retouch": [
+        [
+          77.5,
+          5.2,
+          10.5,
+          2.9
+        ]
+      ],
+      "grade": {
+        "saturation": 0.3,
+        "brightness": 1.06
+      },
+      "credit": {
+        "site": "Unsplash",
+        "url": "https://unsplash.com/photos/VaGdhK-kI1c",
+        "photographer": "lotusdnp",
+        "license": "Unsplash License (free commercial use)",
+        "licenseUrl": "https://unsplash.com/license"
+      }
+    },
+    {
+      "id": "fridge-2",
+      "status": "stand-in",
+      "category": "refrigeration",
+      "subject": "Graphite stainless side-by-side refrigerator with dispenser, front-on",
+      "image": "/products/fridge-2-cut.png",
+      "source": "client-photos/stand-ins/fridge-2.jpg",
+      "mask": "model",
+      "grade": {
+        "saturation": 0.75,
+        "brightness": 1.05
+      },
+      "credit": {
+        "site": "Unsplash",
+        "url": "https://unsplash.com/photos/ZkWMfHPNWpw",
+        "photographer": "lisaanna195",
+        "license": "Unsplash License (free commercial use)",
+        "licenseUrl": "https://unsplash.com/license"
+      }
+    },
+    {
+      "id": "fridge-3",
+      "status": "stand-in",
+      "category": "refrigeration",
+      "subject": "Built-in stainless side-by-side refrigerator with top grille, front-on",
+      "image": "/products/fridge-3-cut.png",
+      "source": "client-photos/stand-ins/fridge-3.jpg",
+      "mask": "polygon",
+      "polygon": [
+        [
+          7.2,
+          3
+        ],
+        [
+          94.3,
+          3
+        ],
+        [
+          94.3,
+          96.5
+        ],
+        [
+          7.2,
+          96.5
+        ]
+      ],
+      "radius": 0.4,
+      "retouch": [
+        [
+          83.5,
+          17.2,
+          8.4,
+          2.6
+        ]
+      ],
+      "grade": {
+        "saturation": 0.7,
+        "brightness": 1.02
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/2343467/",
+        "photographer": "Pexels contributor",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "washer-1",
+      "status": "stand-in",
+      "category": "home-appliances",
+      "subject": "White front-load washing machine, near front-on",
+      "image": "/products/washer-1-cut.png",
+      "source": "client-photos/stand-ins/washer-1.jpg",
+      "mask": "polygon",
+      "polygon": [
+        [
+          18.3,
+          10.4
+        ],
+        [
+          91.6,
+          8.5
+        ],
+        [
+          92.8,
+          85.6
+        ],
+        [
+          18.6,
+          76.3
+        ]
+      ],
+      "radius": 0.5,
+      "grade": {
+        "saturation": 0.5,
+        "brightness": 1.05
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/28479466/",
+        "photographer": "Pușcaș Adryan",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "microwave-1",
+      "status": "stand-in",
+      "category": "home-appliances",
+      "subject": "Cream retro microwave with dial controls, front-on",
+      "image": "/products/microwave-1-cut.png",
+      "source": "client-photos/stand-ins/microwave-1.jpg",
+      "mask": "polygon",
+      "polygon": [
+        [
+          9.3,
+          1.2
+        ],
+        [
+          91.8,
+          1.2
+        ],
+        [
+          91.8,
+          80.3
+        ],
+        [
+          9.3,
+          80.3
+        ]
+      ],
+      "radius": 3,
+      "retouch": [
+        [
+          35.5,
+          71,
+          14.5,
+          5
+        ]
+      ],
+      "grade": {
+        "saturation": 0.8,
+        "brightness": 1.06
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/4686822/",
+        "photographer": "cottonbro studio",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "tv-1",
+      "status": "stand-in",
+      "category": "electronics",
+      "subject": "Large flat-screen TV, front-on",
+      "image": "/products/tv-1-cut.png",
+      "source": "client-photos/stand-ins/tv-1.jpg",
+      "mask": "polygon",
+      "polygon": [
+        [
+          4.6,
+          8.4
+        ],
+        [
+          92.3,
+          8.3
+        ],
+        [
+          92.3,
+          93.2
+        ],
+        [
+          4.6,
+          93.3
+        ]
+      ],
+      "radius": 0.2,
+      "screen": [
+        5.1,
+        9,
+        86.7,
+        82.6
+      ],
+      "retouch": [
+        [
+          46,
+          91.3,
+          4.5,
+          1.8
+        ]
+      ],
+      "grade": {
+        "saturation": 1,
+        "brightness": 1
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/6020432/",
+        "photographer": "yair elgazar",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "tv-2",
+      "status": "stand-in",
+      "category": "electronics",
+      "subject": "Slim flat-screen TV, front-on",
+      "image": "/products/tv-2-cut.png",
+      "source": "client-photos/stand-ins/tv-2.jpg",
+      "mask": "polygon",
+      "polygon": [
+        [
+          7,
+          16.8
+        ],
+        [
+          92,
+          16.8
+        ],
+        [
+          92,
+          84.3
+        ],
+        [
+          7,
+          84.3
+        ]
+      ],
+      "radius": 0.2,
+      "screen": [
+        7.5,
+        17.3,
+        84,
+        65.6
+      ],
+      "grade": {
+        "saturation": 1,
+        "brightness": 1
+      },
+      "credit": {
+        "site": "Unsplash",
+        "url": "https://unsplash.com/photos/KzGhmrQmB6I",
+        "photographer": "dariox",
+        "license": "Unsplash License (free commercial use)",
+        "licenseUrl": "https://unsplash.com/license"
+      }
+    },
+    {
+      "id": "soundbar-1",
+      "status": "stand-in",
+      "category": "electronics",
+      "subject": "Black fabric soundbar, front-on",
+      "image": "/products/soundbar-1-cut.png",
+      "source": "client-photos/stand-ins/soundbar-1.jpg",
+      "mask": "model",
+      "polygon": [
+        [
+          4.8,
+          30
+        ],
+        [
+          74.4,
+          30
+        ],
+        [
+          74.4,
+          81
+        ],
+        [
+          4.8,
+          81
+        ]
+      ],
+      "grade": {
+        "saturation": 0.6,
+        "brightness": 1.1
+      },
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/photo/6020432/",
+        "photographer": "yair elgazar",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      }
+    },
+    {
+      "id": "jinpeng-thrill",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Thrill",
+      "image": "/images/mobility/thrill.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-cruise",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Cruise",
+      "image": "/images/mobility/cruise.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-thunder",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Thunder",
+      "image": "/images/mobility/thunder.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-swift",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Swift",
+      "image": "/images/mobility/swift.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-sprint",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Sprint",
+      "image": "/images/mobility/sprint.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-rush",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Rush",
+      "image": "/images/mobility/rush.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-ride",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Ride",
+      "image": "/images/mobility/ride.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-eco",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng ECO",
+      "image": "/images/mobility/eco.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    },
+    {
+      "id": "jinpeng-reliance",
+      "status": "manufacturer",
+      "category": "mobility",
+      "subject": "Jinpeng Reliance",
+      "image": "/images/mobility/reliance.png",
+      "credit": {
+        "site": "Jinpeng Pakistan",
+        "url": "https://jinpeng.com.pk/",
+        "license": "Pitch use only — request dealer media kit for production"
+      }
+    }
+  ],
+  "shop": [],
+  "references": [
+    {
+      "file": "../images/378443174957385801.jpeg",
+      "use": "art-direction-only",
+      "learned": "Grey studio sweep, product 3/4 front, soft top light, floor reflection."
+    },
+    {
+      "file": "../images/Elevate Your Cooking with a Modern Built-In Oven!.jpeg",
+      "use": "art-direction-only",
+      "learned": "Straight-on appliance, centred, gradient backdrop darker at the edges."
+    },
+    {
+      "file": "../images/98797785572085084.jpeg",
+      "use": "art-direction-only",
+      "learned": "Fridge straight-on at full height; stainless reads best with a cool vertical highlight."
+    },
+    {
+      "file": "../images/Stay Cool This Summer with Portable Air Conditioners ❄️.jpeg",
+      "use": "art-direction-only",
+      "learned": "AC seen slightly from below, side panel visible, plenty of air (negative space) around it."
+    },
+    {
+      "file": "../images/Togg Scooter.jpeg",
+      "use": "art-direction-only",
+      "learned": "Scooter on a seamless mid-grey, wheels grounded by a tight contact shadow."
+    },
+    {
+      "file": "../images/Jual Sepeda Listrik Ofero Stareer 3 Lit Malang.jpeg",
+      "use": "art-direction-only",
+      "learned": "Clean cutout on white; the product alone carries the frame."
+    },
+    {
+      "note": "All 24 files in ../images were reviewed on 2026-10-06. They are Pinterest saves (third-party brands, AI images, a watermark, unknown licence) and must never be published."
+    }
+  ],
+  "video": {
+    "hero": {
+      "status": "stand-in",
+      "desktop": "/video/hero-wine.mp4",
+      "mobile": "/video/hero-wine-mobile.mp4",
+      "poster": "/video/hero-wine-poster.jpg",
+      "posterMobile": "/video/hero-wine-poster-mobile.jpg",
+      "subject": "Slow glide across a circuit board, graded to monochrome Bordeaux (no logos or text)",
+      "processing": "8s from 0:02, played forward then reversed for a seamless 16s loop; greyscale + Bordeaux curves; 1280x720 desktop, 540x960 portrait crop for phones; muted, no audio track",
+      "credit": {
+        "site": "Pexels",
+        "url": "https://www.pexels.com/video/34645486/",
+        "author": "Chandresh Uike",
+        "license": "Pexels License (free commercial use)",
+        "licenseUrl": "https://www.pexels.com/license/"
+      },
+      "note": "Hero video added at the client’s request (overrides V3 §5 \"no hero video\"). Replace with footage shot in the shop if available."
+    }
+  }
+}

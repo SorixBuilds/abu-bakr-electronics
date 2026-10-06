@@ -1,49 +1,31 @@
-"use client";
-
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
-import { home } from "@/content/home";
 import { homeSelectorOrder, mobilityModels } from "@/data/mobility";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Container, Eyebrow, Heading } from "@/components/ui/Section";
+import { Reveal } from "@/components/ui/Reveal";
 import { ModelSelector } from "@/components/mobility/ModelSelector";
-import { useIsDesktop } from "@/hooks/useMediaQuery";
-import { useReducedMotionSafe } from "@/hooks/useReducedMotionSafe";
-import { wineGradient } from "@/lib/brand";
 
 const models = homeSelectorOrder.map((s) => mobilityModels.find((m) => m.slug === s)!);
 
-/** V2 §7.4 — the wine room, entered through a clip-path wipe (desktop). */
+/** V3 §8.7 — "The Bordeaux Room": full-bleed Bordeaux, white type, real Jinpeng photos. */
 export function MobilityChapter() {
-  const ref = useRef<HTMLElement>(null);
-  const desktop = useIsDesktop();
-  const reduced = useReducedMotionSafe();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 0.15"] });
-  const clip = useTransform(scrollYProgress, (p) => {
-    const k = 1 - p;
-    return `inset(${8 * k}% ${4 * k}% 0% ${4 * k}% round ${24 * k}px)`;
-  });
-  const wipe = desktop && !reduced;
-
   return (
-    <div className="bg-ivory">
-      <motion.section
-        ref={ref}
-        className="theme-wine section-y relative overflow-hidden"
-        style={{ background: wineGradient, ...(wipe ? { clipPath: clip } : {}) }}
-        aria-label="Electric mobility — Jinpeng"
-      >
-        <div className="grain pointer-events-none absolute inset-0" />
-        <div className="container-lux relative">
-          <SectionHeading
-            eyebrow={home.mobility.eyebrow}
-            title={home.mobility.title}
-            support={home.mobility.support}
-            align="center"
-            className="mb-12 md:mb-16"
-          />
+    <section
+      id="jinpeng"
+      aria-label="Jinpeng Electric"
+      className="theme-bordeaux section-y relative scroll-mt-24 overflow-hidden"
+      style={{ background: "linear-gradient(180deg, #5C0F22, #3E0A17)" }}
+    >
+      <Container>
+        <Reveal className="flex flex-col items-center gap-4 text-center">
+          <Eyebrow className="text-cherry-soft">Jinpeng Electric</Eyebrow>
+          <Heading italic="future" className="max-w-[16ch] text-white">
+            The future of everyday movement.
+          </Heading>
+          <p className="max-w-[46ch] text-body-l text-white/75">Electric bikes & scooties, presented properly.</p>
+        </Reveal>
+        <div className="mt-10 md:mt-12">
           <ModelSelector models={models} />
         </div>
-      </motion.section>
-    </div>
+      </Container>
+    </section>
   );
 }

@@ -1,4 +1,5 @@
 export const ease = {
+  lux: [0.2, 0.8, 0.2, 1] as const,
   outExpo: [0.16, 1, 0.3, 1] as const,
   inOut: [0.65, 0, 0.35, 1] as const,
   out: [0.22, 1, 0.36, 1] as const,

@@ -38,9 +38,9 @@ export function ReviewMode() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             onClick={() => setDrawer(true)}
-            className="fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[58] flex h-10 -translate-x-1/2 items-center gap-2.5 rounded-full border border-gold/70 bg-obsidian/90 px-4 font-mono text-[11px] uppercase tracking-[0.14em] text-gold backdrop-blur lg:top-[88px]"
+            className="fixed left-1/2 top-[calc(env(safe-area-inset-top)+76px)] z-[58] flex h-10 -translate-x-1/2 items-center gap-2.5 rounded-full bg-ink px-4 text-eyebrow text-white shadow-lift lg:top-[88px]"
           >
-            <ClipboardList size={14} strokeWidth={1.25} />
+            <ClipboardList size={14} strokeWidth={1.75} />
             Review mode · {items.length} items to confirm
           </motion.button>
         )}
@@ -56,7 +56,7 @@ export function ReviewMode() {
         <ol className="flex flex-col divide-y divide-line-soft">
           {items.map((it, i) => (
             <li key={it.label} className="flex gap-4 py-4">
-              <span className="font-mono text-[11px] text-gold">{String(i + 1).padStart(2, "0")}</span>
+              <span className="text-[12px] font-semibold text-cherry tabular-nums">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <p className="text-[15px]">{it.label}</p>
                 <p className="mt-1 text-[13px] text-fg-muted">{it.note}</p>

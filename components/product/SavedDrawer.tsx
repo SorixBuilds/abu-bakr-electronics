@@ -41,14 +41,14 @@ export function SavedDrawer() {
                   aria-label={`Remove ${p.name}`}
                   className="flex size-11 items-center justify-center text-fg-muted hover:text-fg"
                 >
-                  <X size={16} strokeWidth={1.25} />
+                  <X size={16} strokeWidth={1.75} />
                 </button>
               </li>
             ))}
           </ul>
           <LuxuryButton
             className="mt-8 w-full"
-            variant="gold-line"
+            variant="secondary"
             icon="whatsapp"
             iconPosition="start"
             onClick={() =>

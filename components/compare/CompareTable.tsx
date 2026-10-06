@@ -41,7 +41,7 @@ export function CompareTable({ products, onRemove, onNavigate }: { products: Pro
         </label>
         {mixed && <p className="text-[13px] text-fg-muted">You&apos;re comparing across categories — some rows won&apos;t apply to every product.</p>}
       </div>
-      <div className="no-scrollbar -mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0" data-lenis-prevent>
+      <div className="no-scrollbar -mx-[var(--gutter)] overflow-x-auto px-[var(--gutter)] md:mx-0 md:px-0">
         <table className="w-full min-w-[560px] table-fixed border-collapse text-left">
           <thead>
             <tr>
@@ -64,7 +64,7 @@ export function CompareTable({ products, onRemove, onNavigate }: { products: Pro
                         aria-label={`Remove ${p.name}`}
                         className="absolute right-1 top-1 flex size-9 items-center justify-center rounded-full bg-[color-mix(in_srgb,var(--bg)_60%,transparent)] text-fg-muted backdrop-blur hover:text-fg"
                       >
-                        <X size={16} strokeWidth={1.25} />
+                        <X size={16} strokeWidth={1.75} />
                       </button>
                     )}
                   </div>
@@ -77,10 +77,10 @@ export function CompareTable({ products, onRemove, onNavigate }: { products: Pro
               const values = products.map((p) => val(p, k));
               const differs = new Set(values).size > 1;
               return (
-                <tr key={k} className={cn("border-t border-line-soft transition-colors", highlight && differs && "bg-[rgba(179,18,46,0.06)]")}>
+                <tr key={k} className={cn("border-t border-line transition-colors", highlight && differs && "bg-blush/60")}>
                   <th
                     scope="row"
-                    className="sticky left-0 z-10 bg-[var(--bg)] py-4 pr-3 align-top font-mono text-[10.5px] font-normal uppercase tracking-[0.14em] text-fg-muted"
+                    className="sticky left-0 z-10 bg-[var(--bg)] py-4 pr-3 align-top font-sans text-[10.5px] font-normal uppercase tracking-[0.14em] text-fg-muted"
                   >
                     <span className={cn("block", highlight && differs && "text-accent-text")}>{k}</span>
                   </th>

@@ -1,39 +1,55 @@
 "use client";
 
+import Image from "next/image";
 import { home } from "@/content/home";
-import { editorialMedia } from "@/content/media";
+import { asset } from "@/lib/media";
 import { LuxuryButton } from "@/components/ui/LuxuryButton";
-import { RevealText } from "@/components/ui/RevealText";
+import { Heading } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
-import { Photo } from "@/components/product/Media";
 import { useUi } from "@/store/ui";
-import { wineOverlay } from "@/lib/brand";
 
-/** V2 §7.10 — night interior photo, wine overlay, white headline, cherry primary + light ghost. */
-export function FinalCTA({ title = home.final.title }: { title?: string }) {
+const duo = [
+  { id: "fridge-2", left: 62, width: 46, height: 92, z: 1 },
+  { id: "microwave-1", left: 28, width: 46, height: 30, z: 2 },
+];
+
+/** V3 §8.11 — Bordeaux block inside the container (radius 32) with real cutouts on the right. */
+export function FinalCTA({ title = home.final.title, italic = home.final.italic }: { title?: string; italic?: string }) {
   const set = useUi((s) => s.set);
   return (
-    <section className="theme-wine relative overflow-hidden" aria-label="Speak to an advisor">
-      <Photo src={editorialMedia.livingNight} alt="" sizes="100vw" />
-      <div className="absolute inset-0" style={{ background: wineOverlay }} />
-      <div className="grain absolute inset-0" />
-      <div className="container-lux relative flex min-h-[72svh] flex-col items-center justify-center py-28 text-center">
-        <RevealText
-          as="h2"
-          lines={title}
-          mode="words"
-          className="mx-auto max-w-[14ch] justify-center text-[clamp(40px,6vw,92px)] font-normal leading-[0.98] tracking-[-0.025em] [&_span.flex]:justify-center"
-        />
-        <Reveal delay={0.4} y={16} className="mt-12 flex flex-col gap-3 sm:flex-row sm:gap-4">
-          <LuxuryButton variant="cherry" icon="whatsapp" iconPosition="start" magnetic onClick={() => set({ advisorOpen: true })}>
-            Speak to an Advisor
-          </LuxuryButton>
-          <LuxuryButton variant="ghost" href="/shop" icon="arrow" magnetic>
-            Explore the Collection
-          </LuxuryButton>
-        </Reveal>
-        <Reveal delay={0.55} y={8}>
-          <p className="mt-10 font-mono text-[11px] tracking-[0.12em] text-on-wine-muted">Free delivery across Lahore · Delivering across Pakistan</p>
+    <section className="theme-porcelain section-y bg-porcelain" aria-label="Speak to an advisor">
+      <div className="container-lux">
+        <Reveal
+          className="theme-bordeaux relative grid overflow-hidden rounded-3xl text-white md:grid-cols-12"
+          style={{ background: "radial-gradient(120% 120% at 85% 20%, #7A1830 0%, #5C0F22 45%, #3E0A17 100%)" }}
+        >
+          <div className="relative z-10 px-6 pb-4 pt-12 sm:px-10 md:col-span-7 md:py-20 lg:px-16">
+            <Heading italic={italic} className="max-w-[14ch] text-white">
+              {title}
+            </Heading>
+            <p className="mt-4 max-w-[40ch] text-body-l text-white/75">Tell us about your room, your kitchen or your commute. A real person will reply.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <LuxuryButton variant="light" icon="whatsapp" iconPosition="start" onClick={() => set({ advisorOpen: true })}>
+                WhatsApp us
+              </LuxuryButton>
+              <LuxuryButton variant="ghost" href="/shop" icon="arrow">
+                Explore the collection
+              </LuxuryButton>
+            </div>
+            <p className="mt-8 text-[13px] text-white/65">Free delivery across Lahore · Delivering across Pakistan</p>
+          </div>
+          <div className="relative h-[280px] md:col-span-5 md:h-auto">
+            <div aria-hidden className="absolute inset-x-[6%] bottom-0 top-[18%] bg-[radial-gradient(ellipse_at_50%_85%,rgba(232,52,78,0.3),transparent_62%)]" />
+            {duo.map((d) => {
+              const a = asset(d.id);
+              return (
+                <div key={d.id} className="absolute bottom-[8%] -translate-x-1/2" style={{ left: `${d.left}%`, width: `${d.width}%`, height: `${d.height}%`, zIndex: d.z }}>
+                  <span aria-hidden className="absolute bottom-0 left-1/2 h-[10%] w-[90%] -translate-x-1/2 translate-y-1/2 bg-[radial-gradient(50%_50%_at_50%_50%,rgba(0,0,0,0.5),transparent_70%)]" />
+                  <Image src={a.image} alt="" fill sizes="(max-width:768px) 45vw, 260px" className="object-contain object-bottom drop-shadow-[0_24px_30px_rgba(0,0,0,0.35)]" />
+                </div>
+              );
+            })}
+          </div>
         </Reveal>
       </div>
     </section>

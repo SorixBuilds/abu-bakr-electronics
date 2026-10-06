@@ -26,19 +26,19 @@ export function AdvisorChooser() {
                 openWhatsApp(advisorText(t === "Something else" ? "something else" : t.toLowerCase()));
                 set({ advisorOpen: false });
               }}
-              className="group flex min-h-14 w-full items-center justify-between border-b border-line-soft text-left text-[16px] transition-colors hover:text-accent-text"
+              className="group flex min-h-14 w-full items-center justify-between border-b border-line text-left text-[17px] font-medium text-ink transition-colors hover:text-cherry"
             >
               {t}
               <ArrowUpRight
-                size={16}
-                strokeWidth={1.25}
-                className="text-accent-text transition-transform duration-250 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                size={20}
+                strokeWidth={1.75}
+                className="text-cherry transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
               />
             </button>
           </li>
         ))}
       </ul>
-      <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-fg-muted">Free delivery across Lahore · Delivering across Pakistan</p>
+      <p className="mt-6 text-[13px] text-muted">Free delivery across Lahore · Delivering across Pakistan</p>
     </Modal>
   );
 }

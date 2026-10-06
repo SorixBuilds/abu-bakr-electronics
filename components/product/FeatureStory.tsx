@@ -1,28 +1,25 @@
 import type { Product } from "@/types/product";
 import { Reveal } from "@/components/ui/Reveal";
-import { ImageReveal } from "@/components/ui/ImageReveal";
-import { ProductMedia } from "./Media";
-import { cn } from "@/lib/cn";
 
-/** "In the home" rows alternate the gallery's lifestyle shot and the product photo (V2 §8.3). */
-const order = [1, 0, 1];
-
-/** Three alternating image/text rows (7/5 columns, then reversed). */
+/** V3 §9.2 — "Why customers choose this": general, true statements as numbered rows (no repeated imagery). */
 export function FeatureStory({ product }: { product: Product }) {
+  if (!product.features.length) return null;
   return (
-    <div className="flex flex-col gap-20 md:gap-32">
-      {product.features.map((f, i) => (
-        <div key={f.title} className={cn("grid items-center gap-8 md:grid-cols-12 md:gap-16", i % 2 && "md:[&>*:first-child]:order-2")}>
-          <ImageReveal className="aspect-[4/3] rounded-md md:col-span-7">
-            <ProductMedia product={product} index={Math.min(order[i % 3], product.gallery.length - 1)} sizes="(max-width:768px) 100vw, 58vw" grade="dark" />
-          </ImageReveal>
-          <Reveal className="md:col-span-5">
-            <span className="font-serif text-[40px] leading-none text-accent-text">{String(i + 1).padStart(2, "0")}</span>
-            <h2 className="mt-6 text-h2 max-w-[14ch]">{f.title}</h2>
-            <p className="mt-5 max-w-[40ch] text-body-l text-fg-muted">{f.body}</p>
-          </Reveal>
-        </div>
-      ))}
+    <div>
+      <h2 className="mb-8 max-w-[18ch] text-h2 md:mb-10">
+        Why customers <em>choose</em> this
+      </h2>
+      <Reveal stagger={0.08} className="grid gap-3 md:grid-cols-2 md:gap-4">
+        {product.features.map((f, i) => (
+          <div key={f.title} className="flex h-full gap-5 rounded-md bg-white p-6 shadow-card md:p-8">
+            <span className="font-display text-[40px] leading-none text-bordeaux">{String(i + 1).padStart(2, "0")}</span>
+            <div>
+              <h3 className="text-[19px] font-semibold text-ink">{f.title}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-ink-2">{f.body}</p>
+            </div>
+          </div>
+        ))}
+      </Reveal>
     </div>
   );
 }

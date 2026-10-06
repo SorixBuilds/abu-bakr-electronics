@@ -50,14 +50,14 @@ function TestRideForm({ initial, onDone }: { initial: string; onDone: () => void
     return (
       <div className="py-6 text-center">
         <span className="mx-auto flex size-12 items-center justify-center rounded-full border border-accent text-accent-text">
-          <Check size={20} strokeWidth={1.25} />
+          <Check size={20} strokeWidth={1.75} />
         </span>
         <p className="mt-6 text-h3">Request received.</p>
         <p className="mx-auto mt-3 max-w-[38ch] text-[14px] text-fg-muted">
           An advisor will confirm test-ride availability for the {f.model}. For this demo, you can also continue on WhatsApp.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <LuxuryButton size="md" variant="gold-line" icon="whatsapp" iconPosition="start" onClick={() => openWhatsApp(message())}>
+          <LuxuryButton size="md" variant="secondary" icon="whatsapp" iconPosition="start" onClick={() => openWhatsApp(message())}>
             Continue on WhatsApp
           </LuxuryButton>
           <LuxuryButton size="md" variant="ghost" onClick={onDone}>

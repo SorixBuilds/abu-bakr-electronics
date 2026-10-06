@@ -1,19 +1,12 @@
 import Image from "next/image";
 import type { Product } from "@/types/product";
 import { productAlt } from "@/lib/format";
+import { Stage, ProductCut } from "@/components/ui/Stage";
 import { cn } from "@/lib/cn";
 
-type Grade = "dark" | "light" | "none";
-
-const grades: Record<Grade, string> = {
-  dark: "saturate-[0.92] contrast-[1.05]",
-  light: "saturate-[0.95]",
-  none: "",
-};
-
 /**
- * A real photograph filling its (positioned) parent, with the V2 §4.8 treatment:
- * consistent grade + a soft inner vignette so photos from different sources sit together.
+ * V3 §3.3 Mode B — a framed photo (shop / showroom photos only) filling its positioned parent,
+ * with the unified grade and 1px inner border so phone photos from different days sit together.
  */
 export function Photo({
   src,
@@ -21,9 +14,6 @@ export function Photo({
   sizes = "100vw",
   priority,
   position,
-  grade = "dark",
-  vignette = true,
-  contain,
   className,
   imgClassName,
 }: {
@@ -32,65 +22,44 @@ export function Photo({
   sizes?: string;
   priority?: boolean;
   position?: string;
-  grade?: Grade;
-  vignette?: boolean;
-  /** Cut-outs (Jinpeng PNGs) are contained, not cropped */
-  contain?: boolean;
   className?: string;
   imgClassName?: string;
+  /** @deprecated kept for old call sites */
+  grade?: string;
+  vignette?: boolean;
+  contain?: boolean;
 }) {
   return (
-    <div className={cn("absolute inset-0 overflow-hidden bg-stage", className)}>
-      <div className="relative h-full w-full">
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes={sizes}
-          priority={priority}
-          className={cn(contain ? "object-contain" : "object-cover", grades[grade], imgClassName)}
-          style={position ? { objectPosition: position } : undefined}
-        />
-      </div>
-      {vignette && !contain && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{ boxShadow: grade === "light" ? "inset 0 0 120px rgba(0,0,0,0.08)" : "inset 0 0 120px rgba(0,0,0,0.25)" }}
-        />
-      )}
+    <div className={cn("framed absolute inset-0 bg-bone", className)}>
+      <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={cn("object-cover", imgClassName)} style={position ? { objectPosition: position } : undefined} />
     </div>
   );
 }
 
-/** Product photo on its stage. `index` picks from the gallery (falls back to the main image). */
+/**
+ * V3 §3.4 — every product image is its manifest cutout standing on the category Stage.
+ * Fills its (positioned) parent. `index` is kept for gallery call sites; extra gallery items reuse the same cutout until more angles exist.
+ */
 export function ProductMedia({
   product,
-  index = 0,
   sizes = "(max-width:768px) 50vw, (max-width:1280px) 33vw, 420px",
   priority,
   className,
-  grade,
+  scale = 1,
+  radius = "none",
 }: {
   product: Product;
   index?: number;
   sizes?: string;
   priority?: boolean;
   className?: string;
-  grade?: Grade;
+  scale?: number;
+  radius?: "none" | "md" | "lg" | "xl" | "2xl";
+  grade?: string;
 }) {
-  const src = product.gallery[index] ?? product.image;
-  const cutout = product.category === "mobility";
   return (
-    <Photo
-      src={src}
-      alt={productAlt(product)}
-      sizes={sizes}
-      priority={priority}
-      position={src === product.image ? product.imagePosition : undefined}
-      contain={cutout}
-      grade={grade ?? "none"}
-      className={cn(cutout && "bg-[radial-gradient(ellipse_70%_60%_at_50%_45%,#4a0d1b,var(--wine-900))] p-[8%]", className)}
-    />
+    <Stage category={product.category} radius={radius} className={cn("absolute inset-0", className)}>
+      <ProductCut id={product.asset!} alt={productAlt(product)} sizes={sizes} priority={priority} scale={scale} />
+    </Stage>
   );
 }
